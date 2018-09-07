@@ -1,0 +1,31 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Production estimation from a PV plant }{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Stakes}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Source of the code}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Available data}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Estimation of the error}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Calibration through statistical models }{}% 7
+\BOOKMARK [2][-]{subsection.3.1}{Presentation of the models}{section.3}% 8
+\BOOKMARK [3][-]{subsubsection.3.1.1}{A time consuming code}{subsection.3.1}% 9
+\BOOKMARK [3][-]{subsubsection.3.1.2}{With a code error}{subsection.3.1}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Likelihood}{section.3}% 11
+\BOOKMARK [3][-]{subsubsection.3.2.1}{A fast code}{subsection.3.2}% 12
+\BOOKMARK [3][-]{subsubsection.3.2.2}{A time consuming code}{subsection.3.2}% 13
+\BOOKMARK [2][-]{subsection.3.3}{Estimation }{section.3}% 14
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Maximum likelihood estimator}{subsection.3.3}% 15
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Bayesian estimation}{subsection.3.3}% 16
+\BOOKMARK [1][-]{section.4}{Application to the prediction of power from a photovoltaic \(PV\) plant }{}% 17
+\BOOKMARK [2][-]{subsection.4.1}{Inference }{section.4}% 18
+\BOOKMARK [3][-]{subsubsection.4.1.1}{The Gaussian process}{subsection.4.1}% 19
+\BOOKMARK [3][-]{subsubsection.4.1.2}{The first model M1}{subsection.4.1}% 20
+\BOOKMARK [3][-]{subsubsection.4.1.3}{The second model M2}{subsection.4.1}% 21
+\BOOKMARK [3][-]{subsubsection.4.1.4}{The third model M3}{subsection.4.1}% 22
+\BOOKMARK [3][-]{subsubsection.4.1.5}{The fourth model M4}{subsection.4.1}% 23
+\BOOKMARK [3][-]{subsubsection.4.1.6}{Estimation of the nuisance parameters}{subsection.4.1}% 24
+\BOOKMARK [2][-]{subsection.4.2}{Results}{section.4}% 25
+\BOOKMARK [2][-]{subsection.4.3}{Comparison}{section.4}% 26
+\BOOKMARK [1][-]{section.5}{Conclusion and discussion}{}% 27
+\BOOKMARK [1][-]{section.6}{Acknowledgement}{}% 28
+\BOOKMARK [1][-]{section*.10}{Appendices}{}% 29
+\BOOKMARK [1][-]{Annexe.1.A}{Gaussian processes }{}% 30
+\BOOKMARK [1][-]{section*.12}{R\351f\351rences}{}% 31

@@ -1,0 +1,198 @@
+\begin{thebibliography}{}
+
+\bibitem[Albert et~al., 2012]{Albert2012}
+Albert, I., Donnet, S., Guihenneuc-Jouyaux, C., Low-Choy, S., Mengersen, K.,
+  Rousseau, J., et~al. (2012).
+\newblock Combining expert opinions in prior elicitation.
+\newblock {\em Bayesian Analysis}, 7(3):503--532.
+
+\bibitem[Bachoc et~al., 2014]{bachoc2014}
+Bachoc, F., Bois, G., Garnier, J., and Martinez, J.-M. (2014).
+\newblock Calibration and improved prediction of computer models by universal
+  kriging.
+\newblock {\em Nuclear Science and Engineering}, 176(1):81--97.
+
+\bibitem[Baudin et~al., 2017]{baudin2017}
+Baudin, M., Dutfoy, A., Iooss, B., and Popelin, A.-L. (2017).
+\newblock Openturns: An industrial software for uncertainty quantification in
+  simulation.
+\newblock {\em Handbook of Uncertainty Quantification}, pages 2001--2038.
+
+\bibitem[Bayarri et~al., 2007]{bayarri2007}
+Bayarri, M.~J., Berger, J.~O., Paulo, R., Sacks, J., Cafeo, J.~A., Cavendish,
+  J., Lin, C.-H., and Tu, J. (2007).
+\newblock A framework for validation of computer models.
+\newblock {\em Technometrics}, 49(2):138--154.
+
+\bibitem[Carmassi, 2018]{CaliCo}
+Carmassi, M. (2018).
+\newblock {\em CaliCo: Code Calibration in a Bayesian Framework}.
+\newblock R package version 0.1.0.
+
+\bibitem[Cox et~al., 2001]{cox2001}
+Cox, D.~D., Park, J.-S., and Singer, C.~E. (2001).
+\newblock A statistical method for tuning a computer code to a data base.
+\newblock {\em Computational statistics \& data analysis}, 37(1):77--92.
+
+\bibitem[Craig et~al., 2001]{craig2001}
+Craig, P.~S., Goldstein, M., Rougier, J.~C., and Seheult, A.~H. (2001).
+\newblock Bayesian forecasting for complex systems using computer simulators.
+\newblock {\em Journal of the American Statistical Association},
+  96(454):717--729.
+
+\bibitem[Currin et~al., 1991]{currin1991}
+Currin, C., Mitchell, T., Morris, M., and Ylvisaker, D. (1991).
+\newblock Bayesian prediction of deterministic functions, with applications to
+  the design and analysis of computer experiments.
+\newblock {\em Journal of the American Statistical Association},
+  86(416):953--963.
+
+\bibitem[Damblin, 2015]{damblin2015}
+Damblin, G. (2015).
+\newblock {\em Contributions statistiques au calage et {\`a} la validation des
+  codes de calcul}.
+\newblock PhD thesis, PhD thesis, Universit{\'e} Paris Saclay.
+
+\bibitem[Damblin et~al., 2018]{damblin2018}
+Damblin, G., Barbillon, P., Keller, M., Pasanisi, A., and Parent, {\'E}.
+  (2018).
+\newblock Adaptive numerical designs for the calibration of computer codes.
+\newblock {\em SIAM/ASA Journal on Uncertainty Quantification}, 6(1):151--179.
+
+\bibitem[Damblin et~al., 2016]{damblin2016}
+Damblin, G., Keller, M., Barbillon, P., Pasanisi, A., and Parent, {\'E}.
+  (2016).
+\newblock Bayesian model selection for the validation of computer codes.
+\newblock {\em Quality and Reliability Engineering International},
+  32(6):2043--2054.
+
+\bibitem[Duffie and Beckman, 2013]{duffie2013}
+Duffie, J.~A. and Beckman, W.~A. (2013).
+\newblock {\em Solar engineering of thermal processes}.
+\newblock John Wiley \& Sons.
+
+\bibitem[Fang et~al., 2005]{fang2005}
+Fang, K.-T., Li, R., and Sudjianto, A. (2005).
+\newblock {\em Design and modeling for computer experiments}.
+\newblock CRC Press.
+
+\bibitem[Hastings, 1970]{Hastings1970}
+Hastings, W.~K. (1970).
+\newblock Monte carlo sampling methods using markov chains and their
+  applications.
+\newblock {\em Biometrika}, 57(1):97--109.
+
+\bibitem[Higdon et~al., 2008]{higdon2008}
+Higdon, D., Gattiker, J., Williams, B., and Rightley, M. (2008).
+\newblock Computer model calibration using high-dimensional output.
+\newblock {\em Journal of the American Statistical Association},
+  103(482):570--583.
+
+\bibitem[Higdon et~al., 2004]{higdon2004}
+Higdon, D., Kennedy, M., Cavendish, J.~C., Cafeo, J.~A., and Ryne, R.~D.
+  (2004).
+\newblock Combining field data and computer simulations for calibration and
+  prediction.
+\newblock {\em SIAM Journal on Scientific Computing}, 26(2):448--466.
+
+\bibitem[Kennedy and O’Hagan, 2001]{kennedy2001b}
+Kennedy, M. and O’Hagan, A. (2001).
+\newblock Supplementary details on bayesian calibration of computer. rap.
+  tech., university of nottingham.
+\newblock {\em Statistics Section}.
+
+\bibitem[Kennedy and O'Hagan, 2001]{kennedy2001}
+Kennedy, M.~C. and O'Hagan, A. (2001).
+\newblock Bayesian calibration of computer models.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 63(3):425--464.
+
+\bibitem[Liu et~al., 2009]{liu2009}
+Liu, F., Bayarri, M., Berger, J., et~al. (2009).
+\newblock Modularization in bayesian analysis, with emphasis on analysis of
+  computer models.
+\newblock {\em Bayesian Analysis}, 4(1):119--150.
+
+\bibitem[Luque and Hegedus, 2011]{luque2011}
+Luque, A. and Hegedus, S. (2011).
+\newblock {\em Handbook of photovoltaic science and engineering}.
+\newblock John Wiley \& Sons.
+
+\bibitem[Martin and Ruiz, 2001]{martin2001}
+Martin, N. and Ruiz, J. (2001).
+\newblock Calculation of the pv modules angular losses under field conditions
+  by means of an analytical model.
+\newblock {\em Solar Energy Materials and Solar Cells}, 70(1):25--38.
+
+\bibitem[Metropolis et~al., 1953]{metropolis1953}
+Metropolis, N., Rosenbluth, A.~W., Rosenbluth, M.~N., Teller, A.~H., and
+  Teller, E. (1953).
+\newblock Equation of state calculations by fast computing machines.
+\newblock {\em The journal of chemical physics}, 21(6):1087--1092.
+
+\bibitem[Morris, 1991]{morris1991}
+Morris, M.~D. (1991).
+\newblock Factorial sampling plans for preliminary computational experiments.
+\newblock {\em Technometrics}, 33(2):161--174.
+
+\bibitem[Oberkampf et~al., 1998]{oberkampf1998}
+Oberkampf, W.~L., Sindir, M., and Conlisk, A. (1998).
+\newblock Guide for the verification and validation of computational fluid
+  dynamics simulations.
+\newblock {\em American Institute of Aeronautics and Astronautics, Reston, VA}.
+
+\bibitem[Plumlee, 2017]{plumlee2017}
+Plumlee, M. (2017).
+\newblock Bayesian calibration of inexact computer models.
+\newblock {\em Journal of the American Statistical Association},
+  112(519):1274--1285.
+
+\bibitem[Pronzato and M{\"u}ller, 2012]{pronzato2012}
+Pronzato, L. and M{\"u}ller, W.~G. (2012).
+\newblock Design of computer experiments: space filling and beyond.
+\newblock {\em Statistics and Computing}, 22(3):681--701.
+
+\bibitem[Roache, 1998]{roache1998}
+Roache, P.~J. (1998).
+\newblock Verification of codes and calculations.
+\newblock {\em AIAA journal}, 36(5):696--702.
+
+\bibitem[Robert, 1996]{robert1996}
+Robert, C. (1996).
+\newblock {\em M{\'e}thodes de Monte Carlo par cha{\^\i}nes de Markov}.
+\newblock Economica.
+
+\bibitem[Roustant et~al., 2012]{roustant2012}
+Roustant, O., Ginsbourger, D., and Deville, Y. (2012).
+\newblock Dicekriging, diceoptim: Two r packages for the analysis of computer
+  experiments by kriging-based metamodelling and optimization.
+\newblock {\em Journal of Statistical Software}, 51(1):54p.
+
+\bibitem[Sacks et~al., 1989]{sacks1989}
+Sacks, J., Welch, W.~J., Mitchell, T.~J., and Wynn, H.~P. (1989).
+\newblock Design and analysis of computer experiments.
+\newblock {\em Statistical science}, pages 409--423.
+
+\bibitem[Santner et~al., 2013]{santner2013}
+Santner, T.~J., Williams, B.~J., and Notz, W.~I. (2013).
+\newblock {\em The design and analysis of computer experiments}.
+\newblock Springer Science \& Business Media.
+
+\bibitem[Tuo et~al., 2015]{tuo2015efficient}
+Tuo, R., Wu, C.~J., et~al. (2015).
+\newblock Efficient calibration for imperfect computer models.
+\newblock {\em The Annals of Statistics}, 43(6):2331--2352.
+
+\bibitem[Tuo and Wu, 2016]{tuo2016theoretical}
+Tuo, R. and Wu, J. (2016).
+\newblock A theoretical framework for calibration in computer models:
+  parametrization, estimation and convergence properties.
+\newblock {\em SIAM/ASA Journal on Uncertainty Quantification}, 4(1):767--795.
+
+\bibitem[Wong et~al., 2017]{wong2017}
+Wong, R.~K., Storlie, C.~B., and Lee, T. (2017).
+\newblock A frequentist approach to computer model calibration.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 79(2):635--648.
+
+\end{thebibliography}
