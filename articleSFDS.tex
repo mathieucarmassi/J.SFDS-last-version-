@@ -69,7 +69,7 @@
   %\arxiv{math.PR/00000000} 
 
   \titre{Bayesian calibration of a numerical code for prediction}
-  \titrealter{A review on theory of code calibration and application to the prediction of a photovoltaic power plant electricity production}
+  \titrealter{Theory of code calibration and application to the prediction of a photovoltaic power plant electricity production}
 
 \begin{aug}
     \auteur{
@@ -124,8 +124,8 @@ Les difficultés de mise en oeuvre d'expériences de terrain ou de laboratoire, 
 industrielles à se tourner vers des codes numériques de calcul. Ces codes, censés être représentatifs des phénomènes physiques en jeu, 
 entraînent néanmoins tout un cortège de problèmes. Le premier de ces problèmes provient de la volonté de prédire la réalité à partir d'un 
 modèle informatique. En effet, le code doit être représentatif du phénomène et, par conséquent, être capable de simuler des données proches de  
-la réalité. Or, malgré le constant développement du réalisme de ces codes, des erreurs de prédiction subsistent. Ils sont de deux natures différentes. Le
-premier provient de la différence entre le phénomène physique et les valeurs relevées expérimentalement. Le deuxième concerne l'écart entre le code développé et le phénomène physique. Pour diminuer cet écart, souvent qualifié de biais ou d'erreur de modèle, les développeurs complexifient en général les codes, les rendant très chronophages dans certains cas. De plus, le code dépend de paramètres à fixer par l'utilisateur qui doivent être choisis pour correspondre au mieux aux données de terrain. L'estimation de ces paramètres propres au code s'appelle le calage.
+la réalité. Or, malgré le constant développement du réalisme de ces codes, des erreurs de prédiction subsistent. Elles sont de deux natures différentes. La
+première provient de la différence entre le phénomène physique et les valeurs relevées expérimentalement. La deuxième concerne l'écart entre le code développé et le phénomène physique. Pour diminuer cet écart, souvent qualifié de biais ou d'erreur de modèle, les développeurs complexifient en général les codes, les rendant très chronophages dans certains cas. De plus, le code dépend de paramètres à fixer par l'utilisateur qui doivent être choisis pour correspondre au mieux aux données de terrain. L'estimation de ces paramètres propres au code s'appelle le calage.
 Ce papier propose une revue des méthodes de calage bayésien et s'appuie sur un cas d'application qui permet de discuter les divers choix méthodologiques et d'illustrer leurs divergences. Cet exemple s'appuie sur un code de calcul servant à prédire la puissance d'une centrale photovoltaïque. 
 
 
@@ -163,7 +163,7 @@ Field experiments are often difficult and expensive to make. To bypass these iss
 
 %\paragraph{Pourquoi, contexte ?}
 
-Numerical experiments have become increasingly popular in many (if not all) industrial fields. Indeed, setting up field experiments can represent a huge investment for a company. Numerical simulations are generally considered as a substitute to bypass physical or field experiments \citep{santner2013,fang2005}. However, the complexity of computer codes used in such simulations increases with the capacity of computer processors, and sometimes at a much higher rate. The consequence is straightforward\hc some codes have become greedy in computational time \citep{sacks1989}. Moreover, a gap between computer code outputs and the field measures of the physical process, they seek to simulate, is routinely observed. 
+Numerical experiments have become increasingly popular in many (if not all) industrial fields. Indeed, setting up field experiments can represent a huge investment for a company. Numerical simulations are generally considered as a substitute to bypass physical or field experiments \citep{santner2013,fang2005}. However, the complexity of computer codes, used in such simulations, increases with the capacity of computer processors, and sometimes at a much higher rate. The consequence is straightforward\hc some codes have become greedy in computational time \citep{sacks1989}. Moreover, a gap between computer code outputs and field measures of the physical process, sought to simulate, is routinely observed. 
 Checking the accuracy of the code by confronting it with field experiments is called validation \citep{bayarri2007}. This task is difficult since it is based on a few unavoidable field data and a computational code, often long to run. 
 All along this paper, we will use the word ``code'' as a proxy for numerical code, sometimes also called numerical model, simulator or computational code and field experiment for real world experiment.
 \newline
@@ -172,8 +172,8 @@ All along this paper, we will use the word ``code'' as a proxy for numerical cod
 
 The code generally depends on two kinds of inputs\hc variables and parameters.
 The variables are input variables (observable and often controllable) which are set during a field experiment and can encompass environmental variables that can be measured.
-The parameters are generally interpreted as physical constants defining the mathematical model of the system of interest, but can also contain so-called tuning parameters, which have no physical interpretation. They have to be set by the user to run the code and chosen carefully to make the code mimicking the real physical phenomenon. 
-The code can be mathematically represented by a function $f_c$. Let us note, in what follows, $\mathbf{\theta}\in\mathcal{Q}\subset\mathbb{R}^p$ to represent the parameter vector and $\mathbf{x}\in\mathcal{H}\subset \mathbb{R}^d$ for the variable vector. The space $\mathcal{Q}$ is called the input parameter space and $\mathcal{H}$ the input variable space.
+The parameters are generally interpreted as physical constants defining the mathematical model of the system of interest, but can also contain so-called tuning parameters, which have no physical interpretation. They have to be set by the user to run the code and chosen carefully to make the code mimic the real physical phenomenon. 
+The code can be mathematically represented by a function $f_c$. Let us note, in what follows, $\boldsymbol{\theta}\in\mathcal{Q}\subset\mathbb{R}^p$ to represent the parameter vector and $\mathbf{x}\in\mathcal{H}\subset \mathbb{R}^d$ for the variable vector. The space $\mathcal{Q}$ is called the input parameter space and $\mathcal{H}$ the input variable space.
 The physical phenomenon is denoted by $\zeta$ and only depends on variables in vector $\boldsymbol{x}\in\mathcal{H}$, the parameter vector $\boldsymbol{\theta}$ having no counterpart in field experiments. \newline
 
 A code output is then written as $f_c(\boldsymbol{x},\boldsymbol{\theta})$ whereas $\zeta(\boldsymbol{x})$ denotes the output of the physical phenomenon for the same variable $\boldsymbol{x}$. This is of course an idealized formalization, in which we assume that the code variables $\boldsymbol{x}$ are exhaustive to describe the phenomenon of interest, in the sense that the quantity to be predicted can take a single deterministic value $\zeta(\boldsymbol{x})$ for a given $\boldsymbol{x}$. 
@@ -193,9 +193,7 @@ where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}
 \newline
 
 Calibrating the code consists
-in making the vector of parameters $\boldsymbol{\theta}$ consistent in some sense with these $n$ field data.
-In the industrial framework for treatment of uncertainties advocated in \citet{baudin2017}, decomposed into a step by step procedure,
-calibration is identified as a key element of the so-called \textit{step B'}. As illustrated in \citet{damblin2015}, it concerns calibration,
+in making the vector of parameters $\boldsymbol{\theta}$ consistent in some sense with these $n$ field data. In an industrial framework, uncertainty quantifications \citep{rocquigny2009quantifying} can be decomposed into a step by step procedure and calibration is identified as a key element of the so-called \textit{step B'}. As illustrated in \citet{damblin2015}, this step concerns calibration,
 verification and validation (V\&V). V\&V can be further split into 3 phases  described in \citet{roache1998}, \citet{bayarri2007} and \citet{oberkampf1998}.
 Calibration then aims at finding the "best" parameter vector $\boldsymbol{\theta}=\boldsymbol{\theta}^*$ such that the error term made by the
 code in a statistical model is minimal. Several statistical modeling strategies have been proposed in the literature. When only measurement errors
@@ -205,17 +203,17 @@ or a \textit{model error} term, also dubbed \textit{discrepancy} in the followin
 \ref{sec:calibration}. The identifiability issues between the parameter $\boldsymbol{\theta}$ and the discrepancy were already discussed in the written discussions of \citet{kennedy2001}. \citet{tuo2015efficient} consider the calibration task as a minimization of a loss function between the code and the physical reality. 
 In \citet{tuo2016theoretical}, 
 %they interpret the definition of \citet{kennedy2001} for $\boldsymbol{\theta}$ (the ``best-fitting'' parameter) as being the minimizer of the reproducing kernel Hilbert space norm based on the prior distribution of the discrepancy.
-they show that this loss function leads to an estimation of $\boldsymbol{\theta}$ depending on the the chosen prior distribution of the discrepancy. Then,  \citet{plumlee2017} advices an orthogonality 
+they show that this loss function leads to an estimation of $\boldsymbol{\theta}$ depending on the chosen prior distribution of the discrepancy. Then,  \citet{plumlee2017} advices an orthogonality 
 specification for the discrepancy i.e. the discrepancy should be orthogonal to the gradient of the computer code with respect to a loss function.
 \newline
 
 
-As an industrial illustrative example, we will focus, in this paper, on predicting the energy production from a photovoltaic (PV) plant \citep{martin2001}. The industrial context is to go through proposals as a manufacturer and a supplier for PV plants. The selling price announced by the industrial company has to be competitive enough to be successful in the bidding process. Of course, the building costs and the production over the plant lifetime have to be known to evaluate the profit margins. Although a best guess-estimate, the deterministic evaluation of PV production through a sophisticated computer code, does not fulfill the needs of a financial investor in  PV projects. To evaluate the financial risks of his/her investment and consequently to make his decision, the investor needs to assess the uncertainty around the expected production estimation. To do so, all the sources of uncertainties have to be identified and treated in their current form. Calibration will be useful for hunting down the uncertainties related to the modeling and quantify the range of the main potential errors made predicting the profit ratio.\newline
+As an industrial illustrative example, we will focus, in this paper, on predicting the energy production from a photovoltaic (PV) plant \citep{martin2001}. The industrial context is to go through proposals as a manufacturer and a supplier for PV plants. The selling price announced by the industrial company has to be competitive enough to be successful in the bidding process. Of course, the building costs and the production over the plant lifetime have to be known to evaluate the profit margins. Although a best guess-estimate, the deterministic evaluation of PV production through a sophisticated computer code, does not fulfill the needs of a financial investor in  PV projects. To evaluate the financial risks of his/her investment and consequently to make his decision, the investor needs to assess the uncertainty around the expected production estimation. To do so, all the sources of uncertainties have to be identified and treated in their current form. Calibration will be useful for hunting down the uncertainties related to the modeling and quantify the range of the main potential errors made in predicting the profit ratio.\newline
 
 
 %\paragraph{Plan de l'article}
 
-This paper first presents the illustrative case study (Section \ref{PVsection}). The stakes are given with the explanation of the code and the source of the experimental data. Section \ref{sec:calibration} deals with the presentation of the many different statistical models one can find in the literature which have been developed for calibration. Then a highlight of the different likelihoods and conditional densities needed for parameter estimation is provided. In Section \ref{sec:application}, the different statistical models are implemented and tested for the PV application case, in order to illustrate the various ways of reasoning behind calibration and point out their differences.
+This paper first presents the illustrative case study (Section \ref{PVsection}). The stakes are given with the explanation of the code and the source of the experimental data. Section \ref{sec:calibration} deals with the presentation of the many different statistical models one can find in the literature which have been developed for calibration. Then, a highlight of the different likelihoods and conditional densities needed for parameter estimation is provided. In Section \ref{sec:application}, the different statistical models are implemented and tested for the PV application case, in order to illustrate the various ways of reasoning behind calibration and point out their differences.
 
 
 
@@ -223,7 +221,7 @@ This paper first presents the illustrative case study (Section \ref{PVsection}).
 
 \subsection{Stakes}
 
-Today the market in electricity production has become more and more competitive. Environmental issues have brought changes in such a way that producing electricity by exploiting sun-power has become a popular and major vector of green production. However, building a PV plant represents a lot of financial risks. Indeed, many factors must be taken into account before computing the return rate. The overall building cost is the first figure needed but can easily be estimated. Once it is evaluated, a prediction of the PV plant production will set up the return rate. To compute such a prediction, a code has been developed, implementing a mathematical model which aims at reproducing the physical system of the plant. \newline
+Today, the market in electricity production has become more and more competitive. Environmental issues have brought changes in such a way that producing electricity by exploiting sun-power has become a popular and a major vector of green production. However, building a PV plant represents a lot of financial risks. Indeed, many factors must be taken into account before computing the return rate. The overall building cost is the first figure needed but can easily be estimated. Once it is evaluated, a prediction of the PV plant production will set up the return rate. To compute such a prediction, a code has been developed, implementing a mathematical model which aims at reproducing the physical system of the plant. \newline
 
 However, there are two major sources of uncertainty linked to this method. The first one is the meteorological data which we have difficulties to predict, especially in the changing environment due to global warming. In a project framework, we will usually use the meteorological data based on the previous years with past scenarios eventually adjusted to take into account temperature increase. The second source of uncertainties comes from the modeling errors. The code may encounter difficulties to mimic the physical system. As discussed above, this can be explained by the fact that the mathematical model implemented is only a simplified representation of the physical world, which might not take into account all the existing influent variables, and also depends on uncertain physical constants, which are precisely the parameters we wish to estimate. \newline
 
@@ -283,7 +281,7 @@ A sensitivity analysis performed according to the screening method of Morris \ci
 
 \subsection{Available data}
 
-As mentioned above, the code represents a test stand of 12 panels. Data are available over 2 months and instantaneous power is collected every $10s$, which makes around $777,600$ points to process. Especially when recording facilities are interrupted for some reasons. Figure \ref{fig:PowerExample} shows the kind of data collected from the stand over one month (on the left) and detailed for one day (on the right). Some days the production sticks to $0$. This typically happens when recording errors occur. Actually, the power saved is aberrant with too much high or 
+As mentioned above, the code represents a test stand of 12 panels. Data are available over 2 months and instantaneous power is collected every $10s$, which makes around $777,600$ points to process. Data are particularly treated when recording facilities are interrupted for some reasons. Figure \ref{fig:PowerExample} shows the kind of data collected from the stand over one month (on the left) and detailed for one day (on the right). Some days the production sticks to $0$. This typically happens when recording errors occur. Actually, the power saved is aberrant with too much high or 
 negative power. Data cleaning allows to detect and sort these errors. On the right panel of Figure \ref{fig:PowerExample}, we can notice a typical behavior of an assembly of solar panels. When the irradiation of the sun is high, so is the production. As expected, the maximum production happens around noon when the irradiation is high.
 
 \begin{figure}[htbp!]
@@ -302,7 +300,7 @@ negative power. Data cleaning allows to detect and sort these errors. On the rig
 
 \subsection{Estimation of the error}
 
-So far, experts are using the code with some parameter values with the knowledge that these parameters are uncertain (the so called reference values). They can also provide more expertise on the nature of the parameter. For example for $a_r$, the nominal value is $0.17$ and experts state that the parameter lies within the $95\%$ confidence interval $[0.05,0.29]$. We chose to consider $a_r$ as Gaussian with $a_r\sim\mathcal{N}(\mu=0.17,\sigma^2=3.6.10^{-3})$. The standard deviation is chosen equal to $0.06$ because we have considered the upper bound and the lower bound of the given interval as respectively the quantiles $a_{r_{0.975}}$ and $a_{r_{0.025}}$. Similarly, $\eta$ and $\mu_t$ are taken as Gaussian such as $\eta\sim\mathcal{N}(\mu=0.143,\sigma^2=2.5.10^{-3})$ and $\mu_t\sim\mathcal{N}(\mu=-0.4,\sigma^2=10^{-2})$. If $100$ realizations are drawn from the joint distribution of $\eta$, $\mu_t$ and $a_r$, the production curve and the \textit{prior} credibility interval can be simultaneously plotted on a same graph to see how uncertain the predicted power is over a day. Figure \ref{fig:ParamError} illustrates on the left the distribution of $\eta$, $\mu_t$ and $a_r$ and on the right the production curve obtained for reference values and the \prior credibility interval at $90\%$. On the right side, experiments collected that same day are also displayed. One can check that the prior credibility interval, build given by the experts, looks coherent regarding the experimental data.\newline  
+So far, experts are using the code with some parameter values with the knowledge that these parameters are uncertain (the so called reference values). They can also provide more expertise on the nature of the parameter. For example for $a_r$, the nominal value is $0.17$ and experts state that the parameter lies within the $95\%$ confidence interval $[0.05,0.29]$. We chose to consider $a_r$ as Gaussian with $a_r\sim\mathcal{N}(\mu=0.17,\sigma^2=3.6.10^{-3})$. The standard deviation is chosen equal to $0.06$ because we have considered the upper bound and the lower bound of the given interval as respectively the quantiles $a_{r_{0.975}}$ and $a_{r_{0.025}}$. Similarly, $\eta$ and $\mu_t$ are taken as Gaussian such as $\eta\sim\mathcal{N}(\mu=0.143,\sigma^2=2.5.10^{-3})$ and $\mu_t\sim\mathcal{N}(\mu=-0.4,\sigma^2=10^{-2})$. If $100$ realizations are drawn from the joint distribution of $\eta$, $\mu_t$ and $a_r$, the production curve and the \textit{prior} credibility interval can be simultaneously plotted on a same graph to see how uncertain the predicted power is over a day. Figure \ref{fig:ParamError} illustrates on the left the distribution of $\eta$, $\mu_t$ and $a_r$ and on the right the production curve obtained for reference values and the \prior credibility interval at $90\%$. On the right side, experiments collected that same day are also displayed. One can check that the prior credibility interval, built thanks to the experts, looks coherent regarding the experimental data.\newline  
 
 
 \begin{figure}[htbp!]
@@ -339,9 +337,9 @@ The results of calibration for this application case are detailed in Section \re
 
 \section{Calibration through statistical models \label{sec:calibration}}
 
-Calibration intends to find the ``best fitting'' parameters of a computational code, in order to minimize the difference between the output and the experiments. It can be used in two cases. In a forecasting context \citep{craig2001}, calibrated code on data collected on site can be used to compute the behavior of the power plant over the next time period. In a prediction context, data from an experimental stand are used to predict the behavior of a non-existing stand (assuming they have the same features). \newline
+Calibration intends to find the ``best fitting'' parameters of a computational code, in order to minimize the difference between the output and the experiments. The measurement error is also unknown and has to be estimated as well as the parameters. It can be used in two cases. In a forecasting context \citep{craig2001}, where the calibrated code on data collected on site can be used to compute the behavior of the power plant over the next time period. But also, in a prediction context, where data from an experimental stand are used to predict the behavior of a non-existing stand (assuming they have the same features). \newline
 
-A simple way to express calibration is to write down a first, straightforward model. The computational code is set up to entirely replace the physical system. Intuitively, we can assume that $\forall \boldsymbol{x} \in \mathcal{H}, \zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta})$ for some well-chosen $\boldsymbol{\theta}$ which leads to the following equation\hc 
+A simple way to express calibration is to write down a first and straightforward model. The computational code is set up to entirely replace the physical system. Intuitively, we can assume that $\forall \boldsymbol{x} \in \mathcal{H}, \zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta})$ for some well-chosen $\boldsymbol{\theta}$, which leads to the following equation\hc 
 
 \begin{equation}
 \mathcal{M}_1\ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad  y_{exp_i}=f_c(\boldsymbol{x}_i,\boldsymbol{\theta})+\epsilon_i,
@@ -370,27 +368,27 @@ For the sake of simplicity we will consider, in what follows, the code as determ
 
 \subsubsection{A time consuming code}
 
-\noindent Let us consider a time consuming code. As said above, in this particular case, the computational burden become too huge to perform calibration. That is why \citet{sacks1989} introduced an emulation of the not yet computed outputs from the code by a random function, \textit{i.e.} a stochastic process. The common choice is oriented toward the Gaussian process because the conditional Gaussian process is still a Gaussian process (see Appendix \ref{ap:GaussianProcesses} for more details). It is, parsimoniously, defined by its mean and covariance functions. The first ``simple'' and straightforward model was introduced by \citet{cox2001} which uses this emulation of $f_c$.
+\noindent Let us consider a time consuming code. As said above, in this particular case, the computational burden become too huge to perform calibration. That is why, \citet{sacks1989} introduced an emulation of the, not yet computed, outputs from the code by a random function, \textit{i.e.} a stochastic process. The common choice is oriented toward the Gaussian process because the conditional Gaussian process is still a Gaussian process (see Appendix \ref{ap:GaussianProcesses} for more details). It is, parsimoniously, defined by its mean and covariance functions. The first ``simple'' and straightforward model was introduced by \citet{cox2001} which uses this emulation of $f_c$.
 
 %An analytic form as a stochastic process would allow to compute this surrogate as many times as we want. A limited number of run of the time consuming code gives us simulated data and can help to design this surrogate. In \cite{sacks1989}, the stochastic process chosen is a Gaussian process defined by its mean and covariance functions (see the appendix \ref{ap:GaussianProcesses} for more details). 
 
 \begin{eqnarray}
-\mathcal{M}_2 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i} &=& F(\boldsymbol{x}_i,\boldsymbol{\theta}) + \epsilon_i
+\mathcal{M}_2 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i} &=& F(\boldsymbol{x}_i,\boldsymbol{\theta}) + \epsilon_i,
 \label{eq:M2}\\
-F(\bullet,\bullet) & \sim &{\mathcal{GP}}{\Big(m_S(\bullet,\bullet),c_S\{(\bullet,\bullet),(\bullet,\bullet)\}\Big)}
+F(\bullet,\bullet) & \sim &{\mathcal{GP}}{\Big(m_S(\bullet,\bullet),c_S\{(\bullet,\bullet),(\bullet,\bullet)\}\Big)},
 \nonumber
 \end{eqnarray}
-where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$ and the random function $F(\boldsymbol{x}_i,\boldsymbol{\theta})$ stands for a Gaussian process (GP) over the joint domain of $\boldsymbol{x}_i$ and $\boldsymbol{\theta}$. Its mean function $m_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$ is generally a linear form of simple functions of $\boldsymbol{x}_i$ and $\boldsymbol{\theta}$ and its covariance function $c_S\{(\boldsymbol{x}_i^*,\boldsymbol{\theta}^*),(\boldsymbol{x}_i,\boldsymbol{\theta})\}=\sigma_S^2 r_{\boldsymbol{\psi}_S}\{(\boldsymbol{x}_i^*,\boldsymbol{\theta}^*),(\boldsymbol{x}_i,\boldsymbol{\theta})\}$ is such as the function $r_{\boldsymbol{\psi_S}}\{(\bullet,\bullet),(\bullet,\bullet)\}$ is the correlation function with a vector parameter $\boldsymbol{\psi}_S$ which is the scale and the regularity of the kernel and where $\sigma_S^2$ represents the variance. The mean $m_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$ can be written\hc\newline
+where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$ and the random function $F(\boldsymbol{x}_i,\boldsymbol{\theta})$ stands for a Gaussian process (GP) over the joint domain of $\boldsymbol{x}_i$ and $\boldsymbol{\theta}$. Its mean function $m_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$ is generally a linear form of simple functions of $\boldsymbol{x}_i$ and $\boldsymbol{\theta}$. Its covariance function $c_S\{(\boldsymbol{x}_i^*,\boldsymbol{\theta}^*),(\boldsymbol{x}_i,\boldsymbol{\theta})\}=\sigma_S^2 r_{\boldsymbol{\psi}_S}\{(\boldsymbol{x}_i^*,\boldsymbol{\theta}^*),(\boldsymbol{x}_i,\boldsymbol{\theta})\}$ is such as the function $r_{\boldsymbol{\psi_S}}\{(\bullet,\bullet),(\bullet,\bullet)\}$ is the correlation function with a vector parameter $\boldsymbol{\psi}_S$. This parameter vector represents the scale and the regularity of the kernel and where $\sigma_S^2$ represents the variance. The mean $m_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$ can be written as\newline
 
 
 
 
 \begin{equation}
-m_S(\boldsymbol{x}_i,\boldsymbol{\theta})=m_{\boldsymbol{\beta}_S}(\boldsymbol{x}_i,\boldsymbol{\theta})=\mathbb{E}[F(\boldsymbol{x}_i,\boldsymbol{\theta})]=\beta_{S_0}+\sum_{j=1}^{M}\beta_{S_j}h_{S_j}(\boldsymbol{x}_i,\boldsymbol{\theta})=\boldsymbol{h}_S(\boldsymbol{x}_i,\boldsymbol{\theta})\boldsymbol{\beta}_S
+m_S(\boldsymbol{x}_i,\boldsymbol{\theta})=m_{\boldsymbol{\beta}_S}(\boldsymbol{x}_i,\boldsymbol{\theta})=\mathbb{E}[F(\boldsymbol{x}_i,\boldsymbol{\theta})]=\beta_{S_0}+\sum_{j=1}^{M}\beta_{S_j}h_{S_j}(\boldsymbol{x}_i,\boldsymbol{\theta})=\boldsymbol{h}_S(\boldsymbol{x}_i,\boldsymbol{\theta})\boldsymbol{\beta}_S,
 \label{eq:MeanLin}
 \end{equation}
 
-where $\boldsymbol{\beta}_S^T=(\beta_{S_0},\dots,\beta_{S_M})$ is the coefficient vector to be estimated and $\boldsymbol{h}_S(\bullet,\bullet)=(h_{S_0}(\bullet,\bullet),\dots\allowbreak,h_{S_M}(\bullet,\bullet))$ the row vector of regression functions where $h_{S_0}=1$. Similarly we define the $n\times(M+1)$ matrix $\boldsymbol{H}_{S}(\boldsymbol{X},\boldsymbol{\theta})$ such as its $i^{th}$ row is $\boldsymbol{h}_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$. The correlation function can take multiple forms as Gaussian or Matérn for instance \citep[see][for more examples]{santner2013}.
+where $\boldsymbol{\beta}_S^T=(\beta_{S_0},\dots,\beta_{S_M})$ is the coefficient vector to be estimated and $\boldsymbol{h}_S(\bullet,\bullet)=(h_{S_0}(\bullet,\bullet),\dots\allowbreak,h_{S_M}(\bullet,\bullet))$ the row vector of regression functions where $h_{S_0}=1$. Similarly, we define the $n\times(M+1)$ matrix $\boldsymbol{H}_{S}(\boldsymbol{X},\boldsymbol{\theta})$ such as its $i^{th}$ row is $\boldsymbol{h}_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$. The correlation function can take multiple forms as Gaussian or Matérn for instance \citep[see][for more examples]{santner2013}.
 We will consider, for now and for all theoretical developments, the general form of $c_S\{(\bullet,\bullet),(\bullet,\bullet)\}=\sigma_S^2 r_{\boldsymbol{\psi}_S}\{(\bullet,\bullet),(\bullet,\bullet)\}$ where $\sigma_S^2$ is the variance and $r$ is the correlation function with a parameter vector $\boldsymbol{\psi}_S$. The advantage of using a surrogate model, for $f_c(\boldsymbol{X},\boldsymbol{\theta})$ is to alleviate the computational burden, at the cost of adding an additional source of uncertainty, and of increasing the number of uncertain parameters. Specific hypotheses, for instance a known smoothness of the random field, may help to choose the size of the parametric family in which the correlation
 shape is to be assessed. 
 % We will see for the application case how such choices can impact the results. \PB{le fait on vraiment ?}\MCC{Non, tu as raison. On fixe des hypothèses au départ que l'on teste mais on ne va en aucun cas tester les effets des changements des noyaux ou des autres hypothèses.}
@@ -401,7 +399,7 @@ When the code is time consuming, a fixed number $N$ of simulations is set up. Th
 % \PB{il faut préciser à un moment que l'input space est le produit entre l'espace des x et des theta}
 Let us call $\boldsymbol{D}$ a DOE, a set of $N$ points sampled in the input space defined as the product of $\mathcal{H}$ and $\mathcal{Q}$. We can write $\boldsymbol{D}=\{ (\boldsymbol{x}_1^D,\boldsymbol{\tau}_1^D),\dots (\boldsymbol{x}_N^D,\boldsymbol{\tau}_N^D) \}$ where $\forall i \in \llbracket1,\dots,N\rrbracket \  (\boldsymbol{x}_i^D,\boldsymbol{\tau}_i^D)$ are chosen in $\mathcal{H}\times \mathcal{Q}$.
 % where $(\boldsymbol{\tau}_1^D,\dots,\boldsymbol{\tau}_N^D)$ is a set of $N$ vectors chosen accordingly to the DOE design in the input space parameter $\mathcal{Q}$. 
-The establishment of the DOE will lead to simulated data which are defined as $\boldsymbol{y}_c=f_c(\boldsymbol{D})$. The error made by the surrogate strongly depends on the numerical design of experiments used to fit the emulator. Adaptive numerical designs introduced in \citet{damblin2018} is a way to enhance the emulator when the goal is to calibrate the code. \newline
+The establishment of the DOE will lead to simulated data which are defined as $\boldsymbol{y}_c=f_c(\boldsymbol{D})$. The error made by the surrogate strongly depends on the numerical design of experiments used to fit the emulator. Adaptive numerical designs introduced in \citet{damblin2018} is a way to enhance the emulator when the goal is to calibrate the code. This method, based on a Gaussian process-based optimization called Efficient Global Optimization \citep{jones1998efficient}, allows to add, wisely regarding further calibration, another points in the original DOE. \newline
 
 % The aim is to use these $N$ points and the $n$ experimental points for estimating the parameters of the Gaussian process.\newline
 
@@ -420,13 +418,13 @@ Note that $m_{\boldsymbol{\delta}}$ and $c_{\boldsymbol{\delta}}$ are functions 
 When the code is not time consuming, the real code $f_c$ is used\hc
 
 \begin{eqnarray}
-\mathcal{M}_3 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i}&=& f_c(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon_i
+\mathcal{M}_3 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i}&=& f_c(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon_i,
 \label{eq:M3}\\
-\delta(\bullet) & \sim &{\mathcal{GP}}{\Big(m_{\boldsymbol{\delta}}(\bullet),c_{\boldsymbol{\delta}}(\bullet,\bullet)\Big)}
+\delta(\bullet) & \sim &{\mathcal{GP}}{\Big(\boldsymbol{m}_{\delta}(\bullet),c_{\delta}(\bullet,\bullet)\Big)},
 \nonumber
 \end{eqnarray}
 
-where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$, and $\delta(\bullet)$ stands for a Gaussian process which mimics the discrepancy and will only depends on the input variables $\boldsymbol{x}$. We can write $\delta(\bullet)\sim\mathcal{GP}(\boldsymbol{m}_{\boldsymbol{\delta}}(\bullet),c_{\boldsymbol{\delta}}(\bullet,\bullet))$ with $\forall \boldsymbol{x}, \ \boldsymbol{m}_{\boldsymbol{\delta}}(\boldsymbol{x})={\boldsymbol{h}_{\boldsymbol{\delta}}}(\boldsymbol{x})\boldsymbol{\beta}_{\boldsymbol{\delta}}$ (where $\boldsymbol{h}_{\boldsymbol{\delta}}$ is a row vector and $\boldsymbol{\beta}_{\boldsymbol{\delta}}$ is a column vector if we choose a parametric representation of the mean) and $c_{\boldsymbol{\delta}}$ the covariance function of the discrepancy. We also denote $\boldsymbol{H}_{\boldsymbol{\delta}}(\boldsymbol{X})$ the $n$ row matrix, the $i^{th}$ row of which is $\boldsymbol{h}_{\boldsymbol{\delta}}(\boldsymbol{x}_i)$.\newline
+where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$, and $\delta(\bullet)$ stands for a Gaussian process which mimics the discrepancy and will only depends on the input variables $\boldsymbol{x}$. We can write $\delta(\bullet)\sim\mathcal{GP}(\boldsymbol{m}_{\delta}(\bullet),c_{\delta}(\bullet,\bullet))$ with $\forall \boldsymbol{x}, \ \boldsymbol{m}_{\delta}(\boldsymbol{x})={\boldsymbol{h}_{\delta}}(\boldsymbol{x})\boldsymbol{\beta}_{\delta}$ (where $\boldsymbol{h}_{\delta}$ is a row vector and $\boldsymbol{\beta}_{\delta}$ is a column vector if we choose a parametric representation of the mean) and $c_{\delta}$ the covariance function of the discrepancy. We also denote $\boldsymbol{H}_{\delta}(\boldsymbol{X})$ the $n$ row matrix, the $i^{th}$ row of which is $\boldsymbol{h}_{\delta}(\boldsymbol{x}_i)$.\newline
 
 When the code is time consuming, the systematic use of $f_c$ is not computationally acceptable.
 Then, as for Model $\mathcal{M}_2$, the code is replaced with a Gaussian process. This leads to the more generic model introduced in \citet{kennedy2001}.
@@ -437,7 +435,7 @@ Then, as for Model $\mathcal{M}_2$, the code is replaced with a Gaussian process
 % Model $\mathcal{M}_4$ remains close to $\mathcal{M}_3$.
 
 \begin{equation}
-\mathcal{M}_4 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i}= F(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon_i
+\mathcal{M}_4 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i}= F(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon_i,
 \label{eq:M3p}
 \end{equation}
 where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$, $F(\boldsymbol{x}_i,\boldsymbol{\theta})$ and $\delta(\boldsymbol{x}_i)$ are two Gaussian
@@ -495,15 +493,14 @@ All these models introduce new parameters and need to be estimated as well as tu
 \subsection{Likelihood}
 
 
-For estimating parameters (whatever framework used, Bayesian or Maximization Likelihood Estimation (MLE)), expressing the likelihood comes as the first requirement. Two major categories stand out. When the code is not time consuming, the main issue in code calibration (\textit{i.e.} the computational time burden) is avoided. When the code is time consuming, new parameters have to be taken into account and to be estimated. That is why, in the cases $1$ and $3$ data are only field data $\boldsymbol{y}_{exp}$ and in the cases $2$ and $4$, numerical data (outputs of the code) are added to form the whole data vector
-$\boldsymbol{y}^T=(\boldsymbol{y}_{exp}^T,\boldsymbol{y}_c^T)$.
+For estimating parameters (whatever framework used, Bayesian or Maximization Likelihood Estimation (MLE)), expressing the likelihood comes as the first requirement. Two major categories stand out. When the code is not time consuming, the main issue in code calibration (\textit{i.e.} the computational time burden) is avoided. When the code is time consuming, new parameters have to be taken into account and to be estimated. In the models $\mathcal{M}_2$ and $\mathcal{M}_4$, numerical data ($\boldsymbol{y}_c$) as much as field data ($\boldsymbol{y}_{exp}$) and can be collected into the whole data vector $\boldsymbol{y}^T=(\boldsymbol{y}_{exp}^T,\boldsymbol{y}_c^T)$. Then, in the models $\mathcal{M}_1$ and $\mathcal{M}_3$, data can only represent field data ($\boldsymbol{y}_{exp}$).
 In what follows, we will denote by $\boldsymbol{\theta}^*$ the true parameter vector.
-Note that it is well-defined only in Models~$\mathcal{M}_1$ and $\mathcal{M}_2$, as the value of $\boldsymbol{\theta}$ which satisfies~\hc $\zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta}^*)$ for all possible $\boldsymbol{x}$, (assuming such a $\boldsymbol{\theta}$ exists and is unique). On the other hand, the models $\mathcal{M}_3$ and $\mathcal{M}_4$ are both defined by the relation $\zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta})+\delta(\boldsymbol{x})$, which holds for infinitely many couples $(\boldsymbol{\theta},\delta(\bullet))$, as discussed earlier. \citet{kennedy2001} avoid this issue by defining $\boldsymbol{\theta}^*$ as a ``best-fitting'' value, but it is unclear what this means exactly (see the discussion section of their paper for further details).\newline
+Note that it is well-defined only in Models~$\mathcal{M}_1$ and $\mathcal{M}_2$, as the value of $\boldsymbol{\theta}$ which satisfies\hc $\zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta}^*)$ for all possible $\boldsymbol{x}$, (assuming such a $\boldsymbol{\theta}$ exists and is unique). On the other hand, the models $\mathcal{M}_3$ and $\mathcal{M}_4$ are both defined by the relation $\zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta})+\delta(\boldsymbol{x})$, which holds for infinitely many couples $(\boldsymbol{\theta},\delta(\bullet))$, as discussed earlier. \citet{kennedy2001} avoid this issue by defining $\boldsymbol{\theta}^*$ as a ``best-fitting'' value, but it is unclear what this means exactly (see the discussion section of their paper for further details).\newline
 %Let $D_{exp}(\boldsymbol{X})=\{\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\}$ denote the set of input variables and $D_{exp}(\boldsymbol{X},\boldsymbol{\theta})=\{(\boldsymbol{x}_1,\boldsymbol{\theta}),\dots,(\boldsymbol{x}_n,\boldsymbol{\theta})\}$ denote the input variables extended with the parameter values, both corresponding to experimental data. \newline
 
 %To simplify the number of parameter to deal with,
 
-In order to simplify the notation, we will use for the rest of the paper $\Phi=\{\sigma_S^2,\sigma_{\boldsymbol{\delta}}^2,\boldsymbol{\psi}_S,\boldsymbol{\psi}_{\boldsymbol{\delta}}\}$ and $\Phi_S=\{\sigma_S^2,\boldsymbol{\psi_S}\}$ and $\Phi_{\boldsymbol{\delta}}=\{\sigma_{\boldsymbol{\delta}}^2,\boldsymbol{\psi}_{\boldsymbol{\delta}}\}$, where $\sigma_S^2$ and $\sigma_{\boldsymbol{\delta}}^2$ are the variances of the two Gaussian processes respectively relative to the surrogate and the discrepancy. The two parameter vectors $\boldsymbol{\psi}_S$ and $\boldsymbol{\psi}_{\boldsymbol{\delta}}$ are relative to the correlation functions. Let us call $\boldsymbol{\beta}^T=(\boldsymbol{\beta}_S^T,\boldsymbol{\beta}_{\boldsymbol{\delta}}^T)$ the vector of collected coefficient vectors.\newline
+In order to simplify the notation, we will use for the rest of the paper $\Phi=\{\sigma_S^2,\sigma_{\delta}^2,\boldsymbol{\psi}_S,\boldsymbol{\psi}_{\delta}\}$ and $\Phi_S=\{\sigma_S^2,\boldsymbol{\psi}_S\}$ and $\Phi_{\delta}=\{\sigma_{\delta}^2,\boldsymbol{\psi}_{\delta}\}$, where $\sigma_S^2$ and $\sigma_{\delta}^2$ are the variances of the two Gaussian processes respectively relative to the surrogate and the discrepancy. The two parameter vectors $\boldsymbol{\psi}_S$ and $\boldsymbol{\psi}_{\delta}$ are relative to the correlation functions. Let us call $\boldsymbol{\beta}^T=(\boldsymbol{\beta}_S^T,\boldsymbol{\beta}_{\delta}^T)$ the vector of collected coefficient vectors.\newline
 
 Both cases of time consuming or not time consuming code will be dealt with. The likelihood equations will be written for the generic forms of $\mathcal{M}_3$ and $\mathcal{M}_4$. The likelihoods for the simpler models
 $\mathcal{M}_1$ and $\mathcal{M}_2$ 
@@ -517,28 +514,28 @@ Experimental data follow a Gaussian distribution, the expectation of which
 is\hc \newline
 
 \begin{equation*}
-\mathbb{E}[\boldsymbol{y}_{exp}|\boldsymbol{\theta},\boldsymbol{\beta}_{\boldsymbol{\delta}};\boldsymbol{X}] = \boldsymbol{m}_{exp}^{\boldsymbol{\beta}_{\boldsymbol{\delta}}}(\boldsymbol{X},\boldsymbol{\theta}) = \boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta}) = f_c(\boldsymbol{X},\boldsymbol{\theta}) + {\boldsymbol{H}_{\boldsymbol{\delta}}}(\boldsymbol{X})\boldsymbol{\beta}_{\boldsymbol{\delta}}.
+\mathbb{E}[\boldsymbol{y}_{exp}|\boldsymbol{\theta},\boldsymbol{\beta}_{\delta};\boldsymbol{X}] = \boldsymbol{m}_{exp}^{\boldsymbol{\beta}_{\delta}}(\boldsymbol{X},\boldsymbol{\theta}) = \boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta}) = f_c(\boldsymbol{X},\boldsymbol{\theta}) + {\boldsymbol{H}_{\delta}}(\boldsymbol{X})\boldsymbol{\beta}_{\delta}.
 \end{equation*}
 
 Then, the expression of the variance is given by\hc
 
 \begin{equation*}
-\mathbb{V}ar[\boldsymbol{y}_{exp}|\Phi_{\boldsymbol{\delta}};\boldsymbol{X}] = \boldsymbol{V}_{exp}^{\Phi_{\boldsymbol{\delta}},\sigma_{err}^2}(\boldsymbol{X})= \boldsymbol{V}_{exp}(\boldsymbol{X}) = \boldsymbol{\Sigma}_{\delta}(\boldsymbol{X}) + \sigma_{err}^2\boldsymbol{I}_n
+\mathbb{V}ar[\boldsymbol{y}_{exp}|\Phi_{\delta};\boldsymbol{X}] = \boldsymbol{V}_{exp}^{\Phi_{\delta},\sigma_{err}^2}(\boldsymbol{X})= \boldsymbol{V}_{exp}(\boldsymbol{X}) = \boldsymbol{\Sigma}_{\delta}(\boldsymbol{X}) + \sigma_{err}^2\boldsymbol{I}_n,
 \end{equation*}
 
-with $\forall (i,j) \in \llbracket1,\dots,n\rrbracket^2: (\boldsymbol{\Sigma}_{\delta}(\boldsymbol{X}))_{i,j} =(\boldsymbol{\Sigma}^{\Phi_{\boldsymbol{\delta}}}_{\delta}(\boldsymbol{X}))_{i,j}= c_{\boldsymbol{\delta}}(\{\boldsymbol{x}_i,\boldsymbol{x}_j\})$. 
+with $\forall (i,j) \in \llbracket1,\dots,n\rrbracket^2: (\boldsymbol{\Sigma}_{\delta}(\boldsymbol{X}))_{i,j} =(\boldsymbol{\Sigma}^{\Phi_{\delta}}_{\delta}(\boldsymbol{X}))_{i,j}= c_{\delta}(\{\boldsymbol{x}_i,\boldsymbol{x}_j\})$. 
 %\PB{mais $\delta$ discrepance ne dépend pas de $\theta$ non ??}
 The likelihood in this particular case can be written as
 
 \begin{equation}
 \begin{split}
-\mathcal{L}^{F}(\boldsymbol{\theta},\boldsymbol{\beta}_{\boldsymbol{\delta}},\Phi_{\boldsymbol{\delta}};\boldsymbol{y}_{exp},\boldsymbol{X})=\frac{1}{(2\pi)^{n/2}|\boldsymbol{V}_{exp}(\boldsymbol{X})|^{1/2}}\exp\Bigg\{-\frac{1}{2}\Big(\boldsymbol{y}_{exp}-\boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta})\Big)^T\boldsymbol{V}_{exp}(\boldsymbol{X})^{-1}\\
+\mathcal{L}^{F}(\boldsymbol{\theta},\boldsymbol{\beta}_{\delta},\Phi_{\delta};\boldsymbol{y}_{exp},\boldsymbol{X})=\frac{1}{(2\pi)^{n/2}|\boldsymbol{V}_{exp}(\boldsymbol{X})|^{1/2}}\exp\Bigg\{-\frac{1}{2}\Big(\boldsymbol{y}_{exp}-\boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta})\Big)^T\boldsymbol{V}_{exp}(\boldsymbol{X})^{-1}\\
 \Big(\boldsymbol{y}_{exp}-\boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta})\Big)\Bigg\}.
 \end{split}
 \label{eq:LikelihoodQuick2}
 \end{equation}
 
-This likelihood is relative to Model $\mathcal{M}_3$ (\EqRef{eq:M3}). For the specific case, where no discrepancy is considered (corresponding to $\mathcal{M}_1$ \EqRef{eq:model1}) the likelihood can be written in a similar way but with $\boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta})= f_c(\boldsymbol{X},\boldsymbol{\theta})$ and $\boldsymbol{V}_{exp}(\boldsymbol{X})=\sigma_{err}^2\boldsymbol{I}_n$. Note that the covariance matrix depends only on $\boldsymbol{\sigma_{err}}^2$. It implies that if we seek to estimate the \posterior density on $\boldsymbol{\theta}$ (in a Bayesian framework), this covariance term is superfluous.
+This likelihood is relative to Model $\mathcal{M}_3$ (\EqRef{eq:M3}). For the specific case, where no discrepancy is considered (corresponding to $\mathcal{M}_1$ \EqRef{eq:model1}) the likelihood can be written in a similar way but with $\boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta})= f_c(\boldsymbol{X},\boldsymbol{\theta})$ and $\boldsymbol{V}_{exp}(\boldsymbol{X})=\sigma_{err}^2\boldsymbol{I}_n$. Note that the covariance matrix depends only on $\sigma_{err}^2$. It implies that if we seek to estimate the \posterior density on $\boldsymbol{\theta}$ (in a Bayesian framework), this covariance term is superfluous.\newline
 
 
 Then the likelihood can be rewritten in an simpler way\hc
@@ -559,12 +556,12 @@ multiple likelihoods can be set up. For the theoretical development, we will con
 %%%%%%%%%%%%%%%%%%%    Full likelihood
 
 The first likelihood useful in estimation is the full likelihood. This one concerns the distribution of all collected data ($\boldsymbol{y}^T=(\boldsymbol{y}_{exp}^T,\boldsymbol{y}_c^T)$). That means, we are interested in estimating the parameters of the distribution $\pi(\boldsymbol{y}|\boldsymbol{\theta},\boldsymbol{\beta},\Phi,\sigma_{err}^2;\boldsymbol{X},\boldsymbol{D})$ which is Gaussian.
-The expectations can be written from both expectancies of $\pi(\boldsymbol{y}_{exp}|\boldsymbol{\theta},\boldsymbol{\beta},\Phi,\sigma_{err}^2;\boldsymbol{X})$ and $\pi(\boldsymbol{y}_c|\boldsymbol{\theta},\boldsymbol{\beta}_S,\Phi_S;\boldsymbol{X})$.
+The expectations can be written from both expectancies of $\pi(\boldsymbol{y}_{exp}|\boldsymbol{\theta},\boldsymbol{\beta},\Phi,\sigma_{err}^2;\boldsymbol{X})$ and $\pi(\boldsymbol{y}_c|\boldsymbol{\theta},\boldsymbol{\beta}_S,\Phi_S;\boldsymbol{D})$.
 
 \begin{equation}
 \begin{cases}
-    \mathbb{E}[\boldsymbol{y}_c|\boldsymbol{\beta}_S;\boldsymbol{D}]= \boldsymbol{m}_c^{\boldsymbol{\beta}_S}(\boldsymbol{D})= \boldsymbol{m}_c(\boldsymbol{D}) = {\boldsymbol{H}_S}(\boldsymbol{D})\boldsymbol{\beta}_S\\
-\mathbb{E}[\boldsymbol{y}_{exp}|\boldsymbol{\theta},\boldsymbol{\beta};\boldsymbol{X}]= \boldsymbol{m}_{exp}^{\boldsymbol{\beta}}(\boldsymbol{X},\boldsymbol{\theta}) = \boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta}) = {\boldsymbol{H}_S}(\boldsymbol{X},\boldsymbol{\theta}) \boldsymbol{\beta}_S + {\boldsymbol{H}_{\boldsymbol{\delta}}}(\boldsymbol{X})\boldsymbol{\beta}_{\boldsymbol{\delta}}
+    \mathbb{E}[\boldsymbol{y}_c|\boldsymbol{\beta}_S;\boldsymbol{D}]= \boldsymbol{m}_S^{\boldsymbol{\beta}_S}(\boldsymbol{D})= \boldsymbol{m}_S(\boldsymbol{D}) = {\boldsymbol{H}_S}(\boldsymbol{D})\boldsymbol{\beta}_S\\
+\mathbb{E}[\boldsymbol{y}_{exp}|\boldsymbol{\theta},\boldsymbol{\beta};\boldsymbol{X}]= \boldsymbol{m}_{exp}^{\boldsymbol{\beta}}(\boldsymbol{X},\boldsymbol{\theta}) = \boldsymbol{m}_{exp}(\boldsymbol{X},\boldsymbol{\theta}) = {\boldsymbol{H}_S}(\boldsymbol{X},\boldsymbol{\theta}) \boldsymbol{\beta}_S + {\boldsymbol{H}_{\delta}}(\boldsymbol{X})\boldsymbol{\beta}_{\delta}
 \end{cases}
 \label{eq:ExpPartialLikelihood}
 \end{equation}
@@ -607,7 +604,7 @@ The variance matrix now includes the covariance functions of the discrepancy and
 where \begin{itemize}
 \item $\forall (i,j) \in \llbracket1,\dots,n\rrbracket^2: (\boldsymbol{\Sigma}_{exp,exp}(\boldsymbol{X},\boldsymbol{\theta}))_{i,j}=c_S\{(\boldsymbol{x}_i,\boldsymbol{\theta}),(\boldsymbol{x}_j,\boldsymbol{\theta})\}$,
 \item $\forall (i,j) \in \llbracket1,\dots,n\rrbracket\times\llbracket1,\dots,N\rrbracket: (\boldsymbol{\Sigma}_{exp,c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D}))_{i,j}=c_S\{(\boldsymbol{x}_i,\boldsymbol{\theta}_i),(\boldsymbol{x}_j^D,\boldsymbol{\tau}_j^D)\}$,
-\item $\forall (i,j)\in\llbracket1,\dots,n\rrbracket^2: (\boldsymbol{\Sigma}_{\delta}(\boldsymbol{X}))_{i,j}=c_{\boldsymbol{\delta}}\{(\boldsymbol{x}_i,\boldsymbol{x}_j)\}$,
+\item $\forall (i,j)\in\llbracket1,\dots,n\rrbracket^2: (\boldsymbol{\Sigma}_{\delta}(\boldsymbol{X}))_{i,j}=c_{\delta}\{(\boldsymbol{x}_i,\boldsymbol{x}_j)\}$,
 \item $\forall (i,j)\in \llbracket1,\dots,N\rrbracket^2: (\boldsymbol{\Sigma}_{c,c}(\boldsymbol{D}))_{i,j}=c_S\{(\boldsymbol{x}_i^D,\boldsymbol{\tau}_i^D),(\boldsymbol{x}_j^D,\boldsymbol{\tau}_j^D)\}$. \newline
 \end{itemize}
 \end{sloppypar}
@@ -622,11 +619,7 @@ As a reminder $\boldsymbol{D}$ is the DOE set up to build the surrogate and is d
 \label{eq:FullLikelihood}
 \end{equation}
 
-The particular cases of \citet{bayarri2007} and \citet{higdon2004} a zero mean for the discrepancy is considered. 
-% where the mean of the discrepancy is zero, requires a little more calculation. 
-% Indeed if the mean function of the discrepancy is zero, the expectation expressed above needs to be changed and the term 
-%$\boldsymbol{H}_2(D_{exp})$ replaced by $0$.
-Under this condition, we have $\boldsymbol{m}_{\boldsymbol{y}}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})=\begin{pmatrix}
+\citet{bayarri2007,higdon2004} advocate, in this particular case, to consider for the discrepancy a zero Gaussian process mean. Under this condition, we have $\boldsymbol{m}_{y}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})=\begin{pmatrix}
 \boldsymbol{H}_S(\boldsymbol{X},\boldsymbol{\theta})\\
 \boldsymbol{H}_S(\boldsymbol{D})
 \end{pmatrix}\boldsymbol{\beta}_S $ and the other terms remain the same. For the model $\mathcal{M}_2$ where a surrogate is used without any discrepancy \citep{cox2001}, the expectation becomes\hc
@@ -653,7 +646,7 @@ where covariances matrices are the same as defined before.\newline
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Partial likelihood
 
-The estimation can be separate into different steps where the partial likelihood (Equation (\ref{eq:PartialLikelihood})) could be useful.
+The estimation can be separated into different steps where the partial likelihood (Equation (\ref{eq:PartialLikelihood})) could be useful.
 This one only concerns simulated data and the corresponding surrogate.
 The partial likelihoods of the model $\mathcal{M}_2$ and $\mathcal{M}_4$ are then the same.
 That means we are only interesting in estimating the distribution $\pi(\boldsymbol{\beta}_S,\Phi_S|\boldsymbol{y}_c)$ where $\Phi_S=\{\sigma_S^2,\boldsymbol{\psi}_S\}$. The expectation can be obtained by considering only the mean function of the surrogate
@@ -671,7 +664,7 @@ where $\forall (i,j)\in [1,\dots,N]^2: (\boldsymbol{\Sigma}_{c,c}(\boldsymbol{D}
 \label{eq:PartialLikelihood}
 \end{equation}
 
-As the other model introduced by \citet{higdon2004} and \citet{bayarri2007} only deals with changes on the discrepancy, the partial likelihood remains identical as the one for the model in \citet{bayarri2007}. \newline
+%As the other model introduced by \citet{higdon2004} and \citet{bayarri2007} only deals with changes on the discrepancy, the partial likelihood remains identical as the one for the model in \citet{bayarri2007}. \newline
 
 
 %%%%%%%%%%%%%%%%%%%% Conditional distribution
@@ -689,7 +682,7 @@ From what has been introduced before, one can write the conditional distribution
 \boldsymbol{\Sigma}_{exp,c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})^T & \boldsymbol{\Sigma}_{c,c}(\boldsymbol{D})
 \end{pmatrix}\Bigg)\\
 \end{equation*}
-where $\boldsymbol{m}_c$ and $\boldsymbol{m}_{exp}$ are defined equation (\ref{eq:ExpPartialLikelihood}) and covariance matrices defined above before equation (\ref{eq:FullLikelihood}). Then,
+where $\boldsymbol{m}_c$ and $\boldsymbol{m}_{exp}$ are defined Equation (\ref{eq:ExpPartialLikelihood}) and covariance matrices defined above before equation (\ref{eq:FullLikelihood}). Then,
 \begin{equation*}
 \boldsymbol{y}_{exp}|\boldsymbol{y}_c\sim\mathcal{N}(\boldsymbol{\mu}_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D}),\boldsymbol{\Sigma}_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D}))
 \end{equation*}
@@ -708,14 +701,14 @@ The conditional likelihood can then be written as\hc
 
 \begin{equation}
 \begin{split}
-\mathcal{L}^C(\boldsymbol{\theta},\boldsymbol{\beta}_{\boldsymbol{\delta}},\Phi_{\boldsymbol{\delta}};\boldsymbol{\beta}_S,\Phi_S,\boldsymbol{y}_{exp}|\boldsymbol{y}_c,\boldsymbol{X},\boldsymbol{D}) \propto &|\Sigma_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})|^{-1/2}\\ &\exp\Big\{-\frac{1}{2}(\boldsymbol{y}_{exp}-\mu_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D}))^T \Sigma_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})^{-1} \\ &(\boldsymbol{y}_{exp}-\mu_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D}))\Big\}.
+\mathcal{L}^C(\boldsymbol{\theta},\boldsymbol{\beta}_{\delta},\Phi_{\delta};\boldsymbol{\beta}_S,\Phi_S,\boldsymbol{y}_{exp}|\boldsymbol{y}_c,\boldsymbol{X},\boldsymbol{D}) \propto &|\Sigma_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})|^{-1/2}\\ &\exp\Big\{-\frac{1}{2}(\boldsymbol{y}_{exp}-\mu_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D}))^T \Sigma_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})^{-1} \\ &(\boldsymbol{y}_{exp}-\mu_{exp|c}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D}))\Big\}.
 \label{eq:conditionalLikelihood}
 \end{split}
 \end{equation}
 
 %%%%%%%%%%%%%%% Integrated likelihood
 
-Usually in a Bayesian framework, $\boldsymbol{\beta}$ is distributed according to a Jeffreys \textit{prior}. In this case, $\pi(\boldsymbol{\beta})=\pi(\boldsymbol{\beta}_S,\boldsymbol{\beta}_{\boldsymbol{\delta}})\propto 1$ and we can integrate out $\boldsymbol{\beta}$ from the full likelihood expressed by \EqRef{eq:FullLikelihood}.
+Usually in a Bayesian framework, $\boldsymbol{\beta}$ is distributed according to a Jeffreys \textit{prior}. In this case, $\pi(\boldsymbol{\beta})=\pi(\boldsymbol{\beta}_S,\boldsymbol{\beta}_{\delta})\propto 1$ and we can integrate out $\boldsymbol{\beta}$ from the full likelihood expressed by \EqRef{eq:FullLikelihood}.
 \iffalse
 {\color{blue}{
 \begin{equation}
@@ -743,10 +736,10 @@ The estimation is made in two steps. The first step is to maximize the partial l
 These methods are applied in \citet{cox2001} for $\mathcal{M}_2$. For models $\mathcal{M}_3$ and $\mathcal{M}_4$, \citep{wong2017} have developed a new approach which deals with the identifiability problem when the discrepancy is added in this framework. Then, the estimation part is realized in two times. The first step consists in estimating $\hat{\boldsymbol{\theta}}$ in 
 
 \begin{equation}
-\hat{\boldsymbol{\theta}}= \underset{\boldsymbol{\theta}\in\mathcal{Q}}{argmin} \ M_n(\boldsymbol{\theta}) \quad with \quad M_n(\boldsymbol{\theta})=\frac{1}{n}\sum_{i=1}^n \{\boldsymbol{y_{exp_i}}-F(\boldsymbol{x_i},\boldsymbol{\theta})\}^2.
+\hat{\boldsymbol{\theta}}= \underset{\boldsymbol{\theta}\in\mathcal{Q}}{argmin} \ M_n(\boldsymbol{\theta}) \quad with \quad M_n(\boldsymbol{\theta})=\frac{1}{n}\sum_{i=1}^n \{\boldsymbol{y_{exp_i}}-F(\boldsymbol{x_i},\boldsymbol{\theta})\}^2,
 \end{equation}
 
-Then the estimation of the discrepancy is done by applying a nonparametric regression to the data $\{\boldsymbol{x_i},\boldsymbol{y_{exp_i}}-F(x_i,\hat{\boldsymbol{\theta}})\}_{i=1,\dots,n}$. Any nonparametric regressions are subject to offer working alternatives with this method which shows an interesting flexibility of the approach.\newline 
+where \citet{cox2001} propose to get this minimum numerically. Then the estimation of the discrepancy is done by applying a nonparametric regression to the data $\{\boldsymbol{x_i},\boldsymbol{y_{exp_i}}-F(x_i,\hat{\boldsymbol{\theta}})\}_{i=1,\dots,n}$. Any nonparametric regressions are subject to offer working alternatives with this method which shows an interesting flexibility of the approach.\newline 
 
 
 %minimize the residual sum of squares or even the root mean square error:
@@ -762,7 +755,7 @@ Then the estimation of the discrepancy is done by applying a nonparametric regre
 
 \noindent Under the Bayesian framework, there are several \textit{ad hoc} short cuts to find estimators without evaluating and sampling from the entire joint 
 \posterior distribution of the unknowns. The idea behind is to consider a \prior distribution on each parameters which we will separate into two different categories. The first category represents the nuisance parameters
-which are typically $\{\sigma_S^2,\sigma_{\boldsymbol{\delta}}^2,\boldsymbol{\psi}_S,\boldsymbol{\psi}_{\boldsymbol{\delta}}\}$, $\sigma_{err}^2$ and $\boldsymbol{\beta}$. Those parameters are added because of the modeling.
+which are typically $\{\sigma_S^2,\sigma_{\delta}^2,\boldsymbol{\psi}_S,\boldsymbol{\psi}_{\delta}\}$, $\sigma_{err}^2$ and $\boldsymbol{\beta}$. Those parameters are added because of the modeling.
 %\PB{ne faut il pas mettre $\beta_1$ ?? si processus ? }.
 The second category regroups the other parameters to estimate such as $\boldsymbol{\theta}$. We will work on the two generic models
 $\mathcal{M}_3$ and $\mathcal{M}_{4}$ with the corresponding sets of parameters to estimate.\newline
@@ -770,7 +763,7 @@ $\mathcal{M}_3$ and $\mathcal{M}_{4}$ with the corresponding sets of parameters 
 The difference between both models lies in the fact that for $\mathcal{M}_3$ the code can be used as such and for $\mathcal{M}_4$ a surrogate is used to avoid running the code. In the further developments, the parameters to estimate will be relative to $\mathcal{M}_4$ and for going back to $\mathcal{M}_3$ it will be just necessary to omit the nuisance parameters relative to the surrogate. \newline
 
 
-As introduced before, it is common to take a weakly informative \prior on $\boldsymbol{\beta}$ such as $\pi(\boldsymbol{\beta}_S,\boldsymbol{\beta}_{\boldsymbol{\delta}})\propto 1$. It is also reasonable to suppose that \prior information about $\boldsymbol{\theta}$ is independent from the \prior information about $\Phi$ and $\boldsymbol{\beta}$. The \prior density can then be expressed as
+As introduced before, it is common to take a weakly informative \prior on $\boldsymbol{\beta}$ such as $\pi(\boldsymbol{\beta}_S,\boldsymbol{\beta}_{\delta})\propto 1$. It is also reasonable to suppose that \prior information about $\boldsymbol{\theta}$ is independent from the \prior information about $\Phi$ and $\boldsymbol{\beta}$. The \prior density can then be expressed as
 
 \begin{equation}
 \pi(\boldsymbol{\theta},\boldsymbol{\beta},\Phi) = \pi(\boldsymbol{\theta}) \times 1 \times \pi(\Phi).
@@ -796,7 +789,7 @@ For a full Bayesian analysis, integrating $\Phi$ out is needed to finally get $\
 
 
 However, \citet{kennedy2001} and \citet{bayarri2007} have chosen an estimation in separate steps. This method called modularization by \citet{liu2009} makes inference simpler but gives only a convenient approximation of the exact \textit{posterior} (that separates the components of parameter $\Phi$ for each Gaussian Process involved). The first step consists in maximizing the likelihood $\mathcal{L}^M(\boldsymbol{\beta}_S,\Phi_S|\boldsymbol{y}_c;\boldsymbol{D})$ (Equation (\ref{eq:PartialLikelihood})) to get the maximum likelihood estimates (MLE) $\hat{\boldsymbol{\beta}}_S$ and $\hat{\Phi}_S$ of $\boldsymbol{\beta}_S$ and $\Phi_S$.
-In the second stage, these estimators are plugged into the conditional likelihood $\mathcal{L}^C(\boldsymbol{\theta},\boldsymbol{\beta}_{\boldsymbol{\delta}},\Phi_{\boldsymbol{\delta}};\boldsymbol{\beta}_S,\Phi_S,\boldsymbol{y}_{exp}|\boldsymbol{y}_c,\boldsymbol{X},\boldsymbol{D})$ (equation \ref{eq:conditionalLikelihood}) from which the posterior density is sampled with MCMC methods. Note that this last step is the only one that differs from SMLE method from \citet{cox2001}.
+In the second stage, these estimators are plugged into the conditional likelihood $\mathcal{L}^C(\boldsymbol{\theta},\boldsymbol{\beta}_{\delta},\Phi_{\delta};\boldsymbol{\beta}_S,\Phi_S,\boldsymbol{y}_{exp}|\boldsymbol{y}_c,\boldsymbol{X},\boldsymbol{D})$ (Equation \ref{eq:conditionalLikelihood}) from which the posterior density is sampled with MCMC methods. Note that this last step is the only one that differs from SMLE method from \citet{cox2001}.
 \newline
 
 
@@ -839,7 +832,7 @@ when we integrate this equation regarding to $\boldsymbol{\beta}_2$ we can get (
 
 where $\hat{\boldsymbol{\beta}_2}=\boldsymbol{W}_2\boldsymbol{H}_2(D_{exp})\boldsymbol{V}^{-1}(\boldsymbol{y}-\hat{f_c}(D_{exp}))$, $\hat{f_c}(D_{exp})=\mathbb{E}[f_c(\boldsymbol{x}_i,\boldsymbol{\theta})|\boldsymbol{y}_c] \ \ \forall i \in [1,\dots,n]$ and $\boldsymbol{W}_2=\Big(\boldsymbol{H}_2(D_{exp})^T\boldsymbol{V}^{-1}\boldsymbol{H}_2(D_{exp})\Big)^{-1}$.} \newline
 \fi
-Another alternative method is developed in \citet{bayarri2007} where ``virtual'' residuals are studied ($\boldsymbol{y}_{exp}-f_c(\boldsymbol{X},\boldsymbol{\theta}_{prior})$ where $\boldsymbol{\theta}_{prior}$ is a prior value on $\boldsymbol{\theta}$). Then the \posterior densities of $\sigma_{\boldsymbol{\delta}}^2$ and $\sigma_{err}^2$ are sampled with a Gibbs algorithm based on conditional complete distribution. Practically, this estimation is very time consuming. Indeed, the Gibbs sampler will compute at each iteration the full likelihood which contains a $(n+N)\times(n+N)$ matrix to invert.\newline
+Another alternative method is developed in \citet{bayarri2007} where ``virtual'' residuals are studied ($\boldsymbol{y}_{exp}-f_c(\boldsymbol{X},\boldsymbol{\theta}_{prior})$ where $\boldsymbol{\theta}_{prior}$ is a prior value on $\boldsymbol{\theta}$). Then the \posterior densities of $\sigma_{\delta}^2$ and $\sigma_{err}^2$ are sampled with a Gibbs algorithm based on conditional complete distribution. Practically, this estimation is very time consuming. Indeed, the Gibbs sampler will compute at each iteration the full likelihood which contains a $(n+N)\times(n+N)$ matrix to invert.\newline
 
 \iffalse
 The aim of calibration is to find the ``best'' tuning parameters to mimic the physical system. Actually, once $\Phi$ is estimated by $\hat{\Phi}$ 
@@ -1205,7 +1198,7 @@ This article focuses on code calibration which can be a very interesting way to 
 
 In a case where input variables are correlated, additional issues of DOE appear when the surrogate is fitted. To cope with these issues we made recourse to a PCA. The design of numerical experiments could have been enhanced by using adaptive designs proposed by \citet{damblin2018}. \newline
 
-The hypotheses made for the application case can also be discussed. For example setting $\rho$ and $m_{\boldsymbol{\delta}}(.)$ to 1 and 0 is a preliminaty decision which goes along with calibration. We do not want to quantify the bias because the aim of calibration is to find the parameter value to compensate that bias. If one's goal is to check where the uncertainty goes, other hypotheses could have been made. For example, a non zero discrepancy expectation would quantify the mean of the gap between the code and the experiments. In calibration we want this gap to be taken into account in the code through adjusted $\boldsymbol{\theta}$.\newline
+The hypotheses made for the application case can also be discussed. For example setting $\rho$ and $m_{\delta}(.)$ to 1 and 0 is a preliminaty decision which goes along with calibration. We do not want to quantify the bias because the aim of calibration is to find the parameter value to compensate that bias. If one's goal is to check where the uncertainty goes, other hypotheses could have been made. For example, a non zero discrepancy expectation would quantify the mean of the gap between the code and the experiments. In calibration we want this gap to be taken into account in the code through adjusted $\boldsymbol{\theta}$.\newline
 
 %The quantity of interest can also be a discussion point. If we are interested in how much the plant is going to produce over its lifetime, it is maybe more interesting to directly look into the total energy produced. In our case, the code simulates the instantaneous power. It seems unfair to establish a comparison between both quantities. We have seen that with the surrogate and the discrepancy ($\mathcal{M}_4$) the predicted energy is closer to the real value than with the code. The Gaussian processes has smoothen the phenomenons and presents better results after integration. \newline
 
