@@ -337,7 +337,7 @@ The results of calibration for this application case are detailed in Section \re
 
 \section{Calibration through statistical models \label{sec:calibration}}
 
-Calibration intends to find the ``best fitting'' parameters of a computational code, in order to minimize the difference between the output and the experiments. The measurement error is also unknown and has to be estimated as well as the parameters. It can be used in two cases. In a forecasting context \citep{craig2001}, where the calibrated code on data collected on site can be used to compute the behavior of the power plant over the next time period. But also, in a prediction context, where data from an experimental stand are used to predict the behavior of a non-existing stand (assuming they have the same features). \newline
+Calibration intends to find the ``best fitting'' parameters of a computational code, in order to minimize the difference between the output and the experiments. The variance of the measurement error is also unknown and has to be estimated as well as the parameters but will be considered as a nuisance parameter. It can be used in two cases. In a forecasting context \citep{craig2001}, where the calibrated code on data collected on site can be used to compute the behavior of the power plant over the next time period. But also, in a prediction context, where data from an experimental stand are used to predict the behavior of a non-existing stand (assuming they have the same features). \newline
 
 A simple way to express calibration is to write down a first and straightforward model. The computational code is set up to entirely replace the physical system. Intuitively, we can assume that $\forall \boldsymbol{x} \in \mathcal{H}, \zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta})$ for some well-chosen $\boldsymbol{\theta}$, which leads to the following equation\hc 
 
@@ -894,7 +894,7 @@ T_{e_i}\\
 
 The Gaussian processes emulated from this method reveal to work much better. We also could have developed the method with an adaptive numerical design (see \citep{damblin2018}) to the correlated input variables. \newline
 
-To position the application case to a time consuming context, a limited number of experiments is allowed for the DOE which establishes the surrogate. We will limit the number of code calls to $50$ to investigate the time consuming situation and compare it to other situations more favorables. This number of experiments is taken when computer codes are extremely time consuming. To compare the quality of $\mathcal{M}_2$ with a DOE of $50$ points, we chose to compare it with a model $\mathcal{M}_2$ established with a DOE of $100$ points.
+To position the application case to a time consuming context, a limited number of experiments is allowed for the DOE which establishes the surrogate. We will limit the number of code calls to $50$ to investigate the time consuming situation and compare it to other situations more favorables. This number of experiments is taken when computer codes are extremely time consuming. To compare the quality of $\mathcal{M}_2$ with a DOE of $50$ points, we chose to compare it with a model $\mathcal{M}_2$ established with a DOE of $100$ points. \newline
 
 \begin{table}[htbp!]
 \centering
@@ -947,7 +947,7 @@ r_S\{(\boldsymbol{x},\boldsymbol{\theta}),(\boldsymbol{x}^*,\boldsymbol{\theta}^
 
 where $||\bullet||_2$ stands for the Euclidean norm.\newline
 % We have then added two parameters ($\sigma_1^2$ and $\boldsymbol{\psi}_1$) compared to the first model. 
-In this case, five parameters have to be estimated\hc $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$ and $\boldsymbol{\psi}_S$. \newline
+In this case, six parameters have to be estimated\hc $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$ and $\boldsymbol{\psi}_S$. \newline
 
 \subsubsection{The third model $\mathcal{M}_3$}
 
@@ -964,15 +964,15 @@ vector parameter $\boldsymbol{\theta}$. We do not want any compensation into any
 % \end{equation*} 
 
 \begin{equation}
-r_{\boldsymbol{\delta}}(\boldsymbol{x},\boldsymbol{x}^*)= \Big(1+\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\boldsymbol{\delta}}}+\frac{5||\boldsymbol{x}-\boldsymbol{x}^*||_2^2}{3\boldsymbol{\psi}_{\boldsymbol{\delta}}^2}\Big)\exp\Big\{-\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\boldsymbol{\delta}}}\Big\}.
+r_{\delta}(\boldsymbol{x},\boldsymbol{x}^*)= \Big(1+\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\delta}}+\frac{5||\boldsymbol{x}-\boldsymbol{x}^*||_2^2}{3\boldsymbol{\psi}_{\delta}^2}\Big)\exp\Big\{-\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\delta}}\Big\}.
 \label{eq:Matern52Ker}
 \end{equation}
 
-In this case, there are also five parameters to estimate that are $\eta$, $\mu_t$, $a_r$ $\sigma_{\boldsymbol{\delta}}^2$, $\boldsymbol{\psi}_{\boldsymbol{\delta}}$ and $\sigma_{err}^2$.
+In this case, there are also six parameters to estimate that are $\eta$, $\mu_t$, $a_r$ $\sigma_{\delta}^2$, $\boldsymbol{\psi}_{\delta}$ and $\sigma_{err}^2$.
 
 \subsubsection{The fourth model $\mathcal{M}_4$}
 
-This part focuses on a time consuming code with discrepancy. This model uses the same surrogate and discrepancy defined above. The two correlation function for the surrogate and the discrepancy were chosen with different regularity in order to distinguish the two Gaussian processes. It seems relevant to assume that the discrepancy is smoother than the code. That is why a Matérn correlation function is chosen for the code and a Gaussian correlation function for the discrepancy. In this case seven parameters need to be estimated which are $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$, $\boldsymbol{\psi}_S$, $\sigma_{\boldsymbol{\delta}}^2$ and $\boldsymbol{\psi}_{\boldsymbol{\delta}}$.
+This part focuses on a time consuming code with discrepancy. This model uses the same surrogate and discrepancy defined above. The two correlation function for the surrogate and the discrepancy were chosen with different regularity in order to distinguish the two Gaussian processes. It seems relevant to assume that the discrepancy is smoother than the code. That is why a Matérn correlation function is chosen for the code and a Gaussian correlation function for the discrepancy. In this case eight parameters need to be estimated which are $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$, $\boldsymbol{\psi}_S$, $\sigma_{\delta}^2$ and $\boldsymbol{\psi}_{\delta}$.
 %Referring to the equation \ref{eq:M3p} of $\mathcal{M}_4$ and considering the same hypotheses made in previous models, the equation that represents this case would be:
 
 % \begin{equation*}
