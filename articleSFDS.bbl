@@ -12,6 +12,12 @@ Bachoc, F., Bois, G., Garnier, J., and Martinez, J.-M. (2014).
   kriging.
 \newblock {\em Nuclear Science and Engineering}, 176(1):81--97.
 
+\bibitem[Baudin et~al., 2017]{baudin2017}
+Baudin, M., Dutfoy, A., Iooss, B., and Popelin, A.-L. (2017).
+\newblock Openturns: An industrial software for uncertainty quantification in
+  simulation.
+\newblock {\em Handbook of Uncertainty Quantification}, pages 2001--2038.
+
 \bibitem[Bayarri et~al., 2007]{bayarri2007}
 Bayarri, M.~J., Berger, J.~O., Paulo, R., Sacks, J., Cafeo, J.~A., Cavendish,
   J., Lin, C.-H., and Tu, J. (2007).
@@ -89,11 +95,6 @@ Higdon, D., Kennedy, M., Cavendish, J.~C., Cafeo, J.~A., and Ryne, R.~D.
   prediction.
 \newblock {\em SIAM Journal on Scientific Computing}, 26(2):448--466.
 
-\bibitem[Jones et~al., 1998]{jones1998efficient}
-Jones, D.~R., Schonlau, M., and Welch, W.~J. (1998).
-\newblock Efficient global optimization of expensive black-box functions.
-\newblock {\em Journal of Global optimization}, 13(4):455--492.
-
 \bibitem[Kennedy and O’Hagan, 2001]{kennedy2001b}
 Kennedy, M. and O’Hagan, A. (2001).
 \newblock Supplementary details on bayesian calibration of computer. rap.
@@ -160,13 +161,6 @@ Roache, P.~J. (1998).
 Robert, C. (1996).
 \newblock {\em M{\'e}thodes de Monte Carlo par cha{\^\i}nes de Markov}.
 \newblock Economica.
-
-\bibitem[Rocquigny, 2009]{rocquigny2009quantifying}
-Rocquigny, E.~d. (2009).
-\newblock Quantifying uncertainty in an industrial approach: an emerging
-  consensus in an old epistemological debate.
-\newblock {\em SAPI EN. S. Surveys and Perspectives Integrating Environment and
-  Society}, (2.1).
 
 \bibitem[Roustant et~al., 2012]{roustant2012}
 Roustant, O., Ginsbourger, D., and Deville, Y. (2012).
