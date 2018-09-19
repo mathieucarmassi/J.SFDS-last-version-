@@ -1029,6 +1029,38 @@ The two other columns represent the third and the fourth models which have two m
 \end{center}
 \end{figure}
 
+
+\begin{figure}[htbp!]
+\begin{center}
+  \begin{tabular}{ccc}
+& $\mathcal{M}_2'$ & $\mathcal{M}_4'$ \\
+    \rotatebox{90}{ \hspace{3em} \footnotesize density}
+    &  \includegraphics[width=.2\textwidth]{figR/model2/after/densityEta.pdf}
+	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityEta.pdf}\\
+	&\multicolumn{2}{c}{$\eta$}\\
+	&&\\
+    \rotatebox{90}{ \hspace{3em} \footnotesize density}
+    &  \includegraphics[width=.2\textwidth]{figR/model2/after/densityMu.pdf}
+	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityMu.pdf}\\
+	&\multicolumn{2}{c}{$\mu_t$}\\
+	&&\\
+    \rotatebox{90}{ \hspace{3em} \footnotesize density}
+    &  \includegraphics[width=.2\textwidth]{figR/model2/after/densityAr.pdf}
+	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityAr.pdf}\\
+	&\multicolumn{2}{c}{$a_r$}\\
+	&&\\
+    \rotatebox{90}{ \hspace{3em} \footnotesize density}
+    &  \includegraphics[width=.2\textwidth]{figR/model2/after/densitySig.pdf}
+	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densitySig.pdf}\\
+	&\multicolumn{2}{c}{$\sigma_{err}^2$}\\
+  \end{tabular}
+\caption{Calibration results for $\mathcal{M}_2'$ and $\mathcal{M}_4'$ which uses the surrogate based on the sequential design.}
+\label{fig:calibrationSeq}
+\end{center}
+\end{figure}
+
+
+
 %\newpage
 
 Figure \ref{fig:comparisionDensities1} compares the results obtained (with the help of the \textbf{R} package CaliCo \citep{CaliCo}) 
@@ -1043,12 +1075,11 @@ For $\mathcal{M}_2$, $\mathcal{M}_3$ and $\mathcal{M}_4$ the MAP estimations of 
  
 From $\mathcal{M}_1$ to $\mathcal{M}_2$, a surrogate emulates the numerical code. Figure \ref{fig:comparisionDensities1} illustrates
 a bigger variance \textit{a posteriori} for the parameters densities of $\mathcal{M}_2$ than $\mathcal{M}_1$. Replacing the code by
-a surrogate had brought more uncertainty. Moreover, the densities for $\mathcal{M}_2$ appear to be out of step with $\mathcal{M}_1$.
+a surrogate, a low number of points, had brought more uncertainty. Moreover, the densities for $\mathcal{M}_2$ appear to be out of step with $\mathcal{M}_1$.
 Calibration behaves as if a bias has appeared with the surrogate. This is worth to note that using a surrogate not only increase the variance
 of the posterior distribution of the parameter $\boldsymbol{\theta}$ but may also change the mode. This is also observed when moving from
-$\mathcal{M}_3$ to $\mathcal{M}_4$.
-Adding the discrepancy (from $\mathcal{M}_1$ to $\mathcal{M}_3$ and from $\mathcal{M}_2$ to $\mathcal{M}_4$) has almost always reduced the variances
-of the posterior distributions.
+$\mathcal{M}_3$ to $\mathcal{M}_4$. This looks coherent with the results given Table \ref{tab:comparisonPG}, because the chosen surrogate with a small number of points is not a fairly good representation of the code. Calibration is, then, altered by the surrogate which does not represent well enough the numerical code. When one possesses a time consuming code, one must be careful to the quality of the surrogate. It depends mainly on the points chosen in the DOE and some adaptive design have been proposed in literature as \citet{damblin2018} for example. To compare a case where the surrogate would be better, we will consider an initial DOE of $150$ points and we will increase this initial DOE with $10$ points chose according to the algorithm in \citet{damblin2018}. The results are given Figure \ref{fig:calibrationSeq} and illustrate that the \textit{posterior} modes have become consistent with the ones for the models $\mathcal{M}_1$ and $\mathcal{M}_3$.
+Adding the discrepancy (from $\mathcal{M}_1$ to $\mathcal{M}_3$ and from $\mathcal{M}_2$ to $\mathcal{M}_4$) has almost always reduced the variances of the posterior distributions.
 \newline
 
 We also depict correlation between the parameters. As a matter of fact, a strong positive and linear correlation links every parameters ($\eta$, $\mu_t$ and $a_r$) with each other as illustrated Figure \ref{fig:corrPlot}. A strong correlation appears between $\mu_t$ and $a_r$. A lower, but still meaningful, correlation is also visible between $\eta$ and $\mu_r$, and $a_r$ and $\eta$.\newline
@@ -1095,19 +1126,21 @@ We also depict correlation between the parameters. As a matter of fact, a strong
 
 \begin{figure}[htbp!]
 \begin{center}
-  \begin{tabular}{ccc}
-&  $\mathcal{M}_3$ & $\mathcal{M}_4$ \\
+  \begin{tabular}{cccc}
+&  $\mathcal{M}_3$ & $\mathcal{M}_4$ & $\mathcal{M}_4'$ \\
     \rotatebox{90}{ \hspace{3em} \small density}
 	&  \includegraphics[width=.2\textwidth]{figR/model3/densitySigD.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/densitySigD.pdf}\\
-	&\multicolumn{2}{c}{$\sigma_{\boldsymbol{\delta}}^2$}\\
-	&&\\
+	&  \includegraphics[width=.2\textwidth]{figR/model4/densitySigD.pdf}
+	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densitySigD.pdf}\\
+	&\multicolumn{3}{c}{$\sigma_{\boldsymbol{\delta}}^2$}\\
+	&&&\\
     \rotatebox{90}{ \hspace{3em} \small density}
 	&  \includegraphics[width=.2\textwidth]{figR/model3/densityPsiD.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/densityPsiD.pdf}\\
+	&  \includegraphics[width=.2\textwidth]{figR/model4/densityPsiD.pdf}
+	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityPsiD.pdf}\\
 	&\multicolumn{2}{c}{$\psi_{\boldsymbol{\delta}}$}\\
   \end{tabular}   
-\caption{\textit{Prior} (in blue) and posterior (in red) densities of $\sigma_{\boldsymbol{\delta}}^2$ and $\psi_{\boldsymbol{\delta}}$ for $\mathcal{M}_3$ and $\mathcal{M}_4$.}
+\caption{\textit{Prior} (in blue) and posterior (in red) densities of $\sigma_{\boldsymbol{\delta}}^2$ and $\psi_{\boldsymbol{\delta}}$ for $\mathcal{M}_3$, $\mathcal{M}_4$ and $\mathcal{M}_4'$.}
 \label{fig:comparisionDensities2}
 \end{center}
 \end{figure}
@@ -1145,7 +1178,10 @@ RMSE of the instantaneous power ($W$) & 12.69 & 21.61 & 5.91 & 18.7 & 7.95 & 0 \
 
 The coverage rates for $\mathcal{M}_1$ and $\mathcal{M}_3$ corresponds to the chosen credibility level.
 However for $\mathcal{M}_2$ and $\mathcal{M}_4$ 
-the coverage rates are below this level.
+the coverage rates are below this level. As expected the coverage rates of $\mathcal{M}_2'$ and $\mathcal{M}_4'$
+
+
+
 This was expected since the coverage rates for the code emulation displayed in Table \ref{tab:comparisonPG} were below the fixed credibility level
 especially when the DOE had only $50$ points. We recall that these coverage rates only account for the surrogate error and not for the uncertainty
 on $\boldsymbol{\theta}$.
