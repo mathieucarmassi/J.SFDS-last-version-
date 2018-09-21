@@ -1170,9 +1170,9 @@ The Root Mean Square Error (RMSE) is also computed for the instantaneous power. 
 & $\mathcal{M}_1$ & $\mathcal{M}_2$ & $\mathcal{M}_3$ & $\mathcal{M}_4$ & $\mathcal{M}_2'$&  $\mathcal{M}_4'$ \\
 \hline
 \hline
-coverage rate at 90\% (in \%) & 91 & 32 & 87 & 23 & 54 & 0 \\
+coverage rate at 90\% (in \%) & 91 & 32 & 87 & 23 & 64 & 0 \\
 \hline
-RMSE of the instantaneous power ($W$) & 12.69 & 21.61 & 5.91 & 18.7 & 7.95 & 0 \\
+RMSE of the instantaneous power ($W$) & 12.69 & 21.61 & 5.91 & 18.7 & 15.42 & 0 \\
 \end{tabular}
 \end{table}
 
@@ -1198,34 +1198,34 @@ The fact that the models, encompassing a surrogate, produces worse results is ex
 
 %Overall, the model $\mathcal{M}_4$ has better results than the others. This conclusion can be explained by the fact that the surrogate tries to smooth the response of the code, and each time the surrogate is called, it reproduces an error. The discrepancy trends to counter this error. Very surprisingly, $\mathcal{M}_4$ does a better job than $\mathcal{M}_3$ (although the latter can freely access as many runs of the code as required). This might be explained because the Gaussian process used for simulating the discrepancy has a better matching association with other Gaussian processes. The code encounters a lot of fluctuations and as we can see Table \ref{tab:comparison}, the discrepancy has more trouble to estimate its code error (from $\mathcal{M}_1$ to $\mathcal{M}_3$) than the one from the surrogate (from $\mathcal{M}_1$ to $\mathcal{M}_3$). \newline
 
-The interest of calibration is to assess, in a better way, the error of a quantity of interest. 
-For example, Figure \ref{fig:ParamError}, we have introduced the $90\%$ \textit{priori} credibility interval. 
-After running calibration for each model, the results illustrate a decrease on this credibility interval (Figure \ref{fig:interestCalibration}).
-In the cases of $\mathcal{M}_3$ and $\mathcal{M}_4$, the \textit{posteriori} credibility interval  is mainly represented by the discrepancy .
+%The interest of calibration is to assess, in a better way, the error of a quantity of interest. 
+%For example, Figure \ref{fig:ParamError}, we have introduced the $90\%$ \textit{priori} credibility interval. 
+%After running calibration for each model, the results illustrate a decrease on this credibility interval (Figure \ref{fig:interestCalibration}).
+%In the cases of $\mathcal{M}_3$ and $\mathcal{M}_4$, the \textit{posteriori} credibility interval  is mainly represented by the discrepancy .
 
-\begin{figure}[htbp!]
-\begin{center}
+%\begin{figure}[htbp!]
+%\begin{center}
 %   \begin{tabular}{cc}
 %   \rotatebox{90}{ \hspace{4em} \small density}
 % 	&  \includegraphics[width=.35\textwidth]{figR/model1/densityAr.pdf}\\
 %     \end{tabular}
-    \begin{tabular}{cccccc}
-    & A \textit{priori} & $\mathcal{M}_1$ & $\mathcal{M}_2$ & $\mathcal{M}_3$
-    & $\mathcal{M}_4$\\
-	\rotatebox{90}{ \hspace{0.5em} \small Power in $W$}
-    & \includegraphics[width=.17\textwidth]{figR/credInterPrior.pdf}
-    & \includegraphics[width=.17\textwidth]{figR/model1Output.pdf}
-    & \includegraphics[width=.17\textwidth]{figR/model2Output.pdf}
-    & \includegraphics[width=.17\textwidth]{figR/model3Output.pdf}
-    & \includegraphics[width=.17\textwidth]{figR/model4Output.pdf}
-    \\
-    & \multicolumn{5}{c}{Time in hour}\\
-	&&\\
-  \end{tabular}   
-\caption{The $90\%$ credibility interval a priori is showed on the first panel against the $90\%$ credibility interval a posteriori for each models.}
-\label{fig:interestCalibration}
-\end{center}
-\end{figure}
+%    \begin{tabular}{cccccc}
+%    & A \textit{priori} & $\mathcal{M}_1$ & $\mathcal{M}_2$ & $\mathcal{M}_3$
+%    & $\mathcal{M}_4$\\
+%	\rotatebox{90}{ \hspace{0.5em} \small Power in $W$}
+%    & \includegraphics[width=.17\textwidth]{figR/credInterPrior.pdf}
+%    & \includegraphics[width=.17\textwidth]{figR/model1Output.pdf}
+%    & \includegraphics[width=.17\textwidth]{figR/model2Output.pdf}
+%   & \includegraphics[width=.17\textwidth]{figR/model3Output.pdf}
+%    & \includegraphics[width=.17\textwidth]{figR/model4Output.pdf}
+%    \\
+%    & \multicolumn{5}{c}{Time in hour}\\
+%	&&\\
+%  \end{tabular}   
+%\caption{The $90\%$ credibility interval a priori is showed on the first panel against the $90\%$ credibility interval a posteriori for each models.}
+%\label{fig:interestCalibration}
+%\end{center}
+%\end{figure}
 
 
 \section{Conclusion and discussion}
