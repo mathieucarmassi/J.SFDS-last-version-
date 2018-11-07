@@ -974,7 +974,7 @@ In this case, there are also six parameters to estimate that are $\eta$, $\mu_t$
 
 \subsubsection{The fourth model $\mathcal{M}_4$}
 
-This part focuses on a time consuming code with discrepancy. This model uses the same surrogate and discrepancy defined above. The two correlation function for the surrogate and the discrepancy were chosen with different regularity in order to distinguish the two Gaussian processes. It seems relevant to assume that the discrepancy is smoother than the code. That is why a Matérn correlation function is chosen for the code and a Gaussian correlation function for the discrepancy. In this case eight parameters need to be estimated which are $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$, $\boldsymbol{\psi}_S$, $\sigma_{\delta}^2$ and $\boldsymbol{\psi}_{\delta}$.
+This part focuses on a time consuming code with discrepancy. This model uses the same surrogate and discrepancy defined above. The two correlation functions for the surrogate and the discrepancy were chosen with different regularity in order to distinguish the two Gaussian processes. It seems relevant to assume that the discrepancy is smoother than the code. That is why a Matérn correlation function is chosen for the code and a Gaussian correlation function for the discrepancy. In this case eight parameters need to be estimated which are $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$, $\boldsymbol{\psi}_S$, $\sigma_{\delta}^2$ and $\boldsymbol{\psi}_{\delta}$.
 %Referring to the equation \ref{eq:M3p} of $\mathcal{M}_4$ and considering the same hypotheses made in previous models, the equation that represents this case would be:
 
 % \begin{equation*}
@@ -990,39 +990,43 @@ In our Bayesian framework, the choice of an estimation by modularization is made
 
 \subsection{Results}
 
-
+Figure \ref{fig:comparisionDensities1} compares the results obtained (with the help of the \textbf{R} package CaliCo \citep{CaliCo}) 
+for $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model. In each case, the MCMC chains converge. 
+For the first model, a strong disagreement has appeared between the \textit{prior} and \textit{posterior} densities for $\sigma_{err}^2$. 
+The Maximum A Posteriori (MAP) of $\sigma_{err}^2$'s density, for $\mathcal{M}_1$,
+ is around $6500\ W^2$. That makes a standard deviation of $80.6W$ which is too high and has no physical trustworthiness. 
+For $\mathcal{M}_2$, $\mathcal{M}_3$ and $\mathcal{M}_4$ the MAP estimations of $\sigma_{err}^2$'s densities seem to be coherent with physics. The addition of the discrepancy between $\mathcal{M}_1$ and $\mathcal{M}_3$ then between $\mathcal{M}_2$ and $\mathcal{M}_4$ depicts a correlation (an error structure) in $\boldsymbol{y}_e$. When, no code error is applied, the variance from this covariance matrix is added to the variance of the measurement error. \newline
 
 \begin{figure}[htbp!]
 \begin{center}
   \begin{tabular}{ccccc}
-&  $\mathcal{M}_1$ & $\mathcal{M}_2$ & $\mathcal{M}_3$ & $\mathcal{M}_4$ \\
-    \rotatebox{90}{ \hspace{3em} \footnotesize density}
+	\rotatebox{90}{ \hspace{3em} \footnotesize $\mathcal{M}_1$}
     & \includegraphics[width=.2\textwidth]{new/Model1/eta.pdf}
-    &  \includegraphics[width=.2\textwidth]{new/Model2/eta.pdf}
-	&  \includegraphics[width=.2\textwidth]{new/Model3/eta.pdf}
-	&  \includegraphics[width=.2\textwidth]{new/Model4/eta.pdf}\\
-	&\multicolumn{4}{c}{$\eta$}\\
+    &  \includegraphics[width=.2\textwidth]{new/Model1/mu.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model1/ar.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model1/Serr.pdf}\\
+		 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
 	&&&&\\
-    \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    & \includegraphics[width=.2\textwidth]{new/Model1/mu.pdf}
+    \rotatebox{90}{ \hspace{3em} \footnotesize $\mathcal{M}_2$}
+    & \includegraphics[width=.2\textwidth]{new/Model2/eta.pdf}
     &  \includegraphics[width=.2\textwidth]{new/Model2/mu.pdf}
-	&  \includegraphics[width=.2\textwidth]{new/Model3/mu.pdf}
-	&  \includegraphics[width=.2\textwidth]{new/Model4/mu.pdf}\\
-	&\multicolumn{4}{c}{$\mu_t$}\\
+	&  \includegraphics[width=.2\textwidth]{new/Model2/ar.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model2/Serr.pdf}\\
+		 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
 	&&&&\\
-    \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    & \includegraphics[width=.2\textwidth]{new/Model1/ar.pdf} 
-    &  \includegraphics[width=.2\textwidth]{new/Model2/ar.pdf}
+    \rotatebox{90}{ \hspace{3em} \footnotesize $\mathcal{M}_3$}
+    & \includegraphics[width=.2\textwidth]{new/Model3/eta.pdf} 
+    &  \includegraphics[width=.2\textwidth]{new/Model3/mu.pdf}
 	&  \includegraphics[width=.2\textwidth]{new/Model3/ar.pdf}
-	&  \includegraphics[width=.2\textwidth]{new/Model4/ar.pdf}\\
-	&\multicolumn{4}{c}{$a_r$}\\
+	&  \includegraphics[width=.2\textwidth]{new/Model3/Serr.pdf}\\
+		 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
 	&&&&\\
-    \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    & \includegraphics[width=.2\textwidth]{new/Model1/Serr.pdf} 
-    &  \includegraphics[width=.2\textwidth]{new/Model2/Serr.pdf}
-	&  \includegraphics[width=.2\textwidth]{new/Model3/Serr.pdf}
+    \rotatebox{90}{ \hspace{3em} \footnotesize $\mathcal{M}_4$}
+    & \includegraphics[width=.2\textwidth]{new/Model4/eta.pdf} 
+    &  \includegraphics[width=.2\textwidth]{new/Model4/mu.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model4/ar.pdf}
 	&  \includegraphics[width=.2\textwidth]{new/Model4/Serr.pdf}\\
-	&\multicolumn{4}{c}{$\sigma_{err}^2$}\\
+	 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
   \end{tabular}
 \caption{\textit{Prior} (in blue) and posterior (in red) densities of $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model.
 On the two first column the two first models (without and with surrogate) which have only these four parameters to estimate.
@@ -1031,30 +1035,28 @@ The two other columns represent the third and the fourth models which have two m
 \end{center}
 \end{figure}
 
+\newpage
+
+
+
 
 \begin{figure}[htbp!]
 \begin{center}
-  \begin{tabular}{ccc}
-& $\mathcal{M}_2'$ & $\mathcal{M}_4'$ \\
-    \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    &  \includegraphics[width=.2\textwidth]{new/Model2sd/eta.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityEta.pdf}\\
-	&\multicolumn{2}{c}{$\eta$}\\
-	&&\\
-    \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    &  \includegraphics[width=.2\textwidth]{new/Model2sd/mu.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityMu.pdf}\\
-	&\multicolumn{2}{c}{$\mu_t$}\\
-	&&\\
-    \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    &  \includegraphics[width=.2\textwidth]{new/Model2sd/ar.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityAr.pdf}\\
-	&\multicolumn{2}{c}{$a_r$}\\
-	&&\\
-    \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    &  \includegraphics[width=.2\textwidth]{new/Model2sd/Serr.pdf}
+  \begin{tabular}{ccccc}
+    \rotatebox{90}{ \hspace{3em} \footnotesize $\mathcal{M}_2'$}
+    & \includegraphics[width=.2\textwidth]{new/Model2sd/eta.pdf}
+    & \includegraphics[width=.2\textwidth]{new/Model2sd/mu.pdf}
+    & \includegraphics[width=.2\textwidth]{new/Model2sd/ar.pdf}
+    & \includegraphics[width=.2\textwidth]{new/Model2sd/Serr.pdf}\\
+	& $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
+	&&&&\\
+    \rotatebox{90}{ \hspace{3em} \footnotesize $\mathcal{M}_4'$}
+    &  \includegraphics[width=.2\textwidth]{figR/model4/after/densityEta.pdf}
+    &  \includegraphics[width=.2\textwidth]{figR/model4/after/densityMu.pdf}
+    &  \includegraphics[width=.2\textwidth]{figR/model4/after/densityAr.pdf}
 	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densitySig.pdf}\\
-	&\multicolumn{2}{c}{$\sigma_{err}^2$}\\
+		 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
+	&&&&\\
   \end{tabular}
 \caption{Calibration results for $\mathcal{M}_2'$ and $\mathcal{M}_4'$ which uses the surrogate based on the sequential design.}
 \label{fig:calibrationSeq}
@@ -1065,24 +1067,25 @@ The two other columns represent the third and the fourth models which have two m
 
 %\newpage
 
-Figure \ref{fig:comparisionDensities1} compares the results obtained (with the help of the \textbf{R} package CaliCo \citep{CaliCo}) 
-for $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model. In each case, the MCMC chains converge. 
-For the first model, a strong disagreement has appeared between the \textit{prior} and \textit{posterior} densities for $\sigma_{err}^2$. 
-The Maximum A Posteriori (MAP) of $\sigma_{err}^2$'s density, for $\mathcal{M}_1$,
- is $1283\ W^2$. That makes a standard deviation of $36W$ which is too high and has no physical trustworthiness. 
-For $\mathcal{M}_2$, $\mathcal{M}_3$ and $\mathcal{M}_4$ the MAP estimations of $\sigma_{err}^2$'s densities seem to be coherent with physics. The addition of the discrepancy between $\mathcal{M}_1$ and $\mathcal{M}_3$ then between $\mathcal{M}_2$ and $\mathcal{M}_4$ depicts a correlation (an error structure) in $\boldsymbol{y}_e$. When, no code error is applied, the variance from this covariance matrix is added to the variance of the measurement error. \newline
  %We can also notice that, for $\mathcal{M}_2$, the MAP estimator value seems coherent with the physical model. The surrogate used as a replacement of the code have introduced more uncertainties and, trying to compensate the bias introduced, calibration have found parameters densities which match more the reality with the surrogate.\newline
 
 % However, the estimation of $\boldsymbol{\theta}$ is different from those obtained with the first model.
  
-From $\mathcal{M}_1$ to $\mathcal{M}_2$, a surrogate emulates the numerical code. Figure \ref{fig:comparisionDensities1} illustrates
-a bigger variance \textit{a posteriori} for the parameters densities of $\mathcal{M}_2$ than $\mathcal{M}_1$. Replacing the code by
-a surrogate, a low number of points, had brought more uncertainty. Moreover, the densities for $\mathcal{M}_2$ appear to be out of step with $\mathcal{M}_1$.
-Calibration behaves as if a bias has appeared with the surrogate. This is worth to note that using a surrogate not only increase the variance
-of the posterior distribution of the parameter $\boldsymbol{\theta}$ but may also change the mode. This is also observed when moving from
-$\mathcal{M}_3$ to $\mathcal{M}_4$. This looks coherent with the results given Table \ref{tab:comparisonPG}, because the chosen surrogate with a small number of points is not a fairly good representation of the code. Calibration is, then, altered by the surrogate which does not represent well enough the numerical code. When one possesses a time consuming code, one must be careful to the quality of the surrogate. It depends mainly on the points chosen in the DOE and some adaptive design have been proposed in literature as \citet{damblin2018} for example. To compare a case where the surrogate would be better, we will consider an initial DOE of $150$ points and we will increase this initial DOE with $10$ points chose according to the algorithm in \citet{damblin2018}. The results are given Figure \ref{fig:calibrationSeq} and illustrate that the \textit{posterior} modes have become consistent with the ones for the models $\mathcal{M}_1$ and $\mathcal{M}_3$.
-Adding the discrepancy (from $\mathcal{M}_1$ to $\mathcal{M}_3$ and from $\mathcal{M}_2$ to $\mathcal{M}_4$) has almost always reduced the variances of the posterior distributions.
-\newline
+The results of calibration performed for each model is displayed in Figure \ref{fig:calibrationSeq}. For each model, the \textit{prior} and the \textit{posterior} densities are confronted and in each case, it illustrates that a decrease of the variance which shows that calibration had improved the \textit{prior} knowledge. However the decrease of variance is not equal for every model. Indeed, in $\mathcal{M}_1$ the variances \textit{a posteriori} are lower than for $\mathcal{M}_2$. When the code is replaced by a surrogate based on a DOE of $50$ points, a term of variance is added (see equation (\ref{eq:VarianceFullLikelihood})) and the estimation is less accurate. The same phenomenon appears when comparing $\mathcal{M}_1$ and $\mathcal{M}_3$. The add of the discrepancy has brought a new term in the variance in the likelihood which increase the variance \textit{a posteriori}. The model $\mathcal{M}_4$ which combines a surrogate and a discrepancy has then a bigger variance \textit{a posteriori} than with the other models. 
+ 
+%From $\mathcal{M}_1$ to $\mathcal{M}_2$, a surrogate emulates the numerical code. Figure \ref{fig:comparisionDensities1} illustrates
+%a bigger variance \textit{a posteriori} for the parameters densities of $\mathcal{M}_2$ than $\mathcal{M}_1$. Replacing the code by
+%a surrogate, a low number of points, had brought more uncertainty.
+
+
+% Moreover, the densities for $\mathcal{M}_2$ appear to be out of step with $\mathcal{M}_1$.
+%Calibration behaves as if a bias has appeared with the surrogate. 
+%This is worth to note that using a surrogate not only increase the variance of the posterior distribution of the parameter $\boldsymbol{\theta}$ but may also have an impact on the mode. This is also observed when moving from $\mathcal{M}_3$ to $\mathcal{M}_4$. 
+%%This looks coherent with the results given Table \ref{tab:comparisonPG}, because the chosen surrogate with a small number of points is not a fairly good representation of the code.
+%Calibration seems to be less accurate when one uses a surrogate instead of the code. Degrading calibration just by using a surrogate 
+% Calibration is, then, altered by the surrogate which does not represent well enough the numerical code. When one possesses a time consuming code, one must be careful to the quality of the surrogate. It depends mainly on the points chosen in the DOE and some adaptive design have been proposed in literature as \citet{damblin2018} for example. To compare a case where the surrogate would be better, we will consider an initial DOE of $150$ points and we will increase this initial DOE with $10$ points chose according to the algorithm in \citet{damblin2018}. The results are given Figure \ref{fig:calibrationSeq} and illustrate that the \textit{posterior} modes have become consistent with the ones for the models $\mathcal{M}_1$ and $\mathcal{M}_3$.
+%Adding the discrepancy (from $\mathcal{M}_1$ to $\mathcal{M}_3$ and from $\mathcal{M}_2$ to $\mathcal{M}_4$) has almost always reduced the variances of the posterior distributions.
+%\newline
 
 We also depict correlation between the parameters. As a matter of fact, a strong positive and linear correlation links every parameters ($\eta$, $\mu_t$ and $a_r$) with each other as illustrated Figure \ref{fig:corrPlot}. A strong correlation appears between $\mu_t$ and $a_r$. A lower, but still meaningful, correlation is also visible between $\eta$ and $\mu_r$, and $a_r$ and $\eta$.\newline
 
@@ -1174,7 +1177,7 @@ The Root Mean Square Error (RMSE) is also computed for the instantaneous power. 
 \hline
 coverage rate at 90\% (in \%) & 91 & 32 & 87 & 23 & 64 & 0 \\
 \hline
-RMSE of the instantaneous power ($W$) & 5.1 & 21.79 & 10.94 & NAN & 4.56 & NAN \\
+RMSE of the instantaneous power ($W$) & 5.1 & 21.79 & 10.94 & NANY & 4.56 & NANY \\
 \end{tabular}
 \end{table}
 
