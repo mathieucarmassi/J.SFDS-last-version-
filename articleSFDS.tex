@@ -929,7 +929,7 @@ Model $\mathcal{M}_1$ described by Equation (\ref{eq:model1}) only deals with th
 
 \subsubsection{The second model $\mathcal{M}_2$}
 
-As defined Section \ref{sec:calibration}, when the code is time consuming, the solution is to mimic it with a Gaussian process (GP). For the GP emulator, we made the choice to consider the mean function $m_S(\bullet,\bullet)$ as a linear combination of linear functions. That means $\textbf{H}_S$ is a matrix of linear functions. The correlation function $r_S$ ($c_S=\sigma_S^2r_S$) chosen is defined by the following equation that corresponds to a Gaussian kernel:
+As defined Section \ref{sec:calibration}, when the code is time consuming, the solution is to mimic it with a Gaussian process (GP). For the GP emulator, we made the choice to consider the mean function $m_S(\bullet,\bullet)$ as a linear combination of linear functions. That means $\textbf{H}_S$ is a matrix of linear functions. The correlation function $r_S$ ($c_S=\sigma_S^2r_S$) chosen is defined by the following equation that corresponds to a Matérn $5/2$ kernel:
 
 %We are now considering the code as if it were time consuming. In that case, the inference with MCMC chains would reveal computationally impossible to perform. To bypass this computational time burden, a surrogate $F(\bullet,\bullet)$ is introduced to mimic the code. As defined in the general framework, $F(\bullet,\bullet)\sim\mathcal{GP}(m_S(\bullet,\bullet),c_S\{(\bullet,\bullet),(\bullet,\bullet)\})$ \newline
 
@@ -939,10 +939,9 @@ As defined Section \ref{sec:calibration}, when the code is time consuming, the s
 % \forall i \in \llbracket1,n\rrbracket \quad y_{exp_i}=F(\boldsymbol{x}_i,a_r)+\epsilon(\boldsymbol{x}_i)
 % \end{equation*}
 % where $\epsilon(\boldsymbol{x}_i)\sim\mathcal{N}(0,\sigma_{err}^2$ and $F(.,.)\sim\mathcal{GP}(m_1(.,.),c_{1_{\boldsymbol{\psi}_1}}(\{.,.\},\{.,.\})$.\newline
-
 \begin{equation}
-r_S\{(\boldsymbol{x},\boldsymbol{\theta}),(\boldsymbol{x}^*,\boldsymbol{\theta}^*)\}= \exp\Big\{-\frac{1}{2}\frac{||(\boldsymbol{x},\boldsymbol{\theta})-(\boldsymbol{x}^*,\boldsymbol{\theta}^*)||_2^2}{\boldsymbol{\psi}_S^2}\Big\}
-\label{eq:GaussianKer}
+r_{\delta}(\boldsymbol{x},\boldsymbol{x}^*)= \Big(1+\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\delta}}+\frac{5||\boldsymbol{x}-\boldsymbol{x}^*||_2^2}{3\boldsymbol{\psi}_{\delta}^2}\Big)\exp\Big\{-\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\delta}}\Big\}.
+\label{eq:Matern52Ker}
 \end{equation}
 
 where $||\bullet||_2$ stands for the Euclidean norm.\newline
@@ -951,11 +950,15 @@ In this case, six parameters have to be estimated\hc $\eta$, $\mu_t$, $a_r$, $\s
 
 \subsubsection{The third model $\mathcal{M}_3$}
 
-The third model introduces another GP for the discrepancy. We choose a different covariance kernel which is a Matérn 5/2 (Equation (\ref{eq:Matern52Ker})).
+The third model introduces another GP for the discrepancy. We choose a different covariance kernel which is Gaussian (Equation (\ref{eq:GaussianKer})).
 Note that compared to Equation (\ref{eq:M3}), the discrepancy mean has been set to $0$ (\textit{i.e.} $m_{\boldsymbol{\delta}}(.)=0$). These choices are motivated by the fact that the purpose of calibration is to estimate the "best-fitting" 
 vector parameter $\boldsymbol{\theta}$. We do not want any compensation into any additional bias. This decision is consistent with \citet{bachoc2014} where the same hypothesis has been made.
 
 %The application of the third model is motivated by the assumption that there might occur a gap between the code and the phenomenon. Even after considering the measurement error, this gap is expected. This error term is called code error or discrepancy $\delta(\bullet)$. In a case where the code is not time consuming, the model which deals with this situation is $\mathcal{M}_3$ (Equation (\ref{eq:M3})). In the general framework $\delta(\bullet)\sim\mathcal{PG}(m_{\boldsymbol{\delta}}(\bullet),c_{\boldsymbol{\delta}}(\bullet,\bullet))$.\newline
+\begin{equation}
+r_S\{(\boldsymbol{x},\boldsymbol{\theta}),(\boldsymbol{x}^*,\boldsymbol{\theta}^*)\}= \exp\Big\{-\frac{1}{2}\frac{||(\boldsymbol{x},\boldsymbol{\theta})-(\boldsymbol{x}^*,\boldsymbol{\theta}^*)||_2^2}{\boldsymbol{\psi}_S^2}\Big\}
+\label{eq:GaussianKer}
+\end{equation}
 
 % The equation in application to our case would be:
 
@@ -963,10 +966,7 @@ vector parameter $\boldsymbol{\theta}$. We do not want any compensation into any
 % \forall i \in \llbracket1,n\rrbracket \quad y_{exp_i}=f_c(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon(\boldsymbol{x}_i)
 % \end{equation*} 
 
-\begin{equation}
-r_{\delta}(\boldsymbol{x},\boldsymbol{x}^*)= \Big(1+\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\delta}}+\frac{5||\boldsymbol{x}-\boldsymbol{x}^*||_2^2}{3\boldsymbol{\psi}_{\delta}^2}\Big)\exp\Big\{-\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\delta}}\Big\}.
-\label{eq:Matern52Ker}
-\end{equation}
+
 
 In this case, there are also six parameters to estimate that are $\eta$, $\mu_t$, $a_r$ $\sigma_{\delta}^2$, $\boldsymbol{\psi}_{\delta}$ and $\sigma_{err}^2$.
 
@@ -995,31 +995,31 @@ In our Bayesian framework, the choice of an estimation by modularization is made
   \begin{tabular}{ccccc}
 &  $\mathcal{M}_1$ & $\mathcal{M}_2$ & $\mathcal{M}_3$ & $\mathcal{M}_4$ \\
     \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    & \includegraphics[width=.2\textwidth]{figR/model1/densityEta.pdf} 
-    &  \includegraphics[width=.2\textwidth]{figR/model2/densityEta.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model3/densityEta.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/densityEta.pdf}\\
+    & \includegraphics[width=.2\textwidth]{new/Model1/eta.pdf}
+    &  \includegraphics[width=.2\textwidth]{new/Model2/eta.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model3/eta.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model4/eta.pdf}\\
 	&\multicolumn{4}{c}{$\eta$}\\
 	&&&&\\
     \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    & \includegraphics[width=.2\textwidth]{figR/model1/densityMu.pdf} 
-    &  \includegraphics[width=.2\textwidth]{figR/model2/densityMu.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model3/densityMu.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/densityMu.pdf}\\
+    & \includegraphics[width=.2\textwidth]{new/Model1/mu.pdf}
+    &  \includegraphics[width=.2\textwidth]{new/Model2/mu.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model3/mu.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model4/mu.pdf}\\
 	&\multicolumn{4}{c}{$\mu_t$}\\
 	&&&&\\
     \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    & \includegraphics[width=.2\textwidth]{figR/model1/densityAr.pdf} 
-    &  \includegraphics[width=.2\textwidth]{figR/model2/densityAr.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model3/densityAr.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/densityAr.pdf}\\
+    & \includegraphics[width=.2\textwidth]{new/Model1/ar.pdf} 
+    &  \includegraphics[width=.2\textwidth]{new/Model2/ar.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model3/ar.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model4/ar.pdf}\\
 	&\multicolumn{4}{c}{$a_r$}\\
 	&&&&\\
     \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    & \includegraphics[width=.2\textwidth]{figR/model1/densitySig.pdf} 
-    &  \includegraphics[width=.2\textwidth]{figR/model2/densitySig.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model3/densitySig.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/densitySig.pdf}\\
+    & \includegraphics[width=.2\textwidth]{new/Model1/Serr.pdf} 
+    &  \includegraphics[width=.2\textwidth]{new/Model2/Serr.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model3/Serr.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model4/Serr.pdf}\\
 	&\multicolumn{4}{c}{$\sigma_{err}^2$}\\
   \end{tabular}
 \caption{\textit{Prior} (in blue) and posterior (in red) densities of $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model.
@@ -1035,22 +1035,22 @@ The two other columns represent the third and the fourth models which have two m
   \begin{tabular}{ccc}
 & $\mathcal{M}_2'$ & $\mathcal{M}_4'$ \\
     \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    &  \includegraphics[width=.2\textwidth]{figR/model2/after/densityEta.pdf}
+    &  \includegraphics[width=.2\textwidth]{new/Model2sd/eta.pdf}
 	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityEta.pdf}\\
 	&\multicolumn{2}{c}{$\eta$}\\
 	&&\\
     \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    &  \includegraphics[width=.2\textwidth]{figR/model2/after/densityMu.pdf}
+    &  \includegraphics[width=.2\textwidth]{new/Model2sd/mu.pdf}
 	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityMu.pdf}\\
 	&\multicolumn{2}{c}{$\mu_t$}\\
 	&&\\
     \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    &  \includegraphics[width=.2\textwidth]{figR/model2/after/densityAr.pdf}
+    &  \includegraphics[width=.2\textwidth]{new/Model2sd/ar.pdf}
 	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityAr.pdf}\\
 	&\multicolumn{2}{c}{$a_r$}\\
 	&&\\
     \rotatebox{90}{ \hspace{3em} \footnotesize density}
-    &  \includegraphics[width=.2\textwidth]{figR/model2/after/densitySig.pdf}
+    &  \includegraphics[width=.2\textwidth]{new/Model2sd/Serr.pdf}
 	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densitySig.pdf}\\
 	&\multicolumn{2}{c}{$\sigma_{err}^2$}\\
   \end{tabular}
@@ -1129,14 +1129,14 @@ We also depict correlation between the parameters. As a matter of fact, a strong
   \begin{tabular}{cccc}
 &  $\mathcal{M}_3$ & $\mathcal{M}_4$ & $\mathcal{M}_4'$ \\
     \rotatebox{90}{ \hspace{3em} \small density}
-	&  \includegraphics[width=.2\textwidth]{figR/model3/densitySigD.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/densitySigD.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model3/Serr.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model4/Sig.pdf}
 	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densitySigD.pdf}\\
 	&\multicolumn{3}{c}{$\sigma_{\boldsymbol{\delta}}^2$}\\
 	&&&\\
     \rotatebox{90}{ \hspace{3em} \small density}
-	&  \includegraphics[width=.2\textwidth]{figR/model3/densityPsiD.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/densityPsiD.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model3/psi.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model4/psi.pdf}
 	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityPsiD.pdf}\\
 	&\multicolumn{3}{c}{$\psi_{\boldsymbol{\delta}}$}\\
   \end{tabular}   
