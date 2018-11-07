@@ -861,7 +861,7 @@ The Bayesian framework starts with the elicitation of \textit{priors} densities 
 \item $\psi_{\boldsymbol{\delta}} \sim \mathcal{U}(0,1)$. \newline
 \end{itemize}
 
-This application section is developed in two subsections. The first subsection details the practical implementation procedure of the inference for each model. In the second subsection, we discuss all the results obtained for the models that we tried out.\newline
+This application section is developed in two subsections. The first subsection details the practical implementation procedures of the inference for each model. In the second subsection, we discuss all the results obtained for the models that we tried out.\newline
 
 \subsection{Inference \label{Inference}}
 As mentioned in Section \ref{PVsection}, a sensitivity analysis has been run on the parameter vector $\boldsymbol{\theta}$ and it turns out that only $\eta$, $\mu_t$ and $a_r$ are relevant considering the power output. The inference only concerns these three parameters and the additional nuisance parameters depending on the model. For the sake of simplicity, data, recorded every $10s$, is averaged per hour and only data corresponding to a strictly positive power are kept. The Bayesian framework is chosen for the following study. It is motivated by the availability of strongly informative \textit{priors}, elicited from experts, on the parameters we want to estimate. To perform the inference, a Markov Chain Monte Carlo algorithm is used \citep{robert1996}. The algorithm used was first introduced by
@@ -894,24 +894,26 @@ T_{e_i}\\
 
 The Gaussian processes emulated from this method reveal to work much better. We also could have developed the method with an adaptive numerical design (see \citep{damblin2018}) to the correlated input variables. \newline
 
-To position the application case to a time consuming context, a limited number of experiments is allowed for the DOE which establishes the surrogate. We will limit the number of code calls to $50$ to investigate the time consuming situation and compare it to other situations more favorables. This number of experiments is taken when computer codes are extremely time consuming. To compare the quality of $\mathcal{M}_2$ with a DOE of $50$ points, we chose to compare it with a model $\mathcal{M}_2$ established with a DOE of $100$ points. \newline
-
-\begin{table}[htbp!]
-\centering
-\caption{Results in cross validation for $\mathcal{M}_2$ for 2 different DOE sizes}
-\label{tab:comparisonPG}
-\begin{tabular}{c|c|c}
-
-& $50$ points & $100$ points\\
-\hline
-\hline
-coverage rate at 90\% (in \%) & 32 & 65 \\
-\hline
-RMSE of the instantaneous power ($W$) &21.61 &19.7 \\
-\end{tabular}
-\end{table}
-
-The degradation in prediction with the decrease of the number of points in the DOE (Table \ref{tab:comparisonPG}) is in line with our desire to place ourselves in the most unfavorable case possible.
+To position the application case to a time consuming context, a limited number of experiments is allowed for the DOE which establishes the surrogate. We will limit the number of code calls to $50$ to investigate the time consuming situation and compare it to other situations more favorables. This number of experiments is taken when computer codes are extremely time consuming. \newline
+%
+% To compare the quality of $\mathcal{M}_2$ with a DOE of $50$ points, we chose to compare it with a model $\mathcal{M}_2$ established with a DOE of $100$ points. \newline
+%
+%\begin{table}[htbp!]
+%\centering
+%\caption{Results in cross validation for $\mathcal{M}_2$ for 2 different DOE sizes}
+%\label{tab:comparisonPG}
+%\begin{tabular}{c|c|c}
+%
+%& $50$ points & $100$ points\\
+%\hline
+%\hline
+%coverage rate at 90\% (in \%) & 32 & 65 \\
+%\hline
+%RMSE of the instantaneous power ($W$) &21.61 &19.7 \\
+%\end{tabular}
+%\end{table}
+%
+%The degradation in prediction with the decrease of the number of points in the DOE (Table \ref{tab:comparisonPG}) is in line with our desire to place ourselves in the most unfavorable case possible.
 
 
 %
