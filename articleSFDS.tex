@@ -1051,10 +1051,10 @@ The two other columns represent the third and the fourth models which have two m
 	& $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
 	&&&&\\
     \rotatebox{90}{ \hspace{3em} \footnotesize $\mathcal{M}_4'$}
-    &  \includegraphics[width=.2\textwidth]{figR/model4/after/densityEta.pdf}
-    &  \includegraphics[width=.2\textwidth]{figR/model4/after/densityMu.pdf}
-    &  \includegraphics[width=.2\textwidth]{figR/model4/after/densityAr.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densitySig.pdf}\\
+    &  \includegraphics[width=.2\textwidth]{new/Model4sd/eta.pdf}
+    &  \includegraphics[width=.2\textwidth]{new/Model4sd/mu.pdf}
+    &  \includegraphics[width=.2\textwidth]{new/Model4sd/ar.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model4sd/Serr.pdf}\\
 		 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
 	&&&&\\
   \end{tabular}
@@ -1071,7 +1071,8 @@ The two other columns represent the third and the fourth models which have two m
 
 % However, the estimation of $\boldsymbol{\theta}$ is different from those obtained with the first model.
  
-The results of calibration performed for each model is displayed in Figure \ref{fig:calibrationSeq}. For each model, the \textit{prior} and the \textit{posterior} densities are confronted and in each case, it illustrates that a decrease of the variance which shows that calibration had improved the \textit{prior} knowledge. However the decrease of variance is not equal for every model. Indeed, in $\mathcal{M}_1$ the variances \textit{a posteriori} are lower than for $\mathcal{M}_2$. When the code is replaced by a surrogate based on a DOE of $50$ points, a term of variance is added (see equation (\ref{eq:VarianceFullLikelihood})) and the estimation is less accurate. The same phenomenon appears when comparing $\mathcal{M}_1$ and $\mathcal{M}_3$. The add of the discrepancy has brought a new term in the variance in the likelihood which increase the variance \textit{a posteriori}. The model $\mathcal{M}_4$ which combines a surrogate and a discrepancy has then a bigger variance \textit{a posteriori} than with the other models. 
+The results of calibration performed for each model is displayed in Figure \ref{fig:calibrationSeq}. For each model, the \textit{prior} and the \textit{posterior} densities are confronted and in each case, it illustrates that a decrease of the variance which shows that calibration had improved the \textit{prior} knowledge. However the decrease of variance is not equal for every model. Indeed, in $\mathcal{M}_1$ the variances \textit{a posteriori} are lower than for $\mathcal{M}_2$. When the code is replaced by a surrogate based on a DOE of $50$ points, a term of variance is added (see equation (\ref{eq:VarianceFullLikelihood})) and the estimation is less accurate. The same phenomenon appears when comparing $\mathcal{M}_1$ and $\mathcal{M}_3$. The add of the discrepancy has brought a new term in the variance in the likelihood which increase the variance \textit{a posteriori}. The model $\mathcal{M}_4$ which combines a surrogate and a discrepancy has then a bigger variance \textit{a posteriori} than with the other models. The right column in Figure \ref{fig:comparisionDensities1} illustrates the \textit{prior} and \textit{posterior} of the variance of the white Gaussian noise. A strong disagreement appears in the model $\mathcal{M}_1$ because the \textit{posterior} mode of $\sigma_{err}^2$.
+
  
 %From $\mathcal{M}_1$ to $\mathcal{M}_2$, a surrogate emulates the numerical code. Figure \ref{fig:comparisionDensities1} illustrates
 %a bigger variance \textit{a posteriori} for the parameters densities of $\mathcal{M}_2$ than $\mathcal{M}_1$. Replacing the code by
@@ -1136,13 +1137,13 @@ We also depict correlation between the parameters. As a matter of fact, a strong
     \rotatebox{90}{ \hspace{3em} \small density}
 	&  \includegraphics[width=.2\textwidth]{new/Model3/Serr.pdf}
 	&  \includegraphics[width=.2\textwidth]{new/Model4/Sig.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densitySigD.pdf}\\
+	&  \includegraphics[width=.2\textwidth]{new/Model4sd/Sig.pdf}\\
 	&\multicolumn{3}{c}{$\sigma_{\boldsymbol{\delta}}^2$}\\
 	&&&\\
     \rotatebox{90}{ \hspace{3em} \small density}
 	&  \includegraphics[width=.2\textwidth]{new/Model3/psi.pdf}
 	&  \includegraphics[width=.2\textwidth]{new/Model4/psi.pdf}
-	&  \includegraphics[width=.2\textwidth]{figR/model4/after/densityPsiD.pdf}\\
+	&  \includegraphics[width=.2\textwidth]{new/Model4sd/psi.pdf}\\
 	&\multicolumn{3}{c}{$\psi_{\boldsymbol{\delta}}$}\\
   \end{tabular}   
 \caption{\textit{Prior} (in blue) and posterior (in red) densities of $\sigma_{\boldsymbol{\delta}}^2$ and $\psi_{\boldsymbol{\delta}}$ for $\mathcal{M}_3$, $\mathcal{M}_4$ and $\mathcal{M}_4'$.}
