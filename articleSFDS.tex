@@ -1025,15 +1025,15 @@ Figure \ref{fig:comparisionDensities1} compares the results obtained with the he
 	 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
   \end{tabular}
 \caption{\textit{Prior} (in blue) and posterior (in red) densities of $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model.
-On the two first column the two first models (without and with surrogate) which have only these four parameters to estimate.
-The two other columns represent the third and the fourth models which have two more parameters to estimate (see Figure \ref{fig:comparisionDensities2}).}
+On the two first rows the two first models (without and with surrogate) which have only these four parameters to estimate.
+The two other rows represent the third and the fourth models which have two more parameters to estimate (see Figure \ref{fig:comparisionDensities2}).}
 \label{fig:comparisionDensities1}
 \end{center}
 \end{figure}
 
 \newpage
 
-The use of a Gaussian process as a surrogate of the code (in the models $\mathcal{M}_2$ and $\mathcal{M}_4$) has to be manipulated with caution. Most of industrial codes are time consuming and the use of small DOE is required. However, if the surrogate does not represent well enough the numerical code, calibration will fail to retrieve a physical sense for the parameter. A shift of the \textit{posterior} density compared to the \textit{prior} density appears and calibration cannot be interpreted properly. A criterion can be introduced that can be seen as a recommendation upstream calibration\hc the $Q2$ of the surrogate has to be higher than $0.8$ to access proper calibration. Even with a $Q2>0.8$, calibration can lead to really wide \textit{posterior} densities which is the case in Figure \ref{fig:comparisionDensities1} for $\mathcal{M}_2$ and $\mathcal{M}_4$ ($Q2=0.826$ for the surrogate in $\mathcal{M}_2$ and $Q2=0.901$ for $\mathcal{M}_4$). This small decrease of variance \textit{a posteriori} might be unsatisfactory for the industrial company. An improvement of the Gaussian process can be brought by adding a small number of well chosen points in the original DOE. A methodology, called sequential design and developed in \citet{damblin2018},  is based on the EGO optimization to find new points regarding further calibration. From the original DOE of $50$ points used for previous calibrations (for $\mathcal{M}_2$ and $\mathcal{M}_4$) in Figure \ref{fig:comparisionDensities1}, $10$ points are appended to the original DOE by using the sequential design. Then calibration is performed on the new Gaussian process emulated with the new DOE and the results are displayed in Figure \ref{fig:calibrationSeq}. \newline
+The use of a Gaussian process as a surrogate of the code (in the models $\mathcal{M}_2$ and $\mathcal{M}_4$) has to be manipulated with caution. Most of industrial codes are time consuming and the use of small DOE is required. However, if the surrogate does not represent well enough the numerical code, calibration will fail to retrieve a physical sense for the parameter. A shift of the \textit{posterior} density compared to the \textit{prior} density appears and calibration cannot be interpreted properly. A criterion can be introduced that can be seen as a recommendation upstream calibration\hc the $Q2$ of the surrogate has to be higher than $0.8$ to access proper calibration. Even with a $Q2>0.8$, calibration can lead to really wide \textit{posterior} densities which is the case in Figure \ref{fig:comparisionDensities1} for $\mathcal{M}_2$ and $\mathcal{M}_4$ ($Q2=0.826$ for the surrogate in $\mathcal{M}_2$ and $Q2=0.901$ for $\mathcal{M}_4$). This small decrease of variance \textit{a posteriori} might be unsatisfactory for the industrial company. An improvement of the Gaussian process can be brought by adding in the original DOE a small number of well chosen points. A methodology, called sequential design and developed in \citet{damblin2018},  is based on the EGO algorithm \citep{jones1998efficient} to find new points regarding further calibration. From the original DOE of $50$ points used for previous calibrations (for $\mathcal{M}_2$ and $\mathcal{M}_4$) in Figure \ref{fig:comparisionDensities1}, $10$ points are appended to the original DOE by using the sequential design. Then calibration is performed on the new Gaussian process emulated with the new DOE and the results are displayed in Figure \ref{fig:calibrationSeq}. \newline
 
 
 \begin{figure}[htbp!]
@@ -1059,28 +1059,7 @@ The use of a Gaussian process as a surrogate of the code (in the models $\mathca
 \end{center}
 \end{figure}
 
-Figure \ref{fig:calibrationSeq} illustrates the new results based on the Gaussian process build after the design sequential and proves that with a better surrogate calibration is consistent with physics and with the models $\mathcal{M}_1$ and $\mathcal{M}_3$.\newline
-
-
-In the \textit{posterior} densities generated, we also depict correlation between the parameters. As a matter of fact, a strong positive and linear correlation links every parameters ($\eta$, $\mu_t$ and $a_r$) with each other as illustrated Figure \ref{fig:corrPlot}. A strong correlation appears between $\mu_t$ and $a_r$. A lower, but still meaningful, correlation is also visible between $\eta$ and $\mu_r$, and $a_r$ and $\eta$.\newline
-
-
-\begin{figure}[htbp!]
-\begin{center}
-  \begin{tabular}{cccccc}
-    \rotatebox{90}{ \hspace{4em} \footnotesize $\mu_t$}
-    & \includegraphics[width=.2\textwidth]{figR/corr12.pdf} 
-    &\rotatebox{90}{ \hspace{4em} \footnotesize $a_r$}
-    &  \includegraphics[width=.2\textwidth]{figR/corr23.pdf}
-    &\rotatebox{90}{ \hspace{4em} \footnotesize $\eta$}
-	&  \includegraphics[width=.2\textwidth]{figR/corr31.pdf}
-\\
-	&$\eta$ & &$\mu_t$ & & $a_r$\\
-  \end{tabular}
-\caption{Correlation representation between the parameters}
-\label{fig:corrPlot}
-\end{center}
-\end{figure}
+Figure \ref{fig:calibrationSeq} illustrates the new results based on the Gaussian process build after the sequential design and proves that with a better surrogate, calibration is consistent with physics and with the models $\mathcal{M}_1$ and $\mathcal{M}_3$.\newline
 
 
 \begin{figure}[htbp!]
@@ -1109,6 +1088,30 @@ As expected, learning from data has improved our \textit{prior} belief by decrea
 It shows that in both cases (with and without surrogate) that the convergence seems to be reached at some point. \newline
 
 
+
+
+
+In the \textit{posterior} densities generated, we also depict correlation between the parameters. As a matter of fact, a strong positive and linear correlation links every parameters ($\eta$, $\mu_t$ and $a_r$) with each other as illustrated in Figure \ref{fig:corrPlot}. A strong correlation appears between $\mu_t$ and $a_r$. A lower, but still meaningful, correlation is also visible between $\eta$ and $\mu_r$, and $a_r$ and $\eta$.\newline
+
+
+\begin{figure}[htbp!]
+\begin{center}
+  \begin{tabular}{cccccc}
+    \rotatebox{90}{ \hspace{4em} \footnotesize $\mu_t$}
+    & \includegraphics[width=.2\textwidth]{figR/corr12.pdf} 
+    &\rotatebox{90}{ \hspace{4em} \footnotesize $a_r$}
+    &  \includegraphics[width=.2\textwidth]{figR/corr23.pdf}
+    &\rotatebox{90}{ \hspace{4em} \footnotesize $\eta$}
+	&  \includegraphics[width=.2\textwidth]{figR/corr31.pdf}
+\\
+	&$\eta$ & &$\mu_t$ & & $a_r$\\
+  \end{tabular}
+\caption{Correlation representation between the parameters}
+\label{fig:corrPlot}
+\end{center}
+\end{figure}
+
+
 \subsection{Comparison}
 
 To compare the prediction ability of the four models, a cross validation (CV) is performed. Three days of data (chosen randomly) are taken off the calibration dataset for each of the $100$ repetitions of the CV. 
@@ -1127,7 +1130,7 @@ The Root Mean Square Error (RMSE) is also computed for the instantaneous power. 
 & $\mathcal{M}_1$ & $\mathcal{M}_2$ & $\mathcal{M}_3$ & $\mathcal{M}_4$ & $\mathcal{M}_2'$&  $\mathcal{M}_4'$ \\
 \hline
 \hline
-coverage rate at 90\% (in \%) & 91 & 44 & 85 & 42 & 71 & 50 \\
+coverage rate at 90\% (in \%) & 91 & 44 & 85 & 42 & 71 & 68 \\
 \hline
 RMSE of the instantaneous power ($W$) & 5.103 & 21.79 & 4.56 & 18.78 & 10.94 & 9.29 \\
 \end{tabular}
@@ -1137,9 +1140,7 @@ The coverage rates for $\mathcal{M}_1$ and $\mathcal{M}_3$ corresponds to the ch
 However for $\mathcal{M}_2$ and $\mathcal{M}_4$ the coverage rates are below this level. As expected the coverage rates of $\mathcal{M}_2'$ and $\mathcal{M}_4'$ increase since the quality of the surrogate has been improved. \newline
 
 
-
-
-Overall, the model $\mathcal{M}_3$ has better results than the others. This conclusion can be explained twofold. First, the code realizes a better prediction than the surrogate. Second, a correlation structure remains in the error. Adding the discrepancy in the model allows to catch up the real results. The fact that the models, encompassing a surrogate, produces worse results is expected. The Gaussian process used for the surrogate had trouble to fill every variation of power. To compensate this lack of information, the posterior credibility interval becomes wide and less informative.\newline
+Overall, the model $\mathcal{M}_3$ has better results than the others. This conclusion can be explained twofold. First, the code realizes a better prediction than the surrogate. Second, a correlation structure remains in the error. Adding the discrepancy in the model allows to catch up the real results. In the case where a surrogate is used instead of the code, the CV produces worse results which was expected since the number of points chosen in the DOE is not sufficient to reproduce the behavior of the code. The use of the sequential design to add only $10$ points had allowed to improve drastically the models for calibration and in prediction.\newline
 
 
 
@@ -1147,7 +1148,10 @@ Overall, the model $\mathcal{M}_3$ has better results than the others. This conc
 
 This article focuses on code calibration which can be a very interesting way to deal with uncertainties in numerical experiments. The code used in the article, to allow comparisons with time consuming codes, is a quick code predicting power from small PV plant. This work can be extended to bigger computational codes in application at larger PV plants. As we are working with a physical code, it is important in this case to keep in mind the reality of the physical boundaries. This aspect had allowed us to confirm the presence of the discrepancy.\newline
 
-In a case where input variables are correlated, additional issues of DOE appear when the surrogate is fitted. To cope with these issues we made recourse to a PCA. The design of numerical experiments could have been enhanced by using adaptive designs proposed by \citet{damblin2018}. \newline
+In most of industrial cases, the code is time consuming. The recourse of the models $\mathcal{M}_2$ and $\mathcal{M}_4$ are often unavoidable. The quality of the Gaussian process used to emulate the code has a real impact on calibration accuracy. As a limited number of code calls is authorized, methods such as sequential design \citep{damblin2018} can be useful to improve the quality of the Gaussian process with a restricted number of additional points. \newline
+
+%
+%In a case where input variables are correlated, additional issues of DOE appear when the surrogate is fitted. To cope with these issues we made recourse to a PCA. The design of numerical experiments could have been enhanced by using adaptive designs proposed by \citet{damblin2018}. \newline
 
 The hypotheses made for the application case can also be discussed. For example setting $\rho$ and $m_{\delta}(.)$ to 1 and 0 is a preliminaty decision which goes along with calibration. We do not want to quantify the bias because the aim of calibration is to find the parameter value to compensate that bias. If one's goal is to check where the uncertainty goes, other hypotheses could have been made. For example, a non zero discrepancy expectation would quantify the mean of the gap between the code and the experiments. In calibration we want this gap to be taken into account in the code through adjusted $\boldsymbol{\theta}$.\newline
 
