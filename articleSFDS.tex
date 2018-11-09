@@ -990,12 +990,14 @@ In our Bayesian framework, the choice of an estimation by modularization is made
 
 \subsection{Results}
 
-Figure \ref{fig:comparisionDensities1} compares the results obtained (with the help of the \textbf{R} package CaliCo \citep{CaliCo}) 
-for $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model. In each case, the MCMC chains converge. 
-For the first model, a strong disagreement has appeared between the \textit{prior} and \textit{posterior} densities for $\sigma_{err}^2$. 
-The Maximum A Posteriori (MAP) of $\sigma_{err}^2$'s density, for $\mathcal{M}_1$,
- is around $6500\ W^2$. That makes a standard deviation of $80.6W$ which is too high and has no physical trustworthiness. 
-For $\mathcal{M}_2$, $\mathcal{M}_3$ and $\mathcal{M}_4$ the MAP estimations of $\sigma_{err}^2$'s densities seem to be coherent with physics. The addition of the discrepancy between $\mathcal{M}_1$ and $\mathcal{M}_3$ then between $\mathcal{M}_2$ and $\mathcal{M}_4$ depicts a correlation (an error structure) in $\boldsymbol{y}_e$. When, no code error is applied, the variance from this covariance matrix is added to the variance of the measurement error. \newline
+%Figure \ref{fig:comparisionDensities1} compares the results obtained (with the help of the \textbf{R} package CaliCo \citep{CaliCo}) 
+%for $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model. In each case, the MCMC chains converge. 
+%For the first model, a strong disagreement has appeared between the \textit{prior} and \textit{posterior} densities for $\sigma_{err}^2$. 
+%The Maximum A Posteriori (MAP) of $\sigma_{err}^2$'s density, for $\mathcal{M}_1$,
+% is around $6500\ W^2$. That makes a standard deviation of $80.6W$ which is too high and has no physical trustworthiness. 
+%For $\mathcal{M}_2$, $\mathcal{M}_3$ and $\mathcal{M}_4$ the MAP estimations of $\sigma_{err}^2$'s densities seem to be coherent with physics. The addition of the discrepancy between $\mathcal{M}_1$ and $\mathcal{M}_3$ then between $\mathcal{M}_2$ and $\mathcal{M}_4$ depicts a correlation (an error structure) in $\boldsymbol{y}_e$. When, no code error is applied, the variance from this covariance matrix is added to the variance of the measurement error. \newline
+
+Figure \ref{fig:comparisionDensities1} compares the results obtained with the help of the \textbf{R} package CaliCo \citep{CaliCo}. For each parameter $\eta$, $\mu$, $a_r$ and $\sigma_{err}^2$, the MCMC chains converge. Indeed, good mixing properties are chosen after a visual check. Figure \ref{fig:comparisionDensities1} confronts the \textit{prior} densities with the \textit{posterior} densities. In almost every model, a decrease of the variance is quantifiable which illustrates an improvement on the knowledge of the parameter density. However, the decrease of variance is not equal for every model. Calibration realized with the model $\mathcal{M}_2$ produces \textit{posterior} densities with bigger variances than for the $\mathcal{M}_1$. The replacement of the numerical code by a Gaussian process have added a variance term in the full likelihood which increases the variance \textit{a posteriori}. The same phenomenon is visible from the model $\mathcal{M}_3$ to the model $\mathcal{M}_4$. Calibration with the model $\mathcal{M}_1$ also brings a strong disagreement in the estimation of the \textit{posterior} density of $\sigma_{err}^2$. The Maximum A Posteriori (MAP) of $sigma_{err}^2$ is $6500\ W^2$ which makes a standard deviation of $80.6\ W$. This value is too high and has no physical trustworthiness. From calibration with the model $\mathcal{M}_1$ to the model $\mathcal{M}_3$, the \textit{posterior} density of $\sigma_{err}^2$ has been corrected in accordance with the prior distribution and the physical sense. It does not mean that calibration with the model $\mathcal{M}_1$ is incorrect, it only means that this model miss a substantial variance term. This term is the discrepancy and if one wants to be consistent with physics, one should consider the model $\mathcal{M}_3$ in this case.\newline
 
 \begin{figure}[htbp!]
 \begin{center}
@@ -1037,7 +1039,7 @@ The two other columns represent the third and the fourth models which have two m
 
 \newpage
 
-
+The use of a Gaussian process as a surrogate of the code (in the models $\mathcal{M}_2$ and $\mathcal{M}_4$) has to be manipulated with caution. Most of industrial codes are time consuming and the use of small DOE is required. However, if the surrogate does not represent well enough the numerical code, calibration will fail to retrieve a physical sense for the parameter. A shift of the \textit{posterior} density compared to the \textit{prior} density appear and calibration cannot be interpreted properly. A criterion can be introduced that can be seen as a recommendation upstream calibration: the $Q2$ of the surrogate has to be higher than $0.8$ to access proper calibration. Even with a $Q2>0.8$, calibration can lead to really wide \textit{posterior} densities which is the case in Figure \ref{fig:comparisionDensities1} for $\mathcal{M}_2$ and $\mathcal{M}_4$. This small decrease of variance \textit{a posteriori} might be unsatisfactory for the industrial company. An improvement of the Gaussian process can be brought by adding a small number of well chosen points in the original DOE. This methodology is a sequential design developed in \citet{damblin2018} and is based on the EGO optimization to find new points regarding further calibration. From the original DOE of $50$ points used to obtain calibrations with $\mathcal{M}_2$ and $\mathcal{M}_4$ in Figure \ref{fig:comparisionDensities1}, $10$ points are appended to the original DOE by using the sequential design. Then calibration is performed on the new Gaussian process emulated with the new DOE and the results are displayed in Figure \ref{fig:calibrationSeq}. \newline
 
 
 \begin{figure}[htbp!]
@@ -1063,32 +1065,10 @@ The two other columns represent the third and the fourth models which have two m
 \end{center}
 \end{figure}
 
+Figure \ref{fig:calibrationSeq} illustrates the new results based on the Gaussian process build after the design sequential and proves that with a better surrogate calibration is consistent with physics and with the models $\mathcal{M}_1$ and $\mathcal{M}_3$.\newline
 
 
-%\newpage
-
- %We can also notice that, for $\mathcal{M}_2$, the MAP estimator value seems coherent with the physical model. The surrogate used as a replacement of the code have introduced more uncertainties and, trying to compensate the bias introduced, calibration have found parameters densities which match more the reality with the surrogate.\newline
-
-% However, the estimation of $\boldsymbol{\theta}$ is different from those obtained with the first model.
- 
-The results of calibration performed for each model is displayed in Figure \ref{fig:calibrationSeq}. For each model, the \textit{prior} and the \textit{posterior} densities are confronted and in each case, it illustrates that a decrease of the variance which shows that calibration had improved the \textit{prior} knowledge. However the decrease of variance is not equal for every model. Indeed, in $\mathcal{M}_1$ the variances \textit{a posteriori} are lower than for $\mathcal{M}_2$. When the code is replaced by a surrogate based on a DOE of $50$ points, a term of variance is added (see equation (\ref{eq:VarianceFullLikelihood})) and the estimation is less accurate. The same phenomenon appears when comparing $\mathcal{M}_1$ and $\mathcal{M}_3$. The add of the discrepancy has brought a new term in the variance in the likelihood which increase the variance \textit{a posteriori}. The model $\mathcal{M}_4$ which combines a surrogate and a discrepancy has then a bigger variance \textit{a posteriori} than with the other models. The right column in Figure \ref{fig:comparisionDensities1} illustrates the \textit{prior} and \textit{posterior} of the variance of the white Gaussian noise. A strong disagreement appears in the model $\mathcal{M}_1$ because the \textit{posterior} mode of $\sigma_{err}^2$.
-
- 
-%From $\mathcal{M}_1$ to $\mathcal{M}_2$, a surrogate emulates the numerical code. Figure \ref{fig:comparisionDensities1} illustrates
-%a bigger variance \textit{a posteriori} for the parameters densities of $\mathcal{M}_2$ than $\mathcal{M}_1$. Replacing the code by
-%a surrogate, a low number of points, had brought more uncertainty.
-
-
-% Moreover, the densities for $\mathcal{M}_2$ appear to be out of step with $\mathcal{M}_1$.
-%Calibration behaves as if a bias has appeared with the surrogate. 
-%This is worth to note that using a surrogate not only increase the variance of the posterior distribution of the parameter $\boldsymbol{\theta}$ but may also have an impact on the mode. This is also observed when moving from $\mathcal{M}_3$ to $\mathcal{M}_4$. 
-%%This looks coherent with the results given Table \ref{tab:comparisonPG}, because the chosen surrogate with a small number of points is not a fairly good representation of the code.
-%Calibration seems to be less accurate when one uses a surrogate instead of the code. Degrading calibration just by using a surrogate 
-% Calibration is, then, altered by the surrogate which does not represent well enough the numerical code. When one possesses a time consuming code, one must be careful to the quality of the surrogate. It depends mainly on the points chosen in the DOE and some adaptive design have been proposed in literature as \citet{damblin2018} for example. To compare a case where the surrogate would be better, we will consider an initial DOE of $150$ points and we will increase this initial DOE with $10$ points chose according to the algorithm in \citet{damblin2018}. The results are given Figure \ref{fig:calibrationSeq} and illustrate that the \textit{posterior} modes have become consistent with the ones for the models $\mathcal{M}_1$ and $\mathcal{M}_3$.
-%Adding the discrepancy (from $\mathcal{M}_1$ to $\mathcal{M}_3$ and from $\mathcal{M}_2$ to $\mathcal{M}_4$) has almost always reduced the variances of the posterior distributions.
-%\newline
-
-We also depict correlation between the parameters. As a matter of fact, a strong positive and linear correlation links every parameters ($\eta$, $\mu_t$ and $a_r$) with each other as illustrated Figure \ref{fig:corrPlot}. A strong correlation appears between $\mu_t$ and $a_r$. A lower, but still meaningful, correlation is also visible between $\eta$ and $\mu_r$, and $a_r$ and $\eta$.\newline
+In the \textit{posterior} densities generated, we also depict correlation between the parameters. As a matter of fact, a strong positive and linear correlation links every parameters ($\eta$, $\mu_t$ and $a_r$) with each other as illustrated Figure \ref{fig:corrPlot}. A strong correlation appears between $\mu_t$ and $a_r$. A lower, but still meaningful, correlation is also visible between $\eta$ and $\mu_r$, and $a_r$ and $\eta$.\newline
 
 
 \begin{figure}[htbp!]
@@ -1176,9 +1156,9 @@ The Root Mean Square Error (RMSE) is also computed for the instantaneous power. 
 & $\mathcal{M}_1$ & $\mathcal{M}_2$ & $\mathcal{M}_3$ & $\mathcal{M}_4$ & $\mathcal{M}_2'$&  $\mathcal{M}_4'$ \\
 \hline
 \hline
-coverage rate at 90\% (in \%) & 91 & 32 & 87 & 23 & 64 & 0 \\
+coverage rate at 90\% (in \%) & 91 & 44 & 85 & NAN & 71 & NAN \\
 \hline
-RMSE of the instantaneous power ($W$) & 5.1 & 21.79 & 10.94 & NANY & 4.56 & NANY \\
+RMSE of the instantaneous power ($W$) & 5.103 & 21.79 & 4.56 & NAN & 10.94 & NAN \\
 \end{tabular}
 \end{table}
 
