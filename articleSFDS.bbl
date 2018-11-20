@@ -18,6 +18,12 @@ Bayarri, M.~J., Berger, J.~O., Paulo, R., Sacks, J., Cafeo, J.~A., Cavendish,
 \newblock A framework for validation of computer models.
 \newblock {\em Technometrics}, 49(2):138--154.
 
+\bibitem[Brynjarsd{\'o}ttir and OʼHagan, 2014]{jenny}
+Brynjarsd{\'o}ttir, J. and OʼHagan, A. (2014).
+\newblock Learning about physical parameters: The importance of model
+  discrepancy.
+\newblock {\em Inverse Problems}, 30(11):114007.
+
 \bibitem[Carmassi, 2018]{CaliCo}
 Carmassi, M. (2018).
 \newblock {\em CaliCo: Code Calibration in a Bayesian Framework}.
@@ -40,6 +46,12 @@ Currin, C., Mitchell, T., Morris, M., and Ylvisaker, D. (1991).
   the design and analysis of computer experiments.
 \newblock {\em Journal of the American Statistical Association},
   86(416):953--963.
+
+\bibitem[Da~Veiga and Marrel, 2012]{da2012gaussian}
+Da~Veiga, S. and Marrel, A. (2012).
+\newblock Gaussian process modeling with inequality constraints.
+\newblock In {\em Annales de la Facult{\'e} des Sciences de Toulouse},
+  volume~21, pages 529--555.
 
 \bibitem[Damblin, 2015]{damblin2015}
 Damblin, G. (2015).
@@ -69,6 +81,12 @@ Duffie, J.~A. and Beckman, W.~A. (2013).
 Fang, K.-T., Li, R., and Sudjianto, A. (2005).
 \newblock {\em Design and modeling for computer experiments}.
 \newblock CRC Press.
+
+\bibitem[Gu and Wang, 2017]{gu}
+Gu, M. and Wang, L. (2017).
+\newblock An improved approach to bayesian computer model calibration and
+  prediction.
+\newblock {\em arXiv preprint arXiv:1707.08215}.
 
 \bibitem[Hastings, 1970]{Hastings1970}
 Hastings, W.~K. (1970).
@@ -133,6 +151,11 @@ Metropolis, N., Rosenbluth, A.~W., Rosenbluth, M.~N., Teller, A.~H., and
 Morris, M.~D. (1991).
 \newblock Factorial sampling plans for preliminary computational experiments.
 \newblock {\em Technometrics}, 33(2):161--174.
+
+\bibitem[Morris and Mitchell, 1995]{morris1995exploratory}
+Morris, M.~D. and Mitchell, T.~J. (1995).
+\newblock Exploratory designs for computational experiments.
+\newblock {\em Journal of statistical planning and inference}, 43(3):381--402.
 
 \bibitem[Oberkampf et~al., 1998]{oberkampf1998}
 Oberkampf, W.~L., Sindir, M., and Conlisk, A. (1998).
