@@ -40,6 +40,8 @@
 \startlocaldefs
 % Commandes auteurs spécifiques, par exemple :
 \newcommand{\EP}[1]{\textcolor{blue}{(eric): #1}}
+\newcommand{\new}[1]{\textcolor{blue}{ #1}}
+
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\E}{\mbox{\tiny \`eme}}
 \def\1{1\kern-.20em {\rm l}}
@@ -88,25 +90,24 @@
     	}
     \and
     \auteur{
-      \prenom{Merlin} 
+      \prenom{Matthieu} 
+      \nom{Chiodetti}
+      \thanksref{t1}
+      \contact[label=e3]{matthieu.chiodetti@edf.fr}
+        }
+	\and
+    \auteur{\prenom{Merlin} 
       \nom{Keller}
       \thanksref{t3}
       \contact[label=e4]{merlin.keller@edf.fr}
-	    }
-	\and
+	  	}
+    \and
     \auteur{
       \prenom{Eric} 
       \nom{Parent}
       \thanksref{t2}
       \contact[label=e5]{eric.parent@agroparistech.fr}
-  		}
-    \and
-    \auteur{
-      \prenom{Matthieu} 
-      \nom{Chiodetti}
-      \thanksref{t1}
-      \contact[label=e3]{matthieu.chiodetti@edf.fr}
-    	}
+  	}
 
      \affiliation[t1]{EDF R\&D, TREE department, Moret-sur-Loing 
      }
@@ -120,7 +121,7 @@
   \end{aug}
 
 \begin{abstract}
-Les difficultés de mise en oeuvre d'expériences de terrain ou de laboratoire, ainsi que les coûts associés, conduisent les sociétés 
+Les difficultés de mise en \oe uvre d'expériences de terrain ou de laboratoire, ainsi que les coûts associés, conduisent les sociétés 
 industrielles à se tourner vers des codes numériques de calcul. Ces codes, censés être représentatifs des phénomènes physiques en jeu, 
 entraînent néanmoins tout un cortège de problèmes. Le premier de ces problèmes provient de la volonté de prédire la réalité à partir d'un 
 modèle informatique. En effet, le code doit être représentatif du phénomène et, par conséquent, être capable de simuler des données proches de  
@@ -133,7 +134,7 @@ Ce papier propose une revue des méthodes de calage bayésien et s'appuie sur un
   
 
 \begin{altabstract}
-Field experiments are often difficult and expensive to make. To bypass these issues, industrial companies have developed computational codes. These codes intend to be representative of the physical system, but come with a certain amount of problems. The code intends to be as close as possible to the physical system. It turns out that, despite continuous code development, the difference between the code outputs and experiments can remain significant. Two kinds of uncertainties are observed. The first one comes from the difference between the physical phenomenon and the values recorded experimentally. The second concerns the gap between the code and the physical system. To reduce this difference, often named model bias, discrepancy, or model error, computer codes are generally complexified in order to make them more realistic. These improvements lead to time consuming codes. Moreover, a code often depends on parameters to be set by the user to make the code as close as possible to field data. This estimation task is called calibration. This paper proposes a review of Bayesian calibration methods and is based on an application case which makes it possible to discuss the various methodological choices and to illustrate their divergences. This example is based on a code used to predict the power of a photovoltaic plant. 
+Field experiments are often difficult and expensive to carry out. To bypass these issues, industrial companies have developed computational codes. These codes are intended to be representative of the physical system, but come with a certain number of problems. Despite continuous code development, the difference between the code outputs and experiments can remain significant. Two kinds of uncertainties are observed. The first one comes from the difference between the physical phenomenon and the values recorded experimentally. The second concerns the gap between the code and the physical system. To reduce this difference, often named model bias, discrepancy, or model error, computer codes are generally complexified in order to make them more realistic. These improvements increase the computational cost of the code. Moreover, a code often depends on user-defined parameters in order to match field data as closely as possible. This estimation task is called calibration. This paper proposes a review of Bayesian calibration methods and is based on an application case which makes it possible to discuss the various methodological choices and to illustrate their divergences. This example is based on a code used to predict the power of a photovoltaic plant. 
 
 \end{altabstract}
 
@@ -163,7 +164,7 @@ Field experiments are often difficult and expensive to make. To bypass these iss
 
 %\paragraph{Pourquoi, contexte ?}
 
-Numerical experiments have become increasingly popular in many (if not all) industrial fields. Indeed, setting up field experiments can represent a huge investment for a company. Numerical simulations are generally considered as a substitute to bypass physical or field experiments \citep{santner2013,fang2005}. However, the complexity of computer codes, used in such simulations, increases with the capacity of computer processors, and sometimes at a much higher rate. The consequence is straightforward\hc some codes have become greedy in computational time \citep{sacks1989}. Moreover, a gap between computer code outputs and field measures of the physical process, sought to simulate, is routinely observed. 
+Numerical experiments have become increasingly popular in many (if not all) industrial fields, as setting up field experiments can represent a huge investment for a company. Numerical simulations are generally considered as a substitute to bypass physical or field experiments \citep{santner2013,fang2005}. However, the complexity of the computer codes used in such simulations increases with the capacity of computer processors, and sometimes at a much higher rate. As a result, some codes have become greedy in computational time \citep{sacks1989}. Moreover, a gap between computer code outputs and field measures of the physical process that the code seeks to simulate is routinely observed. 
 Checking the accuracy of the code by confronting it with field experiments is called validation \citep{bayarri2007}. This task is difficult since it is based on a few unavoidable field data and a computational code, often long to run. 
 All along this paper, we will use the word ``code'' as a proxy for numerical code, sometimes also called numerical model, simulator or computational code and field experiment for real world experiment.
 \newline
@@ -180,7 +181,7 @@ A code output is then written as $f_c(\boldsymbol{x},\boldsymbol{\theta})$ where
 In this paper, the quantity of interest is assumed to be a scalar but 
 extensions with high dimension outputs are
 possible \citep{higdon2008}. 
-Therefore, in what follows, the images of $\zeta$ and $f_c$ lie in $\mathbb{R}$.
+Therefore, in what follows, the outputs of $\zeta$ and $f_c$ lie in $\mathbb{R}$.
 \newline
 
 We consider that a vector of field data ($\boldsymbol{y}_{exp}$), which are noisy measurements of $\zeta$, is observed as a realization of the statistical model\hc
@@ -197,21 +198,19 @@ in making the vector of parameters $\boldsymbol{\theta}$ consistent in some sens
 verification and validation (V\&V). V\&V can be further split into 3 phases  described in \citet{roache1998}, \citet{bayarri2007} and \citet{oberkampf1998}.
 Calibration then aims at finding the "best" parameter vector $\boldsymbol{\theta}=\boldsymbol{\theta}^*$ such that the error term made by the
 code in a statistical model is minimal. Several statistical modeling strategies have been proposed in the literature. When only measurement errors
-are considered, \citet{cox2001} use a rather simple model, considering that the code does not differ from the phenomenon under study. As for
-\citet{higdon2004}, \citet{kennedy2001} and \citet{bayarri2007},  they advocate some extensions, which additionally encompass a \textit{model bias} 
-or a \textit{model error} term, also dubbed \textit{discrepancy} in the following. All of these models are reviewed and discussed in Section
+are considered, \citet{cox2001} use a rather simple model, considering that the code does not differ from the phenomenon under study while
+\citet{higdon2004}, \citet{kennedy2001} and \citet{bayarri2007} advocate for some extensions which encompass a \textit{model bias} 
+or a \textit{model error} term, also dubbed as \textit{discrepancy} in the following. All of these models are reviewed and discussed in Section
 \ref{sec:calibration}. The identifiability issues between the parameter $\boldsymbol{\theta}$ and the discrepancy were already discussed in the written discussions of \citet{kennedy2001}. \citet{tuo2015efficient} consider the calibration task as a minimization of a loss function between the code and the physical reality. 
-In \citet{tuo2016theoretical}, 
-%they interpret the definition of \citet{kennedy2001} for $\boldsymbol{\theta}$ (the ``best-fitting'' parameter) as being the minimizer of the reproducing kernel Hilbert space norm based on the prior distribution of the discrepancy.
-they show that this loss function leads to an estimation of $\boldsymbol{\theta}$ depending on the chosen prior distribution of the discrepancy. Then,  \citet{plumlee2017} advices an orthogonality 
-specification for the discrepancy i.e. the discrepancy should be orthogonal to the gradient of the computer code with respect to a loss function.
+In \citet{tuo2016theoretical}, they show that this loss function leads to an estimation of $\boldsymbol{\theta}$ depending on the chosen \textit{prior} distribution of the discrepancy. Then,  \citet{plumlee2017} advices an orthogonality 
+specification for the discrepancy \textit{i.e.} the discrepancy should be orthogonal to the gradient of the computer code with respect to a loss function.
 \newline
 
 
-As an industrial illustrative example, we will focus, in this paper, on predicting the energy production from a photovoltaic (PV) plant \citep{martin2001}. The industrial context is to go through proposals as a manufacturer and a supplier for PV plants. The selling price announced by the industrial company has to be competitive enough to be successful in the bidding process. Of course, the building costs and the production over the plant lifetime have to be known to evaluate the profit margins. Although a best guess-estimate, the deterministic evaluation of PV production through a sophisticated computer code, does not fulfill the needs of a financial investor in  PV projects. To evaluate the financial risks of his/her investment and consequently to make his decision, the investor needs to assess the uncertainty around the expected production estimation. To do so, all the sources of uncertainties have to be identified and treated in their current form. Calibration will be useful for hunting down the uncertainties related to the modeling and quantify the range of the main potential errors made in predicting the profit ratio.\newline
+As an industrial illustrative example, we will focus, in this paper, on predicting the energy production from a photovoltaic (PV) plant \citep{martin2001}. The industrial context is to go through proposals as a manufacturer and a supplier for PV plants. The selling price announced by the industrial company has to be competitive enough to be successful in the bidding process. Of course, the building costs and the production over the plant lifetime have to be known to evaluate the profit margins. Although a best guess-estimate, the deterministic evaluation of PV production through a sophisticated computer code, does not fulfill the needs of a financial investor in  PV projects. To evaluate the financial risks of his/her investment and consequently to make his decision, the investor needs to assess the uncertainty around the expected production estimation. To do so, all the sources of uncertainties have to be identified and treated in their current form. Calibration will be useful for hunting down the uncertainties related to the modeling and quantify the range of the main potential errors made in predicting the profit ratio. \new{This real case study will allow us to emphasize the differences between the statistical models used for calibration in a context where the statistical hypotheses usually made are not guaranteed to be valid.}
+\newline
 
-
-%\paragraph{Plan de l'article}
+%\paragraph{Plan de l'articile}
 
 This paper first presents the illustrative case study (Section \ref{PVsection}). The stakes are given with the explanation of the code and the source of the experimental data. Section \ref{sec:calibration} deals with the presentation of the many different statistical models one can find in the literature which have been developed for calibration. Then, a highlight of the different likelihoods and conditional densities needed for parameter estimation is provided. In Section \ref{sec:application}, the different statistical models are implemented and tested for the PV application case, in order to illustrate the various ways of reasoning behind calibration and point out their differences.
 
@@ -233,9 +232,7 @@ Consequently, the error made by the output of the code straightforwardly impacts
 To understand how the phenomenon has been coded, some explanation about how the PV cell works is needed. A PV cell is mainly composed of a semi-conductor material. For most technologies, this material is silicon \citep{luque2011}. The energy supply from the sun is remarkable at a quantum level. Indeed, the energy from the light spectrum will modify the energy levels of the silicon atoms until one electron appears. In a single crystal of semiconductor, two parts are visible. The ``p'' (positive) side which contains an excess of holes and the "n" side which contains an excess of electrons. A hole is an excess of a positive charge. The electron is by diffusion straightforwardly attracted to the hole, creating an electron/hole pair. The principle is to capture enough solar energy to create such an electron/hole pair. The displacement of an electron is directly  translated into electric current. The, so called, ``energy gap'', which has to be brought, corresponds to the difference between the energy of conduction band and the valence band. To create electricity, the incident solar ray on the PV cell has to have a spectrum energy higher than the energy gap. That is why, cloudy days are not favorable for PV plants production. The PV cell has a plastic film and a cover glass to protect the silicon. Otherwise, the lifetime of the cell would be too short because of its degradation. These protections act as a filter for the sun rays and some spectrum energy is lost. All in all, lots of conditions have to be met and only $20\%$ of the initial spectrum is at best transformed into electricity \citep{martin2001}. \newline
 
 
-The code, hereafter considered as a ``black box'', is a solver of the main equations mimicking the electrical behavior of the PV plant. All along the article the code will represent a PV test stand with 12 panels connected together. The considered power will be the one before the inverter (multiplication of the continuous current and continuous voltage). Fortunately, for an in-depth exploration of the complete range of situations encountered in the domain of Bayesian calibration of computer codes, the ``black box'' code $f_c$ appears to be fast for the case study (one launch needs only $39\mu s$ to run). To investigate what happens when the code is time consuming, we will simply slow it down by restructuring the number of runs allowed for the computer code $f_c$.
-%, as an artificial dirty but fruitful trick played to the computer code.
-The code depends on some parameter vector $\boldsymbol{\theta}$ and input variables $\boldsymbol{x}$ detailed as follows (also called general inputs in \citet{plumlee2017}): $\boldsymbol{\theta}=\begin{pmatrix}
+The code, hereafter considered as a ``black box'', is a solver of the main equations mimicking the electrical behavior of the PV plant. All along the article the code will represent a PV test stand with 12 panels connected together. The considered power will be the one before the inverter (multiplication of the continuous current and continuous voltage). Fortunately, for an in-depth exploration of the complete range of situations encountered in the domain of Bayesian calibration of computer codes, the ``black box'' code $f_c$ appears to be fast for the case study (one launch needs only $39\mu s$ to run). To investigate what happens when the code is time consuming, we will simply slow it down by restructuring the number of runs allowed for the computer code $f_c$. The code depends on some parameter vector $\boldsymbol{\theta}$ and input variables $\boldsymbol{x}$ detailed as follows (also called general inputs in \citet{plumlee2017}): $\boldsymbol{\theta}=\begin{pmatrix}
 \eta \\
 \mu_t \\
 n_t \\
@@ -258,7 +255,6 @@ The physical meaning of parameters is explained below \citep{duffie2013}\hc
 \item $n_t$\hc reference temperature for the normal operating conditions of the module in °$C$,
 \item $a_l$\hc reflection power of the ground (albedo),
 \item $a_r$\hc describe the transmission of the radiation as a function of the incidence angle of solar rays, which depends on optical properties and the cleanliness,
-%\item $h_{cw}$, $h_{c}$: convection coefficients
 \item $n_{inc}$\hc transmission factor for normal incidence. \newline
 \end{itemize}
 
@@ -273,9 +269,9 @@ The input variables contain all measurable data\hc
 \end{itemize}
 
 
-Note that some temporal aspect is taken into account through the input variables. We do not consider any delay in the PV reaction to the forcing conditions. Time $t$ indicates here a snap shot corresponding to the instant when the power has to be computed. This code only focuses on a specific time and if the evolution of the power over a day is what we look for, a repetition over the specific durations has to be made. This operation has to consider the number of time steps available. For example, if $300$ configurations of $\boldsymbol{x}$ are accessible for one day, the code will have to be executed $300$ times to have the power evolution over a day. For the rest of the article, we will denote the code output referring to the i\textsuperscript{th} time step by $f_c(\boldsymbol{x}_i,\boldsymbol{\theta})$ and by $f_c(\textbf{X},\boldsymbol{\theta})$ the code outputs corresponding to the whole time frame contained in matrix $\textbf{X}$. \newline
+Note that some temporal aspect is taken into account through the input variables. We do not consider any delay in the PV reaction to the forcing conditions. Time $t$ indicates here a snap shot corresponding to the instant when the power has to be computed. This code only focuses on a specific time and if the evolution of the power over a day is what we look for, a repetition over the specific duration has to be made. This operation has to consider the number of time steps available. For example, if $300$ configurations of $\boldsymbol{x}$ are accessible for one day, the code will have to be executed $300$ times to have the power evolution over a day. For the rest of the article, we will denote the code output referring to the i\textsuperscript{th} time step by $f_c(\boldsymbol{x}_i,\boldsymbol{\theta})$ and by $f_c(\textbf{X},\boldsymbol{\theta})$ the code outputs corresponding to the whole time frame contained in matrix $\textbf{X}$. \newline
 
-A sensitivity analysis performed according to the screening method of Morris \citep{morris1991} has showed that only the variations of $\eta$, $\mu_t$ and $a_r$ have a significant impact on the power. This sensitivity analysis consists in evaluating with elementary displacements in a normalized input space, the responses to these displacements on the output. To testify that $\eta$, $\mu_t$ and $a_r$ have a significant impact over a whole duration but not instantaneously a PCA (Principal Component Analysis) is performed on all outputs generated for the duration and for all combinations of the design of experiments (DOE) of Morris. On the new uncorrelated basis of the space, the information is summed up by a new Morris plot. This representation allows to visualize all the information summarized over the duration on one plot. However, to  implement such a method, the input space parameter needs to be well defined. That is why the work of the experts is really important. They have to define the range of each parameter as best as they can.\newline
+A sensitivity analysis performed according to the screening method of Morris \citep{morris1991} has showed that only the variations of $\eta$, $\mu_t$ and $a_r$ have a significant impact on the power. This sensitivity analysis consists in evaluating with elementary displacements in a normalized input space, the impacts of these displacements on the output. To demonstrate that $\eta$, $\mu_t$ and $a_r$ have a significant impact over a whole duration but not instantaneously a PCA (Principal Component Analysis) is performed on all outputs generated for the duration and for all combinations of the design of experiments (DOE) of Morris. On the new uncorrelated basis of the space, the information is summed up by a new Morris plot. This representation allows us to visualize all the information summarized over the duration on one plot. However, to  implement such a method, the input space parameter needs to be well defined. That is why the work of the experts is really important. They have to define the range of each parameter as best as they can.\newline
 
 
 
@@ -300,7 +296,7 @@ negative power. Data cleaning allows to detect and sort these errors. On the rig
 
 \subsection{Estimation of the error}
 
-So far, experts are using the code with some parameter values with the knowledge that these parameters are uncertain (the so called reference values). They can also provide more expertise on the nature of the parameter. For example for $a_r$, the nominal value is $0.17$ and experts state that the parameter lies within the $95\%$ confidence interval $[0.05,0.29]$. We chose to consider $a_r$ as Gaussian with $a_r\sim\mathcal{N}(\mu=0.17,\sigma^2=3.6.10^{-3})$. The standard deviation is chosen equal to $0.06$ because we have considered the upper bound and the lower bound of the given interval as respectively the quantiles $a_{r_{0.975}}$ and $a_{r_{0.025}}$. Similarly, $\eta$ and $\mu_t$ are taken as Gaussian such as $\eta\sim\mathcal{N}(\mu=0.143,\sigma^2=2.5.10^{-3})$ and $\mu_t\sim\mathcal{N}(\mu=-0.4,\sigma^2=10^{-2})$. If $100$ realizations are drawn from the joint distribution of $\eta$, $\mu_t$ and $a_r$, the production curve and the \textit{prior} credibility interval can be simultaneously plotted on a same graph to see how uncertain the predicted power is over a day. Figure \ref{fig:ParamError} illustrates on the left the distribution of $\eta$, $\mu_t$ and $a_r$ and on the right the production curve obtained for reference values and the \prior credibility interval at $90\%$. On the right side, experiments collected that same day are also displayed. One can check that the prior credibility interval, built thanks to the experts, looks coherent regarding the experimental data.\newline  
+So far, experts are using the code with some parameter values with the knowledge that these parameters are uncertain (the so called reference values). They can also provide more expertise on the nature of the parameter. For example for $a_r$, the nominal value is $0.17$ and experts state that the parameter lies within the $95\%$ confidence interval $[0.05,0.29]$. We chose to consider $a_r$ as Gaussian with $a_r\sim\mathcal{N}(\mu=0.17,\sigma^2=3.6.10^{-3})$. The standard deviation is chosen equal to $0.06$ because we have considered the upper bound and the lower bound of the given interval as respectively the quantiles $a_{r_{0.975}}$ and $a_{r_{0.025}}$. Similarly, $\eta$ and $\mu_t$ are taken as Gaussian such as $\eta\sim\mathcal{N}(\mu=0.143,\sigma^2=2.5.10^{-3})$ and $\mu_t\sim\mathcal{N}(\mu=-0.4,\sigma^2=10^{-2})$. If $100$ realizations are drawn from the joint distribution of $\eta$, $\mu_t$ and $a_r$, the production curve and the \textit{prior} credibility interval can be simultaneously plotted on a same graph to see how uncertain the predicted power is over a day. Figure \ref{fig:ParamError} illustrates on the left the distribution of $\eta$, $\mu_t$ and $a_r$ and on the right the production curve obtained for reference values and the \prior credibility interval at $90\%$. On the right side, experiments collected that same day are also displayed. One can check that the \textit{prior} credibility interval, built thanks to the experts, looks coherent regarding the experimental data.\newline  
 
 
 \begin{figure}[htbp!]
@@ -323,21 +319,19 @@ So far, experts are using the code with some parameter values with the knowledge
 	
     \end{tikzpicture}
     
-  \caption{$\pi(\eta)$, $\pi(\mu_t)$ and $\pi(a_r)$ prior densities (represented on the left panel) and induced credibility interval of the instantaneous power (right panel)}
+  \caption{$\pi(\eta)$, $\pi(\mu_t)$ and $\pi(a_r)$ \textit{prior} densities (represented on the left panel) and induced credibility interval of the instantaneous power (right panel)}
   \label{fig:ParamError}
 \end{figure}
 
 
 
 If one is interested in the energy produced rather than the power (the energy in $kWh$ is the power in $kW$ multiplied by a duration), one can easily compute the maximum and the minimum energy for say $100$ realizations. The energy for collected power is $W_{exp}=3.44 kWh$, the maximum energy computed $W_{max}=3.65 kWh$ and the minimum energy $W_{min}=2.93 kWh$. Straightforwardly $W_{min} < W_{exp} < W_{max}$ which means that the experts interval seems correct for that day. With the considered uncertainty on $\eta$, $\mu_t$ and $a_r$, the error made is about $20\%$ over only one day. 
-Considering this error over a day, cumulative error over a lifetime plant could be too prejudicial. The aim of the calibration is to quantify this error and, at the same time, increase the knowledge on the parameter distribution.
-%If we consider this error as constant, cumulative error over a lifetime plant could be too prejudicial. The aim of the calibration is to decrease this error on the output. 
-The results of calibration for this application case are detailed in Section \ref{sec:application}.
+Considering this error over a day, cumulative error over a lifetime plant could be too prejudicial. The aim of the calibration is to quantify this error and, at the same time, increase the knowledge on the parameter distribution. The results of calibration for this application case are detailed in Section \ref{sec:application}.
 
 
 \section{Calibration through statistical models \label{sec:calibration}}
 
-Calibration intends to find the ``best fitting'' parameters of a computational code, in order to minimize the difference between the output and the experiments. The variance of the measurement error is also unknown and has to be estimated as well as the parameters but will be considered as a nuisance parameter. It can be used in two cases. In a forecasting context \citep{craig2001}, where the calibrated code on data collected on site can be used to compute the behavior of the power plant over the next time period. But also, in a prediction context, where data from an experimental stand are used to predict the behavior of a non-existing stand (assuming they have the same features). \newline
+Calibration intends to find the ``best fitting'' parameters of a computational code, in order to minimize the difference between the output and the experiments. \new{The variance of the measurement error is also unknown and has to be estimated as well as the parameters but will be considered as a nuisance parameter. It can be used in two cases.} In a forecasting context \citep{craig2001}, where the calibrated code on data collected on site can be used to compute the behavior of the power plant over the next time period. But also, in a prediction context, where data from an experimental stand are used to predict the behavior of a non-existing stand (assuming they have the same features). \newline
 
 A simple way to express calibration is to write down a first and straightforward model. The computational code is set up to entirely replace the physical system. Intuitively, we can assume that $\forall \boldsymbol{x} \in \mathcal{H}, \zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta})$ for some well-chosen $\boldsymbol{\theta}$, which leads to the following equation\hc 
 
@@ -349,20 +343,10 @@ A simple way to express calibration is to write down a first and straightforward
 with $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$.\newline
 
 
-%The difficulties implied by such a model appear quickly. Indeed, to realize calibration, we need to compare for each candidate parameter value $\boldsymbol{\theta}$, the computer code output $f_c(\boldsymbol{x}_i,\boldsymbol{\theta})$ corresponding to each available observation $y_{exp_i}$.
-%
-%Actually, to estimate parameters, the maximum likelihood estimation could be a way to reach this purpose. To realize it, a lot of code calls are necessary. Especially in a Bayesian framework, where the update of a \prior  distribution with a likelihood is looked for, the number of runs are really important (straightforwardly linked to the number of runs in a Markov Chain Monte Carlo (MCMC) \cite{robert1996}). When the code is time-consuming, these methods become unrealistic. 
+The likelihood of such a model depends on $f_c$. In methods such as Maximum Likelihood Estimation (MLE) or as in Bayesian estimation (making recourse to many MCMC iterations), it becomes intractable to work with a time consuming $f_c$.\newline
 
-The likelihood of such a model is a function of $f_c$. In methods such as Maximum Likelihood Estimation (MLE) or as in Bayesian estimation (making recourse to many MCMC iterations), it becomes intractable to work with a time consuming $f_c$.\newline
-
-For the sake of simplicity we will consider, in what follows, the code as deterministic. It means that for the same inputs, the output of the code is identical, which is generally the case. Even in a deterministic context, a gap between the code and the physical system is often unavoidable. This gap is called code error or discrepancy. Some papers advocate for adding this discrepancy in the statistical models \citep{kennedy2001,higdon2004,bayarri2007,bachoc2014}. In the following, we present three models which take into account a time consuming code and/or an additional discrepancy.
+For the sake of simplicity we will consider, in what follows, the code as deterministic. It means that for the same inputs, the output of the code is identical, which is generally the case. Even in a deterministic context, a gap between the code and the physical system is often unavoidable. This gap is called code error or discrepancy. Some papers advocate for adding this discrepancy in the statistical models \citep{kennedy2001,higdon2004,bayarri2007,bachoc2014}. In the following, we present three other models which take into account a time consuming code and/or an additional discrepancy.
 \newline
-
-% Three different models are presented in the paper from this point which are conditioned by the issues mentioned above.
-%
-%Moreover, what is the legitimacy of the code regarding the physical system? Actually, a discrepancy often appears between the code and the physical system and has to be taken into account. Finally, a repetition of a code with same inputs could be different (stochastic code). For the sake of simplicity we will consider, for the rest of the article, the code as deterministic. We will therefore deal with the two remaining issues discussed above, which are: the code's computational complexity, and the presence of a discrepancy. These have motivated the development of several models which are described below. In this section, an overview of these models is given first. Then, the different likelihoods relative to each models will be detailed. Third, multiple ways to estimate the hyperparameters will be presented.
-
-%In the first section, an overview of these models is given. The second section will deal with the establishment of the likelihood depending on the different model. The third section will highlight the multiple ways to estimate parameters. This will lead to the part where the models are tested in the frame of our application case and where choices are presented and explained.
 
 \subsection{Presentation of the models}
 
@@ -370,15 +354,13 @@ For the sake of simplicity we will consider, in what follows, the code as determ
 
 \noindent Let us consider a time consuming code. As said above, in this particular case, the computational burden become too huge to perform calibration. That is why, \citet{sacks1989} introduced an emulation of the, not yet computed, outputs from the code by a random function, \textit{i.e.} a stochastic process. The common choice is oriented toward the Gaussian process because the conditional Gaussian process is still a Gaussian process (see Appendix \ref{ap:GaussianProcesses} for more details). It is, parsimoniously, defined by its mean and covariance functions. The first ``simple'' and straightforward model was introduced by \citet{cox2001} which uses this emulation of $f_c$.
 
-%An analytic form as a stochastic process would allow to compute this surrogate as many times as we want. A limited number of run of the time consuming code gives us simulated data and can help to design this surrogate. In \cite{sacks1989}, the stochastic process chosen is a Gaussian process defined by its mean and covariance functions (see the appendix \ref{ap:GaussianProcesses} for more details). 
-
 \begin{eqnarray}
 \mathcal{M}_2 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i} &=& F(\boldsymbol{x}_i,\boldsymbol{\theta}) + \epsilon_i,
 \label{eq:M2}\\
 F(\bullet,\bullet) & \sim &{\mathcal{GP}}{\Big(m_S(\bullet,\bullet),c_S\{(\bullet,\bullet),(\bullet,\bullet)\}\Big)},
 \nonumber
 \end{eqnarray}
-where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$ and the random function $F(\boldsymbol{x}_i,\boldsymbol{\theta})$ stands for a Gaussian process (GP) over the joint domain of $\boldsymbol{x}_i$ and $\boldsymbol{\theta}$. For the following, we consider that the measurement error is independent from the error made by the Gaussian process. The mean function $m_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$ is generally a linear form of simple functions of $\boldsymbol{x}_i$ and $\boldsymbol{\theta}$. Its covariance function $c_S\{(\boldsymbol{x}_i^*,\boldsymbol{\theta}^*),(\boldsymbol{x}_i,\boldsymbol{\theta})\}=\sigma_S^2 r_{\boldsymbol{\psi}_S}\{(\boldsymbol{x}_i^*,\boldsymbol{\theta}^*),(\boldsymbol{x}_i,\boldsymbol{\theta})\}$ is such as the function $r_{\boldsymbol{\psi_S}}\{(\bullet,\bullet),(\bullet,\bullet)\}$ is the correlation function with a vector parameter $\boldsymbol{\psi}_S$. This parameter vector represents the scale and the regularity of the kernel and where $\sigma_S^2$ represents the variance. The mean $m_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$ can be written as\newline
+where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$ and the random function $F(\boldsymbol{x}_i,\boldsymbol{\theta})$ stands for a Gaussian process (GP) over the joint domain of $\boldsymbol{x}_i$ and $\boldsymbol{\theta}$. \new{For the following, we consider that the measurement error is independent on the error made by the Gaussian process}. The mean function $m_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$ is generally a linear form of simple functions of $\boldsymbol{x}_i$ and $\boldsymbol{\theta}$. Its covariance function $c_S\{(\boldsymbol{x}_i^*,\boldsymbol{\theta}^*),(\boldsymbol{x}_i,\boldsymbol{\theta})\}=\sigma_S^2 r_{\boldsymbol{\psi}_S}\{(\boldsymbol{x}_i^*,\boldsymbol{\theta}^*),(\boldsymbol{x}_i,\boldsymbol{\theta})\}$ is such as the function $r_{\boldsymbol{\psi_S}}\{(\bullet,\bullet),(\bullet,\bullet)\}$ is the correlation function with a vector parameter $\boldsymbol{\psi}_S$. This parameter vector represents the scale and the regularity of the kernel and where $\sigma_S^2$ represents the variance. The mean $m_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$ can be written as\newline
 
 
 
@@ -389,33 +371,26 @@ m_S(\boldsymbol{x}_i,\boldsymbol{\theta})=m_{\boldsymbol{\beta}_S}(\boldsymbol{x
 \end{equation}
 
 where $\boldsymbol{\beta}_S^T=(\beta_{S_0},\dots,\beta_{S_M})$ is the coefficient vector to be estimated and $\boldsymbol{h}_S(\bullet,\bullet)=(h_{S_0}(\bullet,\bullet),\dots\allowbreak,h_{S_M}(\bullet,\bullet))$ the row vector of regression functions where $h_{S_0}=1$. Similarly, we define the $n\times(M+1)$ matrix $\boldsymbol{H}_{S}(\boldsymbol{X},\boldsymbol{\theta})$ such as its $i^{th}$ row is $\boldsymbol{h}_{S}(\boldsymbol{x}_i,\boldsymbol{\theta})$. The correlation function can take multiple forms as Gaussian or Matérn for instance \citep[see][for more examples]{santner2013}.
-We will consider, for now and for all theoretical developments, the general form of $c_S\{(\bullet,\bullet),(\bullet,\bullet)\}=\sigma_S^2 r_{\boldsymbol{\psi}_S}\{(\bullet,\bullet),(\bullet,\bullet)\}$ where $\sigma_S^2$ is the variance and $r$ is the correlation function with a parameter vector $\boldsymbol{\psi}_S$. The advantage of using a surrogate model, for $f_c(\boldsymbol{X},\boldsymbol{\theta})$ is to alleviate the computational burden, at the cost of adding an additional source of uncertainty, and of increasing the number of uncertain parameters. Specific hypotheses, for instance a known smoothness of the random field, may help to choose the size of the parametric family in which the correlation
+We will consider, for now and for all theoretical developments, the general form of $c_S\{(\bullet,\bullet),(\bullet,\bullet)\}=\sigma_S^2 r_{\boldsymbol{\psi}_S}\{(\bullet,\bullet),(\bullet,\bullet)\}$ where $\sigma_S^2$ is the variance and $r$ is the correlation function with a parameter vector $\boldsymbol{\psi}_S$. The advantage of using an emulator, for $f_c(\boldsymbol{X},\boldsymbol{\theta})$ is to alleviate the computational burden, at the cost of adding an additional source of uncertainty, and of increasing the number of uncertain parameters. Specific hypotheses, for instance a known smoothness of the random field, may help to choose the size of the parametric family in which the correlation
 shape is to be assessed. 
-% We will see for the application case how such choices can impact the results. \PB{le fait on vraiment ?}\MCC{Non, tu as raison. On fixe des hypothèses au départ que l'on teste mais on ne va en aucun cas tester les effets des changements des noyaux ou des autres hypothèses.}
+
 \newline
 
 When the code is time consuming, a fixed number $N$ of simulations is set up. The ensuing simulated data (we will call them $\boldsymbol{y}_c$) are usually the image of a design of experiments (DOE) representative of the input space. Some interesting developments have been made on using the least possible points in the input space with some wise repartitions (the \textit{Latin Hilbert Space} sampling is one example, some good insights are available in \citet{pronzato2012}). \newline
 
-% \PB{il faut préciser à un moment que l'input space est le produit entre l'espace des x et des theta}
 Let us call $\boldsymbol{D}$ a DOE, a set of $N$ points sampled in the input space defined as the product of $\mathcal{H}$ and $\mathcal{Q}$. We can write $\boldsymbol{D}=\{ (\boldsymbol{x}_1^D,\boldsymbol{\tau}_1^D),\dots (\boldsymbol{x}_N^D,\boldsymbol{\tau}_N^D) \}$ where $\forall i \in \llbracket1,\dots,N\rrbracket \  (\boldsymbol{x}_i^D,\boldsymbol{\tau}_i^D)$ are chosen in $\mathcal{H}\times \mathcal{Q}$.
-% where $(\boldsymbol{\tau}_1^D,\dots,\boldsymbol{\tau}_N^D)$ is a set of $N$ vectors chosen accordingly to the DOE design in the input space parameter $\mathcal{Q}$. 
-The establishment of the DOE will lead to simulated data which are defined as $\boldsymbol{y}_c=f_c(\boldsymbol{D})$. The error made by the surrogate strongly depends on the numerical design of experiments used to fit the emulator. Adaptive numerical designs introduced in \citet{damblin2018} is a way to enhance the emulator when the goal is to calibrate the code. This method, based on a Gaussian process-based optimization called Efficient Global Optimization \citep{jones1998efficient}, allows to add, wisely regarding further calibration, another points in the original DOE. \newline
-
-% The aim is to use these $N$ points and the $n$ experimental points for estimating the parameters of the Gaussian process.\newline
+The establishment of the DOE will lead to simulated data which are defined as $\boldsymbol{y}_c=f_c(\boldsymbol{D})$. The error made by the emulator strongly depends on the numerical design of experiments used to fit the emulator. Adaptive numerical designs introduced in \citet{damblin2018} is a way to enhance the emulator when the goal is to calibrate the code. This method, based on a Gaussian process-based optimization called Efficient Global Optimization \citep{jones1998efficient}, allows to add, wisely regarding further calibration, other points into the original DOE. \newline
 
 \subsubsection{With a code error}
 
-\noindent Considering the computational code as a perfect representation of the physical system may be a too strong hypothesis and it is legitimate to wonder whether the code might differ from the phenomenon. This error (called discrepancy and introduced above) can be defined as\hc
-%This error (also called code error or discrepancy) has been introduced in many papers \citep{kennedy2001,bayarri2007,higdon2004} in a calibration framework. The definition of this term seems straightforward\hc
+\noindent Considering the computational code as a perfect representation of the physical system may be a too strong hypothesis and it is legitimate to wonder whether the code might differ from the phenomenon. This error (called discrepancy and introduced above) is defined as\hc
 \begin{equation*}
 \delta(\boldsymbol{x}_i)=\zeta(\boldsymbol{x}_i)-f_c(\boldsymbol{x}_i,\boldsymbol{\theta}).
 \end{equation*}
-In all the works cited above, this unknown discrepancy is modeled as a realization of a Gaussian process, this time yielding a random function over the domain of $\boldsymbol{X}$ variables only. For the sake of simplicity we will denote by $m_s$, $c_S$ ($c_{\sigma_S^2,\boldsymbol{\psi}_S}$) and $r_S$ ($r_{\boldsymbol{\psi}_S}$) the mean, covariance (with $\sigma_S^2$ as the variance) and correlation function relative to the surrogate and by $m_{\boldsymbol{\delta}}$, $c_{\boldsymbol{\delta}}$ ($c_{\sigma_{\boldsymbol{\delta}}^2,\boldsymbol{\psi}_{\boldsymbol{\delta}}}$) and $r_{\boldsymbol{\delta}}$ ($r_{\boldsymbol{\psi}_{\boldsymbol{\delta}}}$) the same functions relative to the discrepancy (respectively $\sigma_{\boldsymbol{\delta}}^2$ for the variance in the covariance function). 
-Note that $m_{\boldsymbol{\delta}}$ and $c_{\boldsymbol{\delta}}$ are functions of $\boldsymbol{x}$ only and not $\boldsymbol{\theta}$. The aim of adding the discrepancy lies in the fact that correlation is sometimes visible in the residuals and/or that no value of $\boldsymbol{\theta}$ makes the computer close to experiments. However, the discrepancy could lead to an identifiability issue. For example, it could easily exist two couples $(\boldsymbol{\theta},\delta(\boldsymbol{x}_i))$ and $(\boldsymbol{\theta}^*,\delta^*(\boldsymbol{x}_i))$ that verify the two equalities\hc $\delta(\boldsymbol{x}_i)=\zeta(\boldsymbol{x}_i)-f_c(\boldsymbol{x}_i,\boldsymbol{\theta})$ and $\delta^*(\boldsymbol{x}_i)=\zeta(\boldsymbol{x}_i)-f_c(\boldsymbol{x}_i,\boldsymbol{\theta}^*)$. Some papers \citep{higdon2004,bachoc2014,bayarri2007} advocate to set the mean of the discrepancy to 0 to solve this identifiability issue. The contribution of the discrepancy is widely discussed in literature and make the object of comparative studies in validation \citep{damblin2015}. \newline
+In all the works cited above, this unknown discrepancy is modeled as an occurrence of a Gaussian process, this time yielding a random function over the domain  $\mathcal{H}$ of input variables only. For the sake of simplicity, we will denote by $m_s$, $c_S$ ($c_{\sigma_S^2,\boldsymbol{\psi}_S}$) and $r_S$ ($r_{\boldsymbol{\psi}_S}$) the mean, covariance (with $\sigma_S^2$ as the variance) and correlation function relative to the emulator and by $m_{\boldsymbol{\delta}}$, $c_{\boldsymbol{\delta}}$ ($c_{\sigma_{\boldsymbol{\delta}}^2,\boldsymbol{\psi}_{\boldsymbol{\delta}}}$) and $r_{\boldsymbol{\delta}}$ ($r_{\boldsymbol{\psi}_{\boldsymbol{\delta}}}$) the same functions relative to the discrepancy (respectively $\sigma_{\boldsymbol{\delta}}^2$ for the variance in the covariance function). 
+Note that $m_{\boldsymbol{\delta}}$ and $c_{\boldsymbol{\delta}}$ are functions of $\boldsymbol{x}$ only and not $\boldsymbol{\theta}$. The aim of adding the discrepancy lies in the fact that correlation is sometimes visible in the residuals and/or that no value of $\boldsymbol{\theta}$ makes the computer close to experiments. However, the discrepancy could lead to an identifiability issue. For example, two  different couples $(\boldsymbol{\theta},\delta(\boldsymbol{x}_i))$ and $(\boldsymbol{\theta}^*,\delta^*(\boldsymbol{x}_i))$ may verify these two equalities\hc $\delta(\boldsymbol{x}_i)=\zeta(\boldsymbol{x}_i)-f_c(\boldsymbol{x}_i,\boldsymbol{\theta})$ and $\delta^*(\boldsymbol{x}_i)=\zeta(\boldsymbol{x}_i)-f_c(\boldsymbol{x}_i,\boldsymbol{\theta}^*)$. Some papers \citep{higdon2004,bachoc2014,bayarri2007} advocate to set the mean of the discrepancy to 0 to solve this identifiability issue. The contribution of the discrepancy is widely discussed in literature and makes the object of comparative studies in validation \citep{damblin2015}. \newline
 
-
-
-When the code is not time consuming, the real code $f_c$ is used\hc
+When the code is not time consuming, the (real) code $f_c$ is used\hc
 
 \begin{eqnarray}
 \mathcal{M}_3 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i}&=& f_c(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon_i,
@@ -424,29 +399,24 @@ When the code is not time consuming, the real code $f_c$ is used\hc
 \nonumber
 \end{eqnarray}
 
-where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$, and $\delta(\bullet)$ stands for a Gaussian process which mimics the discrepancy and will only depends on the input variables $\boldsymbol{x}$. For the rest of the article, we make the assumption that the discrepancy is independent from the measurement error. We can write $\delta(\bullet)\sim\mathcal{GP}(\boldsymbol{m}_{\delta}(\bullet),c_{\delta}(\bullet,\bullet))$ with $\forall \boldsymbol{x}, \ \boldsymbol{m}_{\delta}(\boldsymbol{x})={\boldsymbol{h}_{\delta}}(\boldsymbol{x})\boldsymbol{\beta}_{\delta}$ (where $\boldsymbol{h}_{\delta}$ is a row vector and $\boldsymbol{\beta}_{\delta}$ is a column vector if we choose a parametric representation of the mean) and $c_{\delta}$ the covariance function of the discrepancy. We also denote $\boldsymbol{H}_{\delta}(\boldsymbol{X})$ the $n$ row matrix, the $i^{th}$ row of which is $\boldsymbol{h}_{\delta}(\boldsymbol{x}_i)$.\newline
+where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$, and $\delta(\bullet)$ stands for a Gaussian process which mimics the discrepancy and  only depends on the input variables $\boldsymbol{x}$. \new{For the rest of the article, we make the assumption that the discrepancy is independent on the measurement error.} Therefore, we write $\delta(\bullet)\sim\mathcal{GP}(\boldsymbol{m}_{\delta}(\bullet),c_{\delta}(\bullet,\bullet))$ with $\forall \boldsymbol{x}, \ \boldsymbol{m}_{\delta}(\boldsymbol{x})={\boldsymbol{h}_{\delta}}(\boldsymbol{x})\boldsymbol{\beta}_{\delta}$ (where $\boldsymbol{h}_{\delta}$ is a row vector and $\boldsymbol{\beta}_{\delta}$ is a column vector if we choose a parametric representation of the mean) and $c_{\delta}$ the covariance function of the discrepancy. We also denote $\boldsymbol{H}_{\delta}(\boldsymbol{X})$ the $n$ row matrix, the $i^{th}$ row of which is $\boldsymbol{h}_{\delta}(\boldsymbol{x}_i)$.\newline
 
 When the code is time consuming, the systematic use of $f_c$ is not computationally acceptable.
-Then, as for Model $\mathcal{M}_2$, the code is replaced with a Gaussian process. This leads to the more generic model introduced in \citet{kennedy2001}.
+Then, as for Model $\mathcal{M}_2$, the code is replaced by a Gaussian process emulator. This leads to the more generic model introduced in \citet{kennedy2001}.
 
-% 
-% The replacement of the, not yet computed, values of $f_c$ by a Gaussian process may bring a bias and has to be taken
-% into account into the statistical model. The more generic model has been introduced in \citet{kennedy2001}. 
-% Model $\mathcal{M}_4$ remains close to $\mathcal{M}_3$.
 
 \begin{equation}
 \mathcal{M}_4 \ : \ \forall i \in \llbracket1,\dots,n\rrbracket \quad y_{exp_i}= F(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon_i,
 \label{eq:M3p}
 \end{equation}
-where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$, $F(\boldsymbol{x}_i,\boldsymbol{\theta})$ and $\delta(\boldsymbol{x}_i)$ are two Gaussian
-processes defined as before. Similarly than before, we consider, for the following, that the measurement error, the discrepancy and the error induced by the surrogate are all independent.
-In their model, \citet{kennedy2001} also used a scale parameter $\rho$ in front of $F$.
+where $\forall i \in \llbracket1,\dots,n\rrbracket \quad \epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$, $F(\boldsymbol{x}_i,\boldsymbol{\theta})$ and $\delta(\boldsymbol{x}_i)$ are the two Gaussian
+processes defined as before. \new{Similarly as before, we consider, for the following, that the measurement error, the discrepancy and the error induced by the emulator are all independent.}
+In their model, \citet{kennedy2001} also used a multiplicative scale parameter $\rho$ for $F$.
 This parameter is usually set to $1$ in many works  in order to achieve the best estimate on $\boldsymbol{\theta}$.
-Thus, we omit this parameter in the model definition.
+Thus, we omit this scaling parameter in the model definition.
 \newline
 
-%The assumption to take, the multiplicative bias, $\rho$ as constant seems natural and follows if $F(\bullet,\bullet)$, $\delta(\bullet)$, and $\zeta(\bullet)$ are stationary processes \citep{kennedy2001}. Mainly the mean function of the discrepancy is considered linear and the particular case of $\rho=1$ is introduced in \citet{bayarri2007}. We will consider for the rest of the article $\rho=1$.
-A quantification of the bias form is the aim of both models. If we are interested in improving the computational code or its surrogate, it is usually fair to set the mean of the discrepancy to zero and find the best tuning parameter vector which compensates a potential bias \citep{higdon2004,bachoc2014}. \newline
+A quantification of the bias form is the aim of both models. If we are interested in improving the computational code or its emulator, it is usually fair to set the mean of the discrepancy to zero and find the best tuning parameter vector which compensates a potential bias \citep{higdon2004,bachoc2014}. \newline
 
 \begin{figure}[htbp!]
   \centering
@@ -485,9 +455,8 @@ A quantification of the bias form is the aim of both models. If we are intereste
 
 
 Figure \ref{fig:DAG} is a summary of all the models introduced above. The directed acyclic graph (DAG) allows us to compare the structures of all the previously introduced models. 
-Specifically\hc if one considers only the grey nodes, the obtained DAG corresponds to Model $\mathcal{M}_1$. Adding the green node, the resulting DAG represents $\mathcal{M}_2$. Considering the grey and red nodes, yields a DAG for model $\mathcal{M}_3$ and the whole DAG represents the general model $\mathcal{M}_4$. Note that two categories of parameters are considered. The tuning parameters are only related to the code and other parameters (also called nuisance parameter) concern the measurement error, the surrogate or the discrepancy introduced in the models. In calibration, we only focus on the value of $\boldsymbol{\theta}$ but the other parameters introduced need to be estimated as well. We will dig into these estimation issues in Section \ref{sec:estimation}.\newline
-
-All these models introduce new parameters and need to be estimated as well as tuning parameters. Estimation needs to dive into technical aspects such as writing the likelihood for each model. The following section provides all the elements required to go one step further and carry out estimation. \newline
+Specifically\hc if one considers only the grey nodes, the obtained DAG corresponds to Model $\mathcal{M}_1$. Adding the green node, the resulting DAG represents $\mathcal{M}_2$. Considering the grey and red nodes, yields a DAG for model $\mathcal{M}_3$ and the whole DAG represents the general model $\mathcal{M}_4$. Note that two categories of parameters are considered. The tuning parameters are only related to the code and other parameters (also called nuisance parameter) concern the measurement error, the emulator or the discrepancy introduced in the models. In calibration, we only focus on the value of $\boldsymbol{\theta}$ but the other parameters introduced need to be estimated as well. We will dig into these estimation issues into the next sections. 
+\newline
 
 
 \subsection{Likelihood}
@@ -495,21 +464,18 @@ All these models introduce new parameters and need to be estimated as well as tu
 
 For estimating parameters (whatever framework used, Bayesian or Maximization Likelihood Estimation (MLE)), expressing the likelihood comes as the first requirement. Two major categories stand out. When the code is not time consuming, the main issue in code calibration (\textit{i.e.} the computational time burden) is avoided. When the code is time consuming, new parameters have to be taken into account and to be estimated. In the models $\mathcal{M}_2$ and $\mathcal{M}_4$, numerical data ($\boldsymbol{y}_c$) as much as field data ($\boldsymbol{y}_{exp}$) and can be collected into the whole data vector $\boldsymbol{y}^T=(\boldsymbol{y}_{exp}^T,\boldsymbol{y}_c^T)$. Then, in the models $\mathcal{M}_1$ and $\mathcal{M}_3$, data can only represent field data ($\boldsymbol{y}_{exp}$).
 In what follows, we will denote by $\boldsymbol{\theta}^*$ the true parameter vector.
-Note that it is well-defined only in Models~$\mathcal{M}_1$ and $\mathcal{M}_2$, as the value of $\boldsymbol{\theta}$ which satisfies\hc $\zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta}^*)$ for all possible $\boldsymbol{x}$, (assuming such a $\boldsymbol{\theta}$ exists and is unique). On the other hand, the models $\mathcal{M}_3$ and $\mathcal{M}_4$ are both defined by the relation $\zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta})+\delta(\boldsymbol{x})$, which holds for infinitely many couples $(\boldsymbol{\theta},\delta(\bullet))$, as discussed earlier. \citet{kennedy2001} avoid this issue by defining $\boldsymbol{\theta}^*$ as a ``best-fitting'' value, but it is unclear what this means exactly (see the discussion section of their paper for further details).\newline
-%Let $D_{exp}(\boldsymbol{X})=\{\boldsymbol{x}_1,\dots,\boldsymbol{x}_n\}$ denote the set of input variables and $D_{exp}(\boldsymbol{X},\boldsymbol{\theta})=\{(\boldsymbol{x}_1,\boldsymbol{\theta}),\dots,(\boldsymbol{x}_n,\boldsymbol{\theta})\}$ denote the input variables extended with the parameter values, both corresponding to experimental data. \newline
+Note that it is well-defined only in Models~$\mathcal{M}_1$ and $\mathcal{M}_2$, as the value of $\boldsymbol{\theta}$ which satisfies\hc $\zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta}^*)$ for all possible $\boldsymbol{x}$, is assumed to exist and to be unique. On the other hand, the models $\mathcal{M}_3$ and $\mathcal{M}_4$ are both defined by the relation $\zeta(\boldsymbol{x})=f_c(\boldsymbol{x},\boldsymbol{\theta})+\delta(\boldsymbol{x})$, which holds for infinitely many couples $(\boldsymbol{\theta},\delta(\bullet))$, as discussed earlier. \citet{kennedy2001} avoid this issue by defining $\boldsymbol{\theta}^*$ as a ``best-fitting'' value, but it is unclear what this means exactly (see the discussion section of their paper for further details).\newline
 
-%To simplify the number of parameter to deal with,
+In order to simplify the notation, we will use for the rest of the paper $\Phi=\{\sigma_S^2,\sigma_{\delta}^2,\boldsymbol{\psi}_S,\boldsymbol{\psi}_{\delta}\}$ and $\Phi_S=\{\sigma_S^2,\boldsymbol{\psi}_S\}$ and $\Phi_{\delta}=\{\sigma_{\delta}^2,\boldsymbol{\psi}_{\delta}\}$, where $\sigma_S^2$ and $\sigma_{\delta}^2$ are the variances of the two Gaussian processes respectively relative to the emulator and the discrepancy. The two parameter vectors $\boldsymbol{\psi}_S$ and $\boldsymbol{\psi}_{\delta}$ are relative to the correlation functions. Let us call $\boldsymbol{\beta}^T=(\boldsymbol{\beta}_S^T,\boldsymbol{\beta}_{\delta}^T)$ the vector of collected coefficient vectors.\newline
 
-In order to simplify the notation, we will use for the rest of the paper $\Phi=\{\sigma_S^2,\sigma_{\delta}^2,\boldsymbol{\psi}_S,\boldsymbol{\psi}_{\delta}\}$ and $\Phi_S=\{\sigma_S^2,\boldsymbol{\psi}_S\}$ and $\Phi_{\delta}=\{\sigma_{\delta}^2,\boldsymbol{\psi}_{\delta}\}$, where $\sigma_S^2$ and $\sigma_{\delta}^2$ are the variances of the two Gaussian processes respectively relative to the surrogate and the discrepancy. The two parameter vectors $\boldsymbol{\psi}_S$ and $\boldsymbol{\psi}_{\delta}$ are relative to the correlation functions. Let us call $\boldsymbol{\beta}^T=(\boldsymbol{\beta}_S^T,\boldsymbol{\beta}_{\delta}^T)$ the vector of collected coefficient vectors.\newline
-
-Both cases of time consuming or not time consuming code will be dealt with. The likelihood equations will be written for the generic forms of $\mathcal{M}_3$ and $\mathcal{M}_4$. The likelihoods for the simpler models
+The likelihood equations will be written for the generic forms of $\mathcal{M}_3$ and $\mathcal{M}_4$. The likelihoods for the simpler models
 $\mathcal{M}_1$ and $\mathcal{M}_2$ 
 will be then derived since  
 $\mathcal{M}_1\subset\mathcal{M}_3$ and $\mathcal{M}_2\subset\mathcal{M}_4$.\newline
 
 \subsubsection{A fast code}
 
-\noindent The generic model which deals with calibration with a code quick to run is detailed in \EqRef{eq:M3}. Experimental data are the only one needed because simulation data are free but will not bring additional information for the parameters of Model $\mathcal{M}_3$.
+\noindent The generic model which deals with calibration with a code quick to run is given in \EqRef{eq:M3}. Only experimental data are used to compute the likelihood.
 Experimental data follow a Gaussian distribution, the expectation of which
 is\hc \newline
 
@@ -524,7 +490,6 @@ Then, the expression of the variance is given by\hc
 \end{equation*}
 
 with $\forall (i,j) \in \llbracket1,\dots,n\rrbracket^2: (\boldsymbol{\Sigma}_{\delta}(\boldsymbol{X}))_{i,j} =(\boldsymbol{\Sigma}^{\Phi_{\delta}}_{\delta}(\boldsymbol{X}))_{i,j}= c_{\delta}(\{\boldsymbol{x}_i,\boldsymbol{x}_j\})$. 
-%\PB{mais $\delta$ discrepance ne dépend pas de $\theta$ non ??}
 The likelihood in this particular case can be written as
 
 \begin{equation}
@@ -546,11 +511,11 @@ Then the likelihood can be rewritten in an simpler way\hc
 \end{equation}
 
 The models using the code with or without the discrepancy do look quite similar. For theoretical development, it might be easier to work with the one without discrepancy. From an experimental point of view, it could be interesting to study the role of the code error. \newline
-%When the code turns out to be time consuming, the likelihoods relative to the models with Gaussian Processes surrogates become more complicated because the code $f_c$, itself, becomes a random object.\newline
+
 
 \subsubsection{A time consuming code}
 
-\noindent When a code is time consuming and replaced by a surrogate, additional parameters are to be estimated. As introduced above, a DOE is set up and intends to be a representative sample of the input space (variable and parameter input space). Simulated data from this DOE (called $\boldsymbol{y}_c$) will constitute additional data for the estimation of the nuisance parameters. Depending on how we consider that two sources of data are linked, 
+\noindent When a code is time consuming and replaced by an emulator, additional parameters are to be estimated. As introduced above, a DOE is set up and intends to be a representative sample of the input space (variable and parameter input space). Simulated data from this DOE (called $\boldsymbol{y}_c$) will constitute additional data for the estimation of the nuisance parameters. Depending on how we consider that two sources of data are linked, 
 multiple likelihoods can be set up. For the theoretical development, we will consider the general model $\mathcal{M}_4$ and we will detail the particular case $\mathcal{M}_2$ hereafter.\newline
 
 %%%%%%%%%%%%%%%%%%%    Full likelihood
@@ -566,16 +531,6 @@ The expectations can be written from both expectancies of $\pi(\boldsymbol{y}_{e
 \label{eq:ExpPartialLikelihood}
 \end{equation}
 
-%
-%\begin{equation}
-%\mathbb{E}[\boldsymbol{y}_c|\boldsymbol{\theta},\boldsymbol{\beta}_1,\Phi_1]= \boldsymbol{m}_c =\rho {\boldsymbol{H}_1}(D)\boldsymbol{\beta}_1
-%\label{eq:ExpPartialLikelihood}
-%\end{equation}
-%and,
-%
-%\begin{equation*}
-%\mathbb{E}[\boldsymbol{y}_{exp}|\boldsymbol{\theta},\boldsymbol{\beta},\Phi]=\rho {\boldsymbol{H}_1}(D_{exp}(\boldsymbol{\theta})) \boldsymbol{\beta}_1 + {\boldsymbol{H}_2}(D_{exp})\boldsymbol{\beta}_2
-%\end{equation*}
 
 This can be summed up for two component vectors $\boldsymbol{y}^T=(\boldsymbol{y}_{exp}^T,\boldsymbol{y}_c^T)$\hc
  
@@ -588,7 +543,7 @@ This can be summed up for two component vectors $\boldsymbol{y}^T=(\boldsymbol{y
 \end{split}
 \label{eq:MeanFullLikelihood}
 \end{equation}
-The variance matrix now includes the covariance functions of the discrepancy and the surrogate.
+The variance matrix now includes the covariance functions of the discrepancy and the emulator.
 
 \begin{equation}
 \begin{split}
@@ -609,7 +564,7 @@ where \begin{itemize}
 \end{itemize}
 \end{sloppypar}
 
-As a reminder $\boldsymbol{D}$ is the DOE set up to build the surrogate and is defined as $\boldsymbol{D}=\{ (\boldsymbol{x}_1^D,\boldsymbol{\tau}_1^D),\dots (\boldsymbol{x}_N^D,\boldsymbol{\tau}_N^D) \}$. The general expression of the full likelihood can then be expressed\hc
+As a reminder $\boldsymbol{D}$ is the DOE set up to build the emulator and is defined as $\boldsymbol{D}=\{ (\boldsymbol{x}_1^D,\boldsymbol{\tau}_1^D),\dots (\boldsymbol{x}_N^D,\boldsymbol{\tau}_N^D) \}$. The general expression of the full likelihood can then be expressed\hc
 
 \begin{equation}
 \begin{split}
@@ -622,7 +577,7 @@ As a reminder $\boldsymbol{D}$ is the DOE set up to build the surrogate and is d
 \citet{bayarri2007,higdon2004} advocate, in this particular case, to consider for the discrepancy a zero Gaussian process mean. Under this condition, we have $\boldsymbol{m}_{y}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})=\begin{pmatrix}
 \boldsymbol{H}_S(\boldsymbol{X},\boldsymbol{\theta})\\
 \boldsymbol{H}_S(\boldsymbol{D})
-\end{pmatrix}\boldsymbol{\beta}_S $ and the other terms remain the same. For the model $\mathcal{M}_2$ where a surrogate is used without any discrepancy \citep{cox2001}, the expectation becomes\hc
+\end{pmatrix}\boldsymbol{\beta}_S $ and the other terms remain the same. For the model $\mathcal{M}_2$ where an emulator is used without any discrepancy \citep{cox2001}, the expectation becomes\hc
 
 \begin{equation}
 \mathbb{E}[\boldsymbol{y}|\boldsymbol{\theta},\boldsymbol{\beta}_S;\boldsymbol{X},\boldsymbol{D}]=\boldsymbol{m}_{\boldsymbol{y}}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})=\boldsymbol{H}((\boldsymbol{X},\boldsymbol{\theta}),\boldsymbol{D})\boldsymbol{\beta}_S=\begin{pmatrix}
@@ -647,10 +602,10 @@ where covariances matrices are the same as defined before.\newline
 %%%%%%%%%%%%%%%%%%%%%%%%% Partial likelihood
 
 The estimation can be separated into different steps where the partial likelihood (Equation (\ref{eq:PartialLikelihood})) could be useful.
-This one only concerns simulated data and the corresponding surrogate.
+This one only concerns simulated data and the corresponding emulator.
 The partial likelihoods of the model $\mathcal{M}_2$ and $\mathcal{M}_4$ are then the same.
-That means we are only interesting in estimating the distribution $\pi(\boldsymbol{\beta}_S,\Phi_S|\boldsymbol{y}_c)$ where $\Phi_S=\{\sigma_S^2,\boldsymbol{\psi}_S\}$. The expectation can be obtained by considering only the mean function of the surrogate
-(\EqRef{eq:ExpPartialLikelihood}) and the variance is straightforwardly linked to the variance of the surrogate.
+That means we are only interesting in estimating the distribution $\pi(\boldsymbol{\beta}_S,\Phi_S|\boldsymbol{y}_c)$ where $\Phi_S=\{\sigma_S^2,\boldsymbol{\psi}_S\}$. The expectation can be obtained by considering only the mean function of the emulator
+(\EqRef{eq:ExpPartialLikelihood}) and the variance is straightforwardly linked to the variance of the emulator.
 
 \begin{equation*}
 \mathbb{V}ar[\boldsymbol{y}_c|\Phi_S;\boldsymbol{D}] = \boldsymbol{V}_c^{\Phi_S}(\boldsymbol{D})=\boldsymbol{V}_c(\boldsymbol{D})= \boldsymbol{\Sigma}_{c,c}(\boldsymbol{D}),
@@ -663,8 +618,6 @@ where $\forall (i,j)\in [1,\dots,N]^2: (\boldsymbol{\Sigma}_{c,c}(\boldsymbol{D}
 \mathcal{L}^M(\boldsymbol{\beta}_S,\Phi_S;\boldsymbol{y}_c,\boldsymbol{D})=\frac{1}{(2\pi)^{N/2}|\boldsymbol{V}_c(\boldsymbol{D})|^{1/2}}\exp\Bigg\{-\frac{1}{2}\Big(\boldsymbol{y}_c-\boldsymbol{m}_c(\boldsymbol{D})\Big)^T\boldsymbol{V}_c(\boldsymbol{D})^{-1}\Big(\boldsymbol{y}_c-\boldsymbol{m}_c(\boldsymbol{D})\Big)\Bigg\}.
 \label{eq:PartialLikelihood}
 \end{equation}
-
-%As the other model introduced by \citet{higdon2004} and \citet{bayarri2007} only deals with changes on the discrepancy, the partial likelihood remains identical as the one for the model in \citet{bayarri2007}. \newline
 
 
 %%%%%%%%%%%%%%%%%%%% Conditional distribution
@@ -718,7 +671,7 @@ Usually in a Bayesian framework, $\boldsymbol{\beta}$ is distributed according t
 \end{split}
 \label{eq:FullLikelihoodBeta}
 \end{equation}
-where $\hat{\boldsymbol{\beta}}(\boldsymbol{\theta},\Phi)=\boldsymbol{W}(\boldsymbol{\theta},\Phi)\boldsymbol{H}(\boldsymbol{\theta})^T\boldsymbol{V}(\boldsymbol{\theta},\Phi)^{-1}\boldsymbol{y}$ and $\boldsymbol{W}(\boldsymbol{\theta},\Phi)=\Big(\boldsymbol{H}(\boldsymbol{\theta})^T\boldsymbol{V}(\boldsymbol{\theta},\Phi)^{-1}\boldsymbol{H}(\boldsymbol{\theta})\Big)^{-1}$, considering the full conditional posterior for $\boldsymbol{\beta}$\hc $\boldsymbol{\beta}|\boldsymbol{\theta},\Phi,\boldsymbol{y}\sim\mathcal{N}(\hat{\boldsymbol{\beta}}(\boldsymbol{\theta},\Phi),\boldsymbol{W}(\boldsymbol{\theta},\Phi))$.
+where $\hat{\boldsymbol{\beta}}(\boldsymbol{\theta},\Phi)=\boldsymbol{W}(\boldsymbol{\theta},\Phi)\boldsymbol{H}(\boldsymbol{\theta})^T\boldsymbol{V}(\boldsymbol{\theta},\Phi)^{-1}\boldsymbol{y}$ and $\boldsymbol{W}(\boldsymbol{\theta},\Phi)=\Big(\boldsymbol{H}(\boldsymbol{\theta})^T\boldsymbol{V}(\boldsymbol{\theta},\Phi)^{-1}\boldsymbol{H}(\boldsymbol{\theta})\Big)^{-1}$, considering the full conditional \textit{posterior} for $\boldsymbol{\beta}$\hc $\boldsymbol{\beta}|\boldsymbol{\theta},\Phi,\boldsymbol{y}\sim\mathcal{N}(\hat{\boldsymbol{\beta}}(\boldsymbol{\theta},\Phi),\boldsymbol{W}(\boldsymbol{\theta},\Phi))$.
 }}
 \fi
 \subsection{Estimation \label{sec:estimation}}
@@ -742,25 +695,14 @@ These methods are applied in \citet{cox2001} for $\mathcal{M}_2$. For models $\m
 where \citet{cox2001} propose to get this minimum numerically. Then the estimation of the discrepancy is done by applying a nonparametric regression to the data $\{\boldsymbol{x_i},\boldsymbol{y_{exp_i}}-F(x_i,\hat{\boldsymbol{\theta}})\}_{i=1,\dots,n}$. Any nonparametric regressions are subject to offer working alternatives with this method which shows an interesting flexibility of the approach.\newline 
 
 
-%minimize the residual sum of squares or even the root mean square error:
-%
-%\begin{equation*}
-%\boldsymbol{\theta}^*=\underset{\boldsymbol{\theta}}{argmin} \sum_{i=1}^{n} [\boldsymbol{y}_{exp}-f_c(x,\boldsymbol{\theta})]^2
-%\end{equation*}
-
-%For more complicated models, it becomes quickly unrealizable. Another way to estimate these parameter would be to 
-
-
 \subsubsection{Bayesian estimation}
 
 \noindent Under the Bayesian framework, there are several \textit{ad hoc} short cuts to find estimators without evaluating and sampling from the entire joint 
 \posterior distribution of the unknowns. The idea behind is to consider a \prior distribution on each parameters which we will separate into two different categories. The first category represents the nuisance parameters
-which are typically $\{\sigma_S^2,\sigma_{\delta}^2,\boldsymbol{\psi}_S,\boldsymbol{\psi}_{\delta}\}$, $\sigma_{err}^2$ and $\boldsymbol{\beta}$. Those parameters are added because of the modeling.
-%\PB{ne faut il pas mettre $\beta_1$ ?? si processus ? }.
-The second category regroups the other parameters to estimate such as $\boldsymbol{\theta}$. We will work on the two generic models
+which are typically $\{\sigma_S^2,\sigma_{\delta}^2,\boldsymbol{\psi}_S,\boldsymbol{\psi}_{\delta}\}$, $\sigma_{err}^2$ and $\boldsymbol{\beta}$. Those parameters are added because of the modeling. The second category regroups the other parameters to estimate such as $\boldsymbol{\theta}$. We will work on the two generic models
 $\mathcal{M}_3$ and $\mathcal{M}_{4}$ with the corresponding sets of parameters to estimate.\newline
 
-The difference between both models lies in the fact that for $\mathcal{M}_3$ the code can be used as such and for $\mathcal{M}_4$ a surrogate is used to avoid running the code. In the further developments, the parameters to estimate will be relative to $\mathcal{M}_4$ and for going back to $\mathcal{M}_3$ it will be just necessary to omit the nuisance parameters relative to the surrogate. \newline
+The difference between both models lies in the fact that for $\mathcal{M}_3$ the code can be used as such and for $\mathcal{M}_4$ an emulator is used to avoid running the code. In the further developments, the parameters to estimate will be relative to $\mathcal{M}_4$ and for going back to $\mathcal{M}_3$ it will be just necessary to omit the nuisance parameters relative to the emulator. \newline
 
 
 As introduced before, it is common to take a weakly informative \prior on $\boldsymbol{\beta}$ such as $\pi(\boldsymbol{\beta}_S,\boldsymbol{\beta}_{\delta})\propto 1$. It is also reasonable to suppose that \prior information about $\boldsymbol{\theta}$ is independent from the \prior information about $\Phi$ and $\boldsymbol{\beta}$. The \prior density can then be expressed as
@@ -789,14 +731,8 @@ For a full Bayesian analysis, integrating $\Phi$ out is needed to finally get $\
 
 
 However, \citet{kennedy2001} and \citet{bayarri2007} have chosen an estimation in separate steps. This method called modularization by \citet{liu2009} makes inference simpler but gives only a convenient approximation of the exact \textit{posterior} (that separates the components of parameter $\Phi$ for each Gaussian Process involved). The first step consists in maximizing the likelihood $\mathcal{L}^M(\boldsymbol{\beta}_S,\Phi_S|\boldsymbol{y}_c;\boldsymbol{D})$ (Equation (\ref{eq:PartialLikelihood})) to get the maximum likelihood estimates (MLE) $\hat{\boldsymbol{\beta}}_S$ and $\hat{\Phi}_S$ of $\boldsymbol{\beta}_S$ and $\Phi_S$.
-In the second stage, these estimators are plugged into the conditional likelihood $\mathcal{L}^C(\boldsymbol{\theta},\boldsymbol{\beta}_{\delta},\Phi_{\delta};\boldsymbol{\beta}_S,\Phi_S,\boldsymbol{y}_{exp}|\boldsymbol{y}_c,\boldsymbol{X},\boldsymbol{D})$ (Equation \ref{eq:conditionalLikelihood}) from which the posterior density is sampled with MCMC methods. Note that this last step is the only one that differs from SMLE method from \citet{cox2001}.
+In the second stage, these estimators are plugged into the conditional likelihood $\mathcal{L}^C(\boldsymbol{\theta},\boldsymbol{\beta}_{\delta},\Phi_{\delta};\boldsymbol{\beta}_S,\Phi_S,\boldsymbol{y}_{exp}|\boldsymbol{y}_c,\boldsymbol{X},\boldsymbol{D})$ (Equation \ref{eq:conditionalLikelihood}) from which the \textit{posterior} density is sampled with MCMC methods. Note that this last step is the only one that differs from SMLE method from \citet{cox2001}.
 \newline
-
-
- %The first step consists in evaluating the parameters from the Gaussian process relative to the surrogate (we have called these parameters $\Phi_1$) using only simulated data. Experimental data could contain some information about $\Phi_1$ but they also depend on other parameters. Moreover, the number of experiments are usually much lower than the number of simulated data.
-
-
-%So the first stage consists in maximizing the density $\pi(\Phi|\boldsymbol{y}_c)$. Similarly to what has been made for obtaining \EqRef{eq:PosteriorDistribution}, we have the partial likelihood \EqRef{eq:PartialLikelihood} which is independent from $\boldsymbol{\theta}$.
   
 \iffalse
 {\color{blue}
@@ -832,7 +768,7 @@ when we integrate this equation regarding to $\boldsymbol{\beta}_2$ we can get (
 
 where $\hat{\boldsymbol{\beta}_2}=\boldsymbol{W}_2\boldsymbol{H}_2(D_{exp})\boldsymbol{V}^{-1}(\boldsymbol{y}-\hat{f_c}(D_{exp}))$, $\hat{f_c}(D_{exp})=\mathbb{E}[f_c(\boldsymbol{x}_i,\boldsymbol{\theta})|\boldsymbol{y}_c] \ \ \forall i \in [1,\dots,n]$ and $\boldsymbol{W}_2=\Big(\boldsymbol{H}_2(D_{exp})^T\boldsymbol{V}^{-1}\boldsymbol{H}_2(D_{exp})\Big)^{-1}$.} \newline
 \fi
-Another alternative method is developed in \citet{bayarri2007} where ``virtual'' residuals are studied ($\boldsymbol{y}_{exp}-f_c(\boldsymbol{X},\boldsymbol{\theta}_{prior})$ where $\boldsymbol{\theta}_{prior}$ is a prior value on $\boldsymbol{\theta}$). Then the \posterior densities of $\sigma_{\delta}^2$ and $\sigma_{err}^2$ are sampled with a Gibbs algorithm based on conditional complete distribution. Practically, this estimation is very time consuming. Indeed, the Gibbs sampler will compute at each iteration the full likelihood which contains a $(n+N)\times(n+N)$ matrix to invert.\newline
+Another alternative method is developed in \citet{bayarri2007} where ``virtual'' residuals are studied ($\boldsymbol{y}_{exp}-f_c(\boldsymbol{X},\boldsymbol{\theta}_{prior})$ where $\boldsymbol{\theta}_{prior}$ is a \textit{prior} value on $\boldsymbol{\theta}$). Then the \posterior densities of $\sigma_{\delta}^2$ and $\sigma_{err}^2$ are sampled with a Gibbs algorithm based on conditional complete distribution. Practically, this estimation is very time consuming. Indeed, the Gibbs sampler will compute at each iteration the full likelihood which contains a $(n+N)\times(n+N)$ matrix to invert.\newline
 
 \iffalse
 The aim of calibration is to find the ``best'' tuning parameters to mimic the physical system. Actually, once $\Phi$ is estimated by $\hat{\Phi}$ 
@@ -842,14 +778,12 @@ More theoretical details on these aspects are available in \citet{kennedy2001b}.
 \fi
 
 It seems intuitively more natural to estimate the parameters with the modularization technique. Indeed, simulated data only influence the
-value of the nuisance parameters relative to the surrogate. Experimental data are influencing nuisance parameters contained in the whole model.
-%For the application case, we have chosen the modularization method. This fourth section applies the PV plant production code in different contexts. 
-%We first consider the code as quick (as it actually is) and secondly we will investigate the case as if the code were time consuming. In both configurations,
-%we add the discrepancy to account for the effects of its addition on the current model.
+value of the nuisance parameters relative to the emulator. Experimental data are influencing nuisance parameters contained in the whole model.
+
 
 \section{Application to the prediction of power from a photovoltaic (PV) plant \label{sec:application}}
 
-In this section, the PV plant code is a toy example to try out all the models. First, we test the model $\mathcal{M}_1$ (Equation (\ref{eq:model1})), in which only the initial code and the measurement error are considered. The code is supposed, in this case, quick to run although, in most industrial case studies, numerical codes are time consuming. This is the first issue of feasibility met by engineers. In a second part, we apply Model $\mathcal{M}_2$ on our example to mimic the case when the code cannot be run at will. This model introduces a surrogate of the code and its characteristics will be detailed below. $\mathcal{M}_3$ is motivated by the gap between the reality and the code observed, most of the time, by engineers. In this case, we will add to $\mathcal{M}_1$ an error term for the discrepancy between the code and the phenomenon. This code error will be represented by a Gaussian process also detailed below. The final case is when both issues are occurring. That will lead to the consideration of $\mathcal{M}_4$ for the application case.\newline
+In this section, the PV plant code is a toy example to try out all the models. First, we test the model $\mathcal{M}_1$ (Equation (\ref{eq:model1})), in which only the initial code and the measurement error are considered. The code is supposed, in this case, quick to run although, in most industrial case studies, numerical codes are time consuming. This is the first issue of feasibility met by engineers. In a second part, we apply Model $\mathcal{M}_2$ on our example to mimic the case when the code cannot be run at will. This model introduces an emulator of the code and its characteristics will be detailed below. $\mathcal{M}_3$ is motivated by the gap between the reality and the code observed, most of the time, by engineers. In this case, we will add to $\mathcal{M}_1$ an error term for the discrepancy between the code and the phenomenon. This code error will be represented by a Gaussian process also detailed below. The final case is when both issues are occurring. That will lead to the consideration of $\mathcal{M}_4$ for the application case.\newline
 
 The Bayesian framework starts with the elicitation of \textit{priors} densities (that will not be discussed here \citep{Albert2012}). According to the experts we choose\hc
 \begin{itemize}
@@ -873,28 +807,55 @@ This will lead to better mixing properties for the following Metropolis Hastings
 
 Two months of data are studied. The PV production over August and September 2014 are available. We used those two months of data averaged per hour which makes 1019 points. For the cross validation, three days of instantaneous power (51 points) are taken off the learning set and used to evaluate the predictive power of the model considering the rest of the available data. \newline
 
-\subsubsection{The Gaussian process}
+\subsubsection{\new{Emulator}}
+%\PB{dire que c'est l'émulateur car la discrepance est aussi un GP}
 As said in Section \ref{PVsection}, $6$ input variables are needed to run the code. These are $t$ the UTC time, $L$ the latitude, $l$ the longitude, $I_g$ the global irradiation, $I_d$ the diffuse irradiation and $T_e$ the ambient temperature. The test stand is precisely located. Therefore, the latitude and the longitude are not to be considered since they do not change by records.\newline
-%We will consider them constant to the estimated value and will not take into account the variability of the GPS estimation. More, this computational code does not deal with the wind speed. Then, we will set the wind speed to the value of $1\ m/s$. \newline
 
-The major issue in emulating the behavior of the code is to deal with correlated variables. Actually, the global irradiation, diffuse irradiation and ambient temperature depend on the time which defines the sun position. If a space filling DOE, is taken into $[0,1]^4$ and then unnormalized between the upper and lower bounds of the $4$ input variables and the parameter, some configurations tested would not make any sense. We could obtain for example, a time which indicates the morning and a global irradiation value which corresponds at noon. To solve this problem, we choose to run a PCA (Principle Component Analysis) on the matrix containing all the $\boldsymbol{x}_i$'s (over the duration used for the calibration). The aim is to access an uncorrelated space in which we could sample a DOE which would keep a physical sense and then go back to the original space with the transformation matrix. \newline
-
+The major issue in emulating the behavior of the code is to deal with correlated variables. Actually, the global irradiation, diffuse irradiation and ambient temperature depend on the time which defines the sun position. If a space filling DOE, is taken into $[0,1]^4$ and then unnormalized between the upper and lower bounds of the $4$ input variables, many configurations tested would not make any sense. We could obtain for example, a time which indicates the morning and a global irradiation value which corresponds at noon. 
+\new{The projection and space-filling properties of a DOE such as a maximin Latin-Hypercube-Sample (LHS) DOE \citep{morris1995exploratory} are essentially relevant for uncorrelated inputs.
+A PCA on the matrix containing the input variables $\boldsymbol{x}_i$'s (over the duration used for calibration) provides a basis of the input space with uncorrelated axes. The bounds of the hypercubic domain in which the maximin LHS DOE is sampled, are then chosen with respect to these axes. Therefore, the DOE will be more concentrated in the domain corresponding to configurations for input variables that are physically relevant.
+Moreover, the 
+PCA could help to reduce the dimension of the input space if this dimension is large.}
+%To solve this problem, we choose to run a PCA (Principle Component Analysis) on the matrix containing all the  . The aim is to access an uncorrelated space in which we could sample a DOE which would keep a physical sense and then go back to the original space with the transition matrix. \newline
+\new{
 The main steps of this method are\hc
 \begin{enumerate}
-\item the PCA is realized on the matrix $X$ where the $i^{th}$ line contains $\boldsymbol{x}_i=\begin{pmatrix}
-t_i\\
-I_{g_i}\\
-I_{d_i}\\
-T_{e_i}\\
-\end{pmatrix}$ where $x_i \in \mathbb{R}^4$,
-\item the maximin LHS is sampled in the uncorrelated space given by the PCA,
-\item the transformation matrix $T$ allows us to go back in the original space,
-\item the code is run for those points and gives the computed data $\boldsymbol{y}_c$. \newline
+\item a PCA is performed on the matrix $\boldsymbol{X}$, the $i^{th}$ row of which is $X_i=(t_i,I_{g,i},I_{d,i},T_{e,i})$ for ${1\le i\le n}$. This matrix corresponds to the whole set of observed input variables. The matrix is scaled (each column is centered and scaled to unit variance).
+%where the $i^{th}$ line contains $\boldsymbol{x}_i=\begin{pmatrix}
+%t_i\\
+%I_{g_i}\\
+%I_{d_i}\\
+%T_{e_i}\\
+%\end{pmatrix}$ where $x_i \in \mathbb{R}^4$,
+\item From the eigenvectors given by the PCA, the transition matrix between the uncorrelated basis and the original basis of the input variable space $\boldsymbol{T} \in \mathcal{M}_{4,4}$ is computed.
+\item A maximin LHS DOE $\boldsymbol{D'}$ of $n$ points in dimension $d+p=4+3=7$ is sampled 
+with respect to the $4$ uncorrelated axes given by the PCA and the 3 dimensions of the parameters. The DOE is sampled in $[0,1]^7$ and then unnormalized with respect to minimal and maximal values of the coordinates of the input variables on the $4$ axes and
+with respect to the considered ranges of the $3$ parameters.
+\item The $4$ first coordinates of  the DOE $\boldsymbol{D'}: \ \boldsymbol{D'}_{1:4} $ corresponding to the input variables are 
+transformed by the transition matrix $T$: $ \boldsymbol{D}_{N,1:4}^T=\boldsymbol{T}\boldsymbol{D'}_{1:4}^T  $ and then
+$\boldsymbol{D}_{N,1:4}$ is unscaled which gives $\boldsymbol{D}_{1:4}$.
+It results in the DOE:
+ $\boldsymbol{D}=\left(\boldsymbol{D}_{1:4} \ \boldsymbol{D'}_{5:7}\right)$ where the coordinates corresponding to the parameters are concatenated to the coordinates of the input variables expressed in the original basis. 
+%$\boldsymbol{D}$ of $n$ points defined as $\boldsymbol{D}=\boldsymbol{T}\boldsymbol{D'}$ is calculated,
+\item Then, $\boldsymbol{y}_c=f_c(\boldsymbol{D})$ is computed to build the emulator.\newline
 \end{enumerate}
+%\PB{retravailler la partie PCA que le rev 1 ne trouve pas claire ?}
+}
 
-The Gaussian processes emulated from this method reveal to work much better. We also could have developed the method with an adaptive numerical design (see \citep{damblin2018}) to the correlated input variables. \newline
 
-To position the application case to a time consuming context, a limited number of experiments is allowed for the DOE which establishes the surrogate. We will limit the number of code calls to $50$ to investigate the time consuming situation and compare it to other situations more favorables. This number of experiments is taken when computer codes are extremely time consuming. \newline
+The Gaussian processes emulated from this method reveal to work much better.
+\new{
+To mimic a time consuming code context, we consider that only a limited number of numerical experiments is allowed for the DOE. % from which the emulator is established. 
+We will first limit the number of code calls to $50$ to investigate the high time consuming situation and compare it to situations where there is no limitation on the number of code calls.
+Since calibrations with such an emulator may be not accurate enough, we propose to improve the emulator by adding $10$ code calls with an adaptive design devoted to calibration  \citep{damblin2018}. The results with or without this adaptive procedure will be also compared.}
+
+%have troubles to mimic well enough the code regarding further calibration. That is why we have used a methodology to improve the emulator with an adaptive numerical design (see \citep{damblin2018}). In Section \ref{sec:results}, the method is quickly recalled and the results given in Figure \ref{fig:calibrationSeq} illustrate the improvement of calibration with such a design}
+%This, rather small, number of experiments is taken to mimic the situation  when computer codes are extremely time consuming.
+%\new{However they can still have troubles to mimic well enough the code regarding further calibration. That is why we have used a methodology to improve the emulator with an adaptive numerical design (see \citep{damblin2018}). In Section \ref{sec:results}, the method is quickly recalled and the results given in Figure \ref{fig:calibrationSeq} illustrate the improvement of calibration with such a design.}
+%We also could have developed the method with an adaptive numerical design (see \citep{damblin2018}) to the correlated input variables.
+%\PB{a changer maintenant qu'on l'a fait et le dire}
+
+
 %
 % To compare the quality of $\mathcal{M}_2$ with a DOE of $50$ points, we chose to compare it with a model $\mathcal{M}_2$ established with a DOE of $100$ points. \newline
 %
@@ -923,75 +884,51 @@ To position the application case to a time consuming context, a limited number o
 
 Model $\mathcal{M}_1$ described by Equation (\ref{eq:model1}) only deals with the measurement error. The code used in its simplest form only makes recourse to the parameters $\eta$, $\mu_t$ and $a_r$. In this case the parameters to infer on are $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ (where $\epsilon_i\overset{iid}{\sim}\mathcal{N}(0,\sigma_{err}^2)$).
 
-% The equation can be applied to our case by: 
-
-% \begin{equation*}
-% \forall i \in \llbracket1,n\rrbracket \quad y_{exp_i}=f_c(\boldsymbol{x}_i,a_r)+\epsilon(\boldsymbol{x}_i)
-% \end{equation*}
-
 \subsubsection{The second model $\mathcal{M}_2$}
 
-As defined Section \ref{sec:calibration}, when the code is time consuming, the solution is to mimic it with a Gaussian process (GP). For the GP emulator, we made the choice to consider the mean function $m_S(\bullet,\bullet)$ as a linear combination of linear functions. That means $\textbf{H}_S$ is a matrix of linear functions. The correlation function $r_S$ ($c_S=\sigma_S^2r_S$) chosen is defined by the following equation that corresponds to a Matérn $5/2$ kernel:
+As defined Section \ref{sec:calibration}, when the code is time consuming, the solution is to emulate it with a Gaussian process (GP). For the GP emulator, we made the choice to consider the mean function $m_S(\bullet,\bullet)$ as a linear combination of linear functions. That means $\textbf{H}_S$ is a matrix of linear functions. The correlation function $r_S$ ($c_S=\sigma_S^2r_S$) chosen is defined by the following equation that corresponds to a Matérn $5/2$ kernel:
 
-%We are now considering the code as if it were time consuming. In that case, the inference with MCMC chains would reveal computationally impossible to perform. To bypass this computational time burden, a surrogate $F(\bullet,\bullet)$ is introduced to mimic the code. As defined in the general framework, $F(\bullet,\bullet)\sim\mathcal{GP}(m_S(\bullet,\bullet),c_S\{(\bullet,\bullet),(\bullet,\bullet)\})$ \newline
-
-% The equation which summarizes this context is:
-
-% \begin{equation*}
-% \forall i \in \llbracket1,n\rrbracket \quad y_{exp_i}=F(\boldsymbol{x}_i,a_r)+\epsilon(\boldsymbol{x}_i)
-% \end{equation*}
-% where $\epsilon(\boldsymbol{x}_i)\sim\mathcal{N}(0,\sigma_{err}^2$ and $F(.,.)\sim\mathcal{GP}(m_1(.,.),c_{1_{\boldsymbol{\psi}_1}}(\{.,.\},\{.,.\})$.\newline
 \begin{equation}
-r_{\delta}(\boldsymbol{x},\boldsymbol{x}^*)= \Big(1+\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\delta}}+\frac{5||\boldsymbol{x}-\boldsymbol{x}^*||_2^2}{3\boldsymbol{\psi}_{\delta}^2}\Big)\exp\Big\{-\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{\boldsymbol{\psi}_{\delta}}\Big\}.
+r_{S}(\boldsymbol{x},\boldsymbol{x}^*)= \Big(1+\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{{\psi}_{S}}+\frac{5||\boldsymbol{x}-\boldsymbol{x}^*||_2^2}{3{\psi}_{S}^2}\Big)\exp\Big\{-\frac{\sqrt{5}||\boldsymbol{x}-\boldsymbol{x}^*||_2}{{\psi}_{S}}\Big\}.
 \label{eq:Matern52Ker}
 \end{equation}
 
-where $||\bullet||_2$ stands for the Euclidean norm.\newline
-% We have then added two parameters ($\sigma_1^2$ and $\boldsymbol{\psi}_1$) compared to the first model. 
-In this case, six parameters have to be estimated\hc $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$ and $\boldsymbol{\psi}_S$. \newline
+where $||\bullet||_2$ stands for the Euclidean norm.
+\new{We used an isotropic kernel in order to have only one range parameter ${\psi}_S$ to estimate.  In order to be consistent with this simplification, we normalized the input variables and the parameters by mapping each of them in the unit interval $[0,1]$ before computing the emulator.} 
+%\PB{je propose de mettre d'enlever le gras de  $\psi$ ici vu qu'on se limite à un parametre, verifier si c'est $[0,1]$ la normalisation}
+In this case, six parameters have to be estimated\hc $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$ and ${\psi}_S$. \newline
 
 \subsubsection{The third model $\mathcal{M}_3$}
 
 The third model introduces another GP for the discrepancy. We choose a different covariance kernel which is Gaussian (Equation (\ref{eq:GaussianKer})).
 Note that compared to Equation (\ref{eq:M3}), the discrepancy mean has been set to $0$ (\textit{i.e.} $m_{\boldsymbol{\delta}}(.)=0$). These choices are motivated by the fact that the purpose of calibration is to estimate the "best-fitting" 
-vector parameter $\boldsymbol{\theta}$. We do not want any compensation into any additional bias. This decision is consistent with \citet{bachoc2014} where the same hypothesis has been made.
+vector parameter $\boldsymbol{\theta}$. We do not want any compensation into any additional bias. This decision is consistent with \citet{bachoc2014} where the same hypothesis has been made. \new{We choose an isotropic Gaussian kernel for the correlation:}
 
-%The application of the third model is motivated by the assumption that there might occur a gap between the code and the phenomenon. Even after considering the measurement error, this gap is expected. This error term is called code error or discrepancy $\delta(\bullet)$. In a case where the code is not time consuming, the model which deals with this situation is $\mathcal{M}_3$ (Equation (\ref{eq:M3})). In the general framework $\delta(\bullet)\sim\mathcal{PG}(m_{\boldsymbol{\delta}}(\bullet),c_{\boldsymbol{\delta}}(\bullet,\bullet))$.\newline
 \begin{equation}
-r_S\{(\boldsymbol{x},\boldsymbol{\theta}),(\boldsymbol{x}^*,\boldsymbol{\theta}^*)\}= \exp\Big\{-\frac{1}{2}\frac{||(\boldsymbol{x},\boldsymbol{\theta})-(\boldsymbol{x}^*,\boldsymbol{\theta}^*)||_2^2}{\boldsymbol{\psi}_S^2}\Big\}
+r_\delta\{(\boldsymbol{x},\boldsymbol{\theta}),(\boldsymbol{x}^*,\boldsymbol{\theta}^*)\}= \exp\Big\{-\frac{1}{2}\frac{||(\boldsymbol{x},\boldsymbol{\theta})-(\boldsymbol{x}^*,\boldsymbol{\theta}^*)||_2^2}{{\psi}_\delta^2}\Big\}
 \label{eq:GaussianKer}
 \end{equation}
 
-% The equation in application to our case would be:
 
-% \begin{equation*}
-% \forall i \in \llbracket1,n\rrbracket \quad y_{exp_i}=f_c(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon(\boldsymbol{x}_i)
-% \end{equation*} 
-
-
-
-In this case, there are also six parameters to estimate that are $\eta$, $\mu_t$, $a_r$ $\sigma_{\delta}^2$, $\boldsymbol{\psi}_{\delta}$ and $\sigma_{err}^2$.
+In this case, there are also six parameters to estimate that are $\eta$, $\mu_t$, $a_r$ $\sigma_{\delta}^2$, ${\psi}_{\delta}$ and $\sigma_{err}^2$.
 
 \subsubsection{The fourth model $\mathcal{M}_4$}
 
-This part focuses on a time consuming code with discrepancy. This model uses the same surrogate and discrepancy defined above. The two correlation functions for the surrogate and the discrepancy were chosen with different regularity in order to distinguish the two Gaussian processes. It seems relevant to assume that the discrepancy is smoother than the code. That is why a Matérn correlation function is chosen for the code and a Gaussian correlation function for the discrepancy. In this case eight parameters need to be estimated which are $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$, $\boldsymbol{\psi}_S$, $\sigma_{\delta}^2$ and $\boldsymbol{\psi}_{\delta}$.
-%Referring to the equation \ref{eq:M3p} of $\mathcal{M}_4$ and considering the same hypotheses made in previous models, the equation that represents this case would be:
+This part focuses on a time consuming code with discrepancy. This model uses the same emulator and discrepancy defined above. The two correlation functions for the emulator and the discrepancy are chosen with different regularity in order to distinguish the two Gaussian processes. It seems relevant to assume that the discrepancy is smoother than the code. That is why a Matérn correlation function is chosen for the code and a Gaussian correlation function for the discrepancy. In this case eight parameters need to be estimated\hc  $\eta$, $\mu_t$, $a_r$, $\sigma_{err}^2$, $\sigma_S^2$, ${\psi}_S$, $\sigma_{\delta}^2$ and ${\psi}_{\delta}$.
 
-% \begin{equation*}
-% \forall i \in \llbracket1,n\rrbracket \quad y_{exp_i}=F(\boldsymbol{x}_i,\boldsymbol{\theta})+\delta(\boldsymbol{x}_i)+\epsilon(\boldsymbol{x}_i)
-% \end{equation*} 
-
-% where $F(.,.)$ and $\delta(.)$ are defined exactly identically as above.\newline
 
 \subsubsection{Estimation of the nuisance parameters}
 
-In our Bayesian framework, the choice of an estimation by modularization is made. It concerns only the second and the fourth model. As it is the case in \citet{kennedy2001}, a maximization of the probability $\pi(\Phi_S|\boldsymbol{y}_c)$ is done to estimate $\boldsymbol{\beta}_S$, $\sigma_S^2$ and $\boldsymbol{\psi}_S$ where $\boldsymbol{y}_c$ are the outputs of the code for all the points given by the DOE. This maximization is included in the R function \textit{km} from the package \textit{DiceKriging} \citep{roustant2012}.
+In the Bayesian framework, the choice of an estimation by modularization is made. It concerns only the second and the fourth model. As it is the case in \citet{kennedy2001}, a maximization of the probability $\pi(\Phi_S|\boldsymbol{y}_c)$ is performed to estimate $\boldsymbol{\beta}_S$, $\sigma_S^2$ and $\psi_s$ where $\boldsymbol{y}_c$ are the outputs of the code for all the points given by the DOE. This maximization is included in the R function \textit{km} from the package \textit{DiceKriging} \citep{roustant2012}.
+\new{The emulation fitting procedure is run several times since the estimation of the nuisance parameters relative to the code is very sensitive to the starting point of the optimization algorithm. The $Q^2$ criterion is used to choose which estimates are kept for the emulator used in calibration \citep{da2012gaussian}.}
 
+\subsection{Results \label{sec:results}}
 
-\subsection{Results}
+\new{Figure \ref{fig:comparisionDensities1} compares the results obtained with the help of the \textbf{R} package CaliCo \citep{CaliCo}. For each parameter $\eta$, $\mu$, $a_r$ and $\sigma_{err}^2$, the MCMC chains converge. Good mixing properties are confirmed by a visual check. Figure \ref{fig:comparisionDensities1} confronts the \textit{prior} densities with the \textit{posterior} densities. In almost every model, a decrease of the variance is quantifiable, which illustrates an improvement on the knowledge of the parameter density. However, the decrease of variance is not the same for every model. Calibration realized with the model $\mathcal{M}_2$ produces \textit{posterior} densities with larger variances than for $\mathcal{M}_1$. The replacement of the numerical code by a Gaussian process has added a variance term in the full likelihood which increases the variance \textit{a posteriori}. The same phenomenon is visible from the model $\mathcal{M}_3$ to the model $\mathcal{M}_4$. Calibration with the model $\mathcal{M}_1$ also highlights a strong disagreement in the estimation of the \textit{posterior} density of $\sigma_{err}^2$. The Maximum A Posteriori (MAP) of $\sigma_{err}^2$ is $6500\ W^2$ which makes a standard deviation of $80.6\ W$. This value is too high and has no physical trustworthiness. From calibration with the model $\mathcal{M}_1$ to the model $\mathcal{M}_3$, the \textit{posterior} density of $\sigma_{err}^2$ has been corrected in accordance with the \textit{prior} distribution and the physical sense. It does not mean that calibration with the model $\mathcal{M}_1$ is incorrect, it only means that this model misses a substantial variance term due to a structural error in the experimental data. This term is the discrepancy and if one wants to be consistent with physics, one should consider Model $\mathcal{M}_3$ in this case. Note that with Model $\mathcal{M}_2$ the variance of the measurement error decreases without the add of the discrepancy. 
+%It may be due to the fact that the Gaussian process that emulates the code creates a compensation that takes into account some part of the discrepancy.
+It may be due to the fact that the emulator is smoother than the code and taking into account the variance of the Gaussian process could regularize the estimation problem.}
+\newline
 
-
-Figure \ref{fig:comparisionDensities1} compares the results obtained with the help of the \textbf{R} package CaliCo \citep{CaliCo}. For each parameter $\eta$, $\mu$, $a_r$ and $\sigma_{err}^2$, the MCMC chains converge. Indeed, good mixing properties are chosen after a visual check. Figure \ref{fig:comparisionDensities1} confronts the \textit{prior} densities with the \textit{posterior} densities. In almost every model, a decrease of the variance is quantifiable which illustrates an improvement on the knowledge of the parameter density. However, the decrease of variance is not equal for every model. Calibration realized with the model $\mathcal{M}_2$ produces \textit{posterior} densities with bigger variances than for $\mathcal{M}_1$. The replacement of the numerical code by a Gaussian process have added a variance term in the full likelihood which increases the variance \textit{a posteriori}. The same phenomenon is visible from the model $\mathcal{M}_3$ to the model $\mathcal{M}_4$. Calibration with the model $\mathcal{M}_1$ also brings a strong disagreement in the estimation of the \textit{posterior} density of $\sigma_{err}^2$. The Maximum A Posteriori (MAP) of $\sigma_{err}^2$ is $6500\ W^2$ which makes a standard deviation of $80.6\ W$. This value is too high and has no physical trustworthiness. From calibration with the model $\mathcal{M}_1$ to the model $\mathcal{M}_3$, the \textit{posterior} density of $\sigma_{err}^2$ has been corrected in accordance with the \textit{prior} distribution and the physical sense. It does not mean that calibration with the model $\mathcal{M}_1$ is incorrect, it only means that this model miss a substantial variance term due to a structural error in the experimental data. This term is the discrepancy and if one wants to be consistent with physics, one should consider the model $\mathcal{M}_3$ in this case. Note that with the model $\mathcal{M}_2$ the variance of the measurement error decreases without the add of the discrepancy. It may be due to the fact that the Gaussian process that emulates the code creates a compensation that takes into account a part of the discrepancy. \newline
 
 \begin{figure}[htbp!]
 \begin{center}
@@ -1024,8 +961,8 @@ Figure \ref{fig:comparisionDensities1} compares the results obtained with the he
 	&  \includegraphics[width=.2\textwidth]{new/Model4/Serr.pdf}\\
 	 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
   \end{tabular}
-\caption{\textit{Prior} (in blue) and posterior (in red) densities of $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model.
-On the two first rows the two first models (without and with surrogate) which have only these four parameters to estimate.
+\caption{\textit{Prior} (in blue) and \textit{posterior} (in red) densities of $\eta$, $\mu_t$, $a_r$ and $\sigma_{err}^2$ for each model.
+On the two first rows the two first models (without and with emulator) which have only these four parameters to estimate.
 The two other rows represent the third and the fourth models which have two more parameters to estimate (see Figure \ref{fig:comparisionDensities2}).}
 \label{fig:comparisionDensities1}
 \end{center}
@@ -1033,8 +970,15 @@ The two other rows represent the third and the fourth models which have two more
 
 \newpage
 
-The use of a Gaussian process as a surrogate of the code (in the models $\mathcal{M}_2$ and $\mathcal{M}_4$) has to be manipulated with caution. Most of industrial codes are time consuming and the use of small DOE is required. However, if the surrogate does not represent well enough the numerical code, calibration will fail to retrieve a physical sense for the parameter. A shift of the \textit{posterior} density compared to the \textit{prior} density appears and calibration cannot be interpreted properly. A criterion can be introduced that can be seen as a recommendation upstream calibration\hc the $Q2$ of the surrogate has to be higher than $0.8$ to access proper calibration. Even with a $Q2>0.8$, calibration can lead to really wide \textit{posterior} densities which is the case in Figure \ref{fig:comparisionDensities1} for $\mathcal{M}_2$ and $\mathcal{M}_4$ ($Q2=0.826$ for the surrogate in $\mathcal{M}_2$ and $Q2=0.901$ for $\mathcal{M}_4$). This small decrease of variance \textit{a posteriori} might be unsatisfactory for the industrial company. An improvement of the Gaussian process can be brought by adding in the original DOE a small number of well chosen points. A methodology, called sequential design and developed in \citet{damblin2018},  is based on the EGO algorithm \citep{jones1998efficient} to find new points regarding further calibration. From the original DOE of $50$ points used for previous calibrations (for $\mathcal{M}_2$ and $\mathcal{M}_4$) in Figure \ref{fig:comparisionDensities1}, $10$ points are appended to the original DOE by using the sequential design. Then calibration is performed on the new Gaussian process emulated with the new DOE and the results are displayed in Figure \ref{fig:calibrationSeq}. \newline
-
+\new{The use of a Gaussian process emulator of the code (in Models $\mathcal{M}_2$ and $\mathcal{M}_4$) has to be handled with care and caution. Most of industrial codes are time consuming and the use of a limited number of points in the DOE is required. However, if the emulator does not represent well enough the numerical code, calibration will fail to retrieve a physical sense for the parameter. 
+%A shift of the \textit{posterior} density compared to the \textit{prior} density appears and calibration cannot be interpreted properly.
+%A criterion can be introduced that can be seen as a recommendation before pursuing with calibration\hc the $Q^2$ of the emulator has to be higher than $0.8$ to access proper calibration. 
+%ça peut être risqué de dire cela aussi catégoriquement, on pourrait mettre, 
+The performance of the emulator are assessed through the $Q^2$ criterion \citep{da2012gaussian}. However even a $Q^2$ larger than $0.8$ does not ensure similar calibration performance as if the actual code were used. In Figure \ref{fig:comparisionDensities1}, although $Q^2=0.83$ for $\mathcal{M}_2$ and $Q^2=0.90$ for $\mathcal{M}_4$, the \textit{posterior} distributions are quite wide. Moreover, the larger \textit{posterior} variances is not the only issue, a shift of the \textit{posterior} mode is also observed for some parameters which could lead to quite different point estimates for these parameters. From an industrial point of view, these issues in the estimation might be unsatisfactory.
+%Even with a $Q^2>0.8$, calibration can lead to really wide \textit{posterior} densities which is the case in Figure \ref{fig:comparisionDensities1} for $\mathcal{M}_2$ and $\mathcal{M}_4$ ($Q2=0.826$ for the emulator in $\mathcal{M}_2$ and $Q2=0.901$ for $\mathcal{M}_4$).
+%This small decrease of variance \textit{a posteriori} might be unsatisfactory for the industrial company. 
+An improvement of the Gaussian process can be brought by adding in the original DOE a small number of well chosen points. A strategy, called sequential design and developed in \citet{damblin2018},  is based on the EGO algorithm \citep{jones1998efficient} to find new points regarding further calibration. From the original DOE of $50$ points used for previous calibrations (for $\mathcal{M}_2$ and $\mathcal{M}_4$) in Figure \ref{fig:comparisionDensities1}, $10$ points are appended to the original DOE by using the sequential design. Then calibration is performed on the new Gaussian process emulated with the new DOE.% and the results are displayed in Figure \ref{fig:calibrationSeq}. \newline
+}
 
 \begin{figure}[htbp!]
 \begin{center}
@@ -1054,20 +998,22 @@ The use of a Gaussian process as a surrogate of the code (in the models $\mathca
 		 & $\eta$ & $\mu_t$ & $a_r$ & $\sigma_{err}^2$\\
 	&&&&\\
   \end{tabular}
-\caption{Calibration results for $\mathcal{M}_2'$ and $\mathcal{M}_4'$ which uses the surrogate based on the sequential design.}
+\caption{Calibration results for $\mathcal{M}_2'$ and $\mathcal{M}_4'$ which uses the emulator based on the sequential design.}
 \label{fig:calibrationSeq}
 \end{center}
 \end{figure}
 
-Figure \ref{fig:calibrationSeq} illustrates the new results based on the Gaussian process build after the sequential design and proves that with a better surrogate, calibration is consistent with physics and with the models $\mathcal{M}_1$ and $\mathcal{M}_3$.\newline
-
+\new{Figure \ref{fig:calibrationSeq} illustrates the improvement in the new results based on the Gaussian process built after the sequential design and proves that, with a better emulator, calibration appears to be consistent with the \textit{prior} densities
+%\PB{pourquoi car cohérent avec prior ??? si c'est ça le dire} 
+and then with Models $\mathcal{M}_1$ and $\mathcal{M}_3$.\newline
+}
 
 \begin{figure}[htbp!]
 \begin{center}
   \begin{tabular}{cccc}
 &  $\mathcal{M}_3$ & $\mathcal{M}_4$ & $\mathcal{M}_4'$ \\
     \rotatebox{90}{ \hspace{3em} \small density}
-	&  \includegraphics[width=.2\textwidth]{new/Model3/Serr.pdf}
+	&  \includegraphics[width=.2\textwidth]{new/Model3/Sig.pdf}
 	&  \includegraphics[width=.2\textwidth]{new/Model4/Sig.pdf}
 	&  \includegraphics[width=.2\textwidth]{new/Model4sd/Sig.pdf}\\
 	&\multicolumn{3}{c}{$\sigma_{\boldsymbol{\delta}}^2$}\\
@@ -1078,20 +1024,17 @@ Figure \ref{fig:calibrationSeq} illustrates the new results based on the Gaussia
 	&  \includegraphics[width=.2\textwidth]{new/Model4sd/psi.pdf}\\
 	&\multicolumn{3}{c}{$\psi_{\boldsymbol{\delta}}$}\\
   \end{tabular}   
-\caption{\textit{Prior} (in blue) and posterior (in red) densities of $\sigma_{\boldsymbol{\delta}}^2$ and $\psi_{\boldsymbol{\delta}}$ for $\mathcal{M}_3$, $\mathcal{M}_4$ and $\mathcal{M}_4'$.}
+\caption{\textit{Prior} (in blue) and \textit{posterior} (in red) densities of $\sigma_{\boldsymbol{\delta}}^2$ and $\psi_{\boldsymbol{\delta}}$ for $\mathcal{M}_3$, $\mathcal{M}_4$ and $\mathcal{M}_4'$.}
 \label{fig:comparisionDensities2}
 \end{center}
 \end{figure}
 
 Figure \ref{fig:comparisionDensities2} illustrates the estimation of the parameters from the discrepancy term.
 As expected, learning from data has improved our \textit{prior} belief by decreasing the \textit{prior} uncertainty of the parameters. 
-It shows that in both cases (with and without surrogate) that the convergence seems to be reached at some point. \newline
+It shows that in both cases (with and without emulator) that convergence seems to be reached at some point. \newline
 
 
-
-
-
-In the \textit{posterior} densities generated, we also depict correlation between the parameters. As a matter of fact, a strong positive and linear correlation links every parameters ($\eta$, $\mu_t$ and $a_r$) with each other as illustrated in Figure \ref{fig:corrPlot}. A strong correlation appears between $\mu_t$ and $a_r$. A lower, but still meaningful, correlation is also visible between $\eta$ and $\mu_r$, and $a_r$ and $\eta$.\newline
+In the \textit{posterior} densities generated, we also depict correlation between the parameters. As a matter of fact, a strong positive and linear correlation links every parameters ($\eta$, $\mu_t$ and $a_r$) with each other as illustrated in Figure \ref{fig:corrPlot}. A strong correlation appears between $\mu_t$ and $a_r$. A lower, but still meaningful, correlation is also visible between $\eta$ and $\mu_r$, as well as between $a_r$ and $\eta$.\newline
 
 
 \begin{figure}[htbp!]
@@ -1106,7 +1049,7 @@ In the \textit{posterior} densities generated, we also depict correlation betwee
 \\
 	&$\eta$ & &$\mu_t$ & & $a_r$\\
   \end{tabular}
-\caption{Correlation representation between the parameters}
+\caption{Correlation between parameters of Model $\mathcal{M}_1$}
 \label{fig:corrPlot}
 \end{center}
 \end{figure}
@@ -1114,12 +1057,12 @@ In the \textit{posterior} densities generated, we also depict correlation betwee
 
 \subsection{Comparison}
 
-To compare the prediction ability of the four models, a cross validation (CV) is performed. Three days of data (chosen randomly) are taken off the calibration dataset for each of the $100$ repetitions of the CV. 
-The power densities, generated from the MCMC samples, allow us to compute, for each model, the $90\%$ predictive credibility intervals. 
+To compare the prediction ability of the four models, a cross validation (CV) is performed. Three days of data (randomly chosen) are taken off the calibration dataset for each of the $100$ repetitions of the CV. 
+The densities, generated from the MCMC samples, allow us to compute, for each model, the $90\%$ predictive credibility intervals for power. 
 The coverage rate at $90\%$ represents the quantity of validation experiments contained in these credibility intervals.
 The Root Mean Square Error (RMSE) is also computed for the instantaneous power. The results are displayed Table 
 \ref{tab:comparison}.\newline
-%A visual check is also done on random MCMC chains to testify the good accuracy of the mixing properties.
+
 
 \begin{table}[htbp!]
 \centering
@@ -1136,38 +1079,50 @@ RMSE of the instantaneous power ($W$) & 5.103 & 21.79 & 4.56 & 18.78 & 10.94 & 9
 \end{tabular}
 \end{table}
 
-The coverage rates for $\mathcal{M}_1$ and $\mathcal{M}_3$ corresponds to the chosen credibility level.
-However for $\mathcal{M}_2$ and $\mathcal{M}_4$ the coverage rates are below this level. As expected the coverage rates of $\mathcal{M}_2'$ and $\mathcal{M}_4'$ increase since the quality of the surrogate has been improved. \newline
+\new{The coverage rates for $\mathcal{M}_1$ and $\mathcal{M}_3$ corresponds to the chosen credibility level.
+However for $\mathcal{M}_2$ and $\mathcal{M}_4$ the coverage rates are below this level. As expected, the coverage rates of $\mathcal{M}_2'$ and $\mathcal{M}_4'$ increase since the quality of the emulator has been improved. The coverage levels remain below $90\%$ which may be due to the negligence of some sources of uncertainty such as the estimation of the nuisance parameters. As noticed in Figure \ref{fig:calibrationSeq}, it has also led to spikier \textit{posterior} distributions for some of the parameters than the ones obtained with $\mathcal{M}_1$ or $\mathcal{M}_3$.}
+\newline
 
 
-Overall, the model $\mathcal{M}_3$ has better results than the others. This conclusion can be explained twofold. First, the code realizes a better prediction than the surrogate. Second, a correlation structure remains in the error. Adding the discrepancy in the model allows to catch up the real results. In the case where a surrogate is used instead of the code, the CV produces worse results which was expected since the number of points chosen in the DOE is not sufficient to reproduce the behavior of the code. The use of the sequential design to add only $10$ points had allowed to improve drastically the models for calibration and in prediction.\newline
-
+\new{Overall, the model $\mathcal{M}_3$ has better results than the others. The reasons why we obtain this conclusion are explained twofold. First, the code realizes a better prediction than the emulator. Second, a correlation structure remains in the error. Adding the discrepancy in the model allows to catch up the real results. In the case when an emulator is used instead of the code, the CV produces worse results which was expected since the number of points chosen in the DOE is not sufficient to reproduce the exact behavior of the code. The use of the sequential design (even adding only $10$ points) has allowed to improve drastically the models for both calibration and prediction.\newline
+}
 
 
 \section{Conclusion and discussion}
 
-This article focuses on code calibration which can be a very interesting way to deal with uncertainties in numerical experiments. The code used in the article, to allow comparisons with time consuming codes, is a quick code predicting power from small PV plant. This work can be extended to bigger computational codes in application at larger PV plants. As we are working with a physical code, it is important in this case to keep in mind the reality of the physical boundaries. This aspect had allowed us to confirm the presence of the discrepancy.\newline
+\new{This article focuses on code calibration which is a part of uncertainty quantification in numerical experiments. Although the code used in this paper is a quick code which predicts power generated from small PV plant, it was also treated as time consuming in order to investigate the consequences of emulation on calibration. In particular, it has been shown that sequential designs \citep{damblin2018} could help to perform a better calibration by improving the emulator.
+This work can then be extended to bigger computational codes in application at larger PV plants where emulation is required. As we are working with a physical code, it is important to keep in mind the meaning of the physical boundaries. Indeed, this has led
+to confirm and to interpret the presence of the discrepancy term.}
+\newline
+%this aspect had allowed us to confirm and interpret the presence of the discrepancy.\newline
 
-In most of industrial cases, the code is time consuming. The recourse of the models $\mathcal{M}_2$ and $\mathcal{M}_4$ are often unavoidable. The quality of the Gaussian process used to emulate the code has a real impact on calibration accuracy. As a limited number of code calls is authorized, methods such as sequential design \citep{damblin2018} can be useful to improve the quality of the Gaussian process with a restricted number of additional points. \newline
-
+%\new{In most of industrial cases, the code is time consuming. The recourse to the models $\mathcal{M}_2$ and $\mathcal{M}_4$ is often unavoidable. The quality of the Gaussian process used to emulate the code has a real impact on the calibration accuracy. As a limited number of code calls is authorized, methods such as sequential design \citep{damblin2018} can be useful to improve the quality of the Gaussian process with a restricted number of additional points. \newline
+%}
 %
-%In a case where input variables are correlated, additional issues of DOE appear when the surrogate is fitted. To cope with these issues we made recourse to a PCA. The design of numerical experiments could have been enhanced by using adaptive designs proposed by \citet{damblin2018}. \newline
+%In a case where input variables are correlated, additional issues of DOE appear when the emulator is fitted. To cope with these issues we made recourse to a PCA. The design of numerical experiments could have been enhanced by using adaptive designs proposed by \citet{damblin2018}. \newline
 
-The hypotheses made for the application case can also be discussed. For example setting $\rho$ and $m_{\delta}(.)$ to 1 and 0 is a preliminaty decision which goes along with calibration. We do not want to quantify the bias because the aim of calibration is to find the parameter value to compensate that bias. If one's goal is to check where the uncertainty goes, other hypotheses could have been made. For example, a non zero discrepancy expectation would quantify the mean of the gap between the code and the experiments. In calibration we want this gap to be taken into account in the code through adjusted $\boldsymbol{\theta}$.\newline
+%The hypotheses made for the application case can also be discussed. For example setting the scaling parameter $\rho$ and $m_{\delta}(.)$ to 1 and 0 is a preliminary decision which goes along with calibration. 
+%We do not want to quantify the bias because the aim of calibration is to find the parameter value to compensate for that bias. 
+%If one's goal is to check where the uncertainty goes, other hypotheses could have been made. For example, a non zero discrepancy expectation would quantify the mean of the gap between the code and the experiments. In calibration, we want this gap to be taken into account in the code through adjusted $\boldsymbol{\theta}$. 
+\new{When using models with the discrepancy term ($\mathcal{M}_3$ and $\mathcal{M}_4$), the mean of the GP was set to $0$ since we consider the parameter $\boldsymbol{\theta}$ as a best fitting parameter. However, in spite of this hypothesis, a confounding can still occur between the posterior distributions of $\boldsymbol{\theta}$ and $\delta$. That is why, more recent works \citep{plumlee2017,gu} advocate for adding constraints on the GP which models the discrepancy. These methods result in additional computational burden for the estimation procedure but seem  promising ways to deal with the confounding effect.
+Other works \citep{jenny} make the case for setting strong hypotheses on the discrepancy term but this needs a deep elicitation which is not always possible.} 
+\newline
 
-%The quantity of interest can also be a discussion point. If we are interested in how much the plant is going to produce over its lifetime, it is maybe more interesting to directly look into the total energy produced. In our case, the code simulates the instantaneous power. It seems unfair to establish a comparison between both quantities. We have seen that with the surrogate and the discrepancy ($\mathcal{M}_4$) the predicted energy is closer to the real value than with the code. The Gaussian processes has smoothen the phenomenons and presents better results after integration. \newline
+%The quantity of interest can also be a discussion point. If we are interested in how much the plant is going to produce over its lifetime, it is maybe more interesting to directly look into the total energy produced. In our case, the code simulates the instantaneous power. It seems unfair to establish a comparison between both quantities. We have seen that with the emulator and the discrepancy ($\mathcal{M}_4$) the predicted energy is closer to the real value than with the code. The Gaussian processes has smoothen the phenomenons and presents better results after integration. \newline
 
-One can wonder which models to use in a given particular case. There is no obvious answer to this question but it depends first on the numerical code. If it is time consuming, the first model to try on is $\mathcal{M}_2$ and, if it is not, one can use $\mathcal{M}_1$. One may then wonder whether it is worth adding a discrepancy term, going from $\mathcal{M}_1$ to $\mathcal{M}_3$ or from $\mathcal{M}_2$ to $\mathcal{M}_4$. In-depth work on statistical validation had been developed in \citet{damblin2016} in which the comparison between two models (with and without discrepancy) is studied in a simplified context. The Bayes factor helps to decide whether the discrepancy is relevant or not. However, this Bayes factor is burdensome to compute in a general context.
-
+\new{One may wonder which model to use in a  particular case study. 
+If the code is time consuming, only $\mathcal{M}_2$ or $\mathcal{M}_4$ are practicable. Then,
+the relevance of the discrepancy term is questionable. A first attempt to answer this question was developed in  \citet{damblin2016}. 
+Models with or without the discrepancy term are compared by computing a Bayes factor. 
+This is done in a simplified context where the code is assumed to be linear with respect to the parameters to be calibrated. The extension to
+the general case is a challenge since Bayes factors are burdensome to compute and extremely sensitive to the \textit{prior} distribution of parameters.
+}
 
 
 
 \section{Acknowledgement}
 This work was supported by the research contract CIFRE n°2015/0974 between Électricité de France and AgroParisTech.
 
-%This article has reviewed some different statistical models and has intended to clarify the use of each. The application case had shown the interest and the differences between each models. In this example, the instantaneous power represented by the computational code is not what is looked for at the end. The cumulative energy, which represents a mean of the production, is the objective. It might not be necessary to represent all instantaneous power for computing then the energy. It would be interesting to compare a surrogate and a code which compute straightforwardly the energy. \newline
-%
-%In some case, the interest of the add of the discrepancy remains unclear. It does not bring any improvements and it just make heavier the statistical model. Statistical validation remain a good test to select between two models. Work has be done in \cite{damblin2015} using Bayes Factor and some interesting developments have been introduced when the \textit{prior} is improper.
 
 
 
@@ -1205,7 +1160,7 @@ Let us consider two Gaussian vectors called $\bm{U_1}$ and $\boldsymbol{U_2}$ su
 \end{pmatrix} \Big)
 \end{equation*}
 
-The conditional distribution $\bm{U_2}|\bm{U_1}$ is also Gaussian (Equation (\ref{eq:conditionalGaussian})). This property is especially useful when a surrogate model is created from a code. \newline
+The conditional distribution $\bm{U_2}|\bm{U_1}$ is also Gaussian (Equation (\ref{eq:conditionalGaussian})). This property is especially useful when an emulator is created from a code. \newline
 
 \begin{equation}
 \bm{U_2}|\bm{U_1} \sim \mathcal{N}(\bm{\mu_2}+\Sigma_{2,1}\Sigma_{1,1}^{-1}(\bm{U_1}-\bm{\mu_1}), \Sigma_{2,2}-\Sigma_{2,1}\Sigma_{1,1}^{-1}\Sigma_{1,2})
@@ -1220,7 +1175,7 @@ X(.) \sim \mathcal{PG}(m(.),\sigma^2K(.,.))
 \label{eq:GaussianDef}
 \end{equation}
 
-Gaussian processes are used in this article in two cases. In the fist one, $f$ is a code function long to run and the Gaussian process emulates its behavior. The Gaussian process is called the surrogate of the code. The second case is when we want to estimate the error made by the code (called code error or discrepancy in this article). For the former, we want to create a surrogate $\tilde{f}$ of a deterministic function $f$. In a Bayesian framework, the Gaussian process is a "functional" \textit{a priori} on $f$ \citep{currin1991}.\newline
+Gaussian processes are used in this article in two cases. In the fist one, $f$ is a code function long to run and the Gaussian process emulates its behavior. The Gaussian process is called the emulator of the code. The second case is when we want to estimate the error made by the code (called code error or discrepancy in this article). For the former, we want to create an emulator $\tilde{f}$ of a deterministic function $f$. In a Bayesian framework, the Gaussian process is a "functional" \textit{a priori} on $f$ \citep{currin1991}.\newline
 
 Let us note\hc
 \begin{equation}
